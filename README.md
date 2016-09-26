@@ -1,2 +1,2 @@
-# Bandic
+# KeyBand
 [ABP16] Plataforma de control de clientes por NFC para hoteles, cruceros, resorts...
