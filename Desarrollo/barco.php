@@ -14,6 +14,8 @@ echo "hello";
 
 
 
-echo "yi;";
+echo "yi/n";
+
+echo "mis huevos/n";
 
 ?>
