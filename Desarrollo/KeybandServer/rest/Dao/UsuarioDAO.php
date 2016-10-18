@@ -15,7 +15,6 @@ class UsuarioDAO {
 			if (!$result) {//Resultado erroneo
 
 				echo "Ocurrio un error.\n";
-				echo "PutoErrordemierda";
 				
 			}else{//Resultado correcto
 				$dataArray = UsuarioDAO::prepareDataArray($result);
