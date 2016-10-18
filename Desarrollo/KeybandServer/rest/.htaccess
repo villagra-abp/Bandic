@@ -1,0 +1,19 @@
+RewriteEngine On
+
+#aniadir [L] despues de una pagina final, para que no siga leyendo (mejora el rendimiento)
+#RewriteCond %{THE_REQUEST} ^POST con esto obligo al siguiente RewriteRule a ser POST
+#Con el flag [QSA] admito parametros Ej: busqueda?usu=44623367X&nombre=pepito
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+
+
+# Con un recurso Ej:SampleWS/recurso
+RewriteRule ^([a-zA-Z_-]*)$ index.php?resource=$1 [L,QSA]
+
+# Con dos recursos Ej:SampleWS/recurso/reurso o /recurso/id
+#RewriteRule ^([a-zA-Z_-]*)/(([a-zA-Z_-]*)|([0-9]+))$ index.php?resource=$1&resource2=$2 [L,QSA]
+RewriteRule ^([a-zA-Z_-]*)/([0-9a-zA-Z_-]+)$ index.php?resource=$1&resource2=$2 [L,QSA]
+
+# Con tres recursos Ej:SampleWS/recurso1/recurso2/6 o /recurso1/7/4 (el ultimo siempre es numero) 
+RewriteRule ^([a-zA-Z_-]*)/([0-9a-zA-Z_-]*)/([0-9a-zA-Z_-]+)$ index.php?resource=$1&resource2=$2&resource3=$3 [L,QSA]
