@@ -15,7 +15,8 @@ class UsuarioDAO {
 			if (!$result) {//Resultado erroneo
 
 				echo "Ocurrio un error.\n";
-
+				echo "PutoErrordemierda";
+				
 			}else{//Resultado correcto
 				$dataArray = UsuarioDAO::prepareDataArray($result);
 			}
@@ -94,7 +95,7 @@ class UsuarioDAO {
 			$set = 'SET search_path = "Keyband"';
 			$rec1 = pg_query($conection, $set);
 		}catch(Exception $e){
-			echo "Ha petao esto";
+			echo "PutoErrordemierda";
 		}
 		return $conection;
 	}
