@@ -14,7 +14,7 @@ class UsuarioDAO {
 				
 			if (!$result) {//Resultado erroneo
 
-				echo "Ocurrio un error.\n";
+				echo "Ocurrio un fallito.\n";
 				
 			}else{//Resultado correcto
 				$dataArray = UsuarioDAO::prepareDataArray($result);
