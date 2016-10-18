@@ -11,5 +11,9 @@
 echo "hello";
 echo "para que juanxo lo rompa";
 echo "mas pruebas";
-echo "otra prueba"
+echo "otra prueba";
+echo "mas pruebas";
+echo " pues si";
+echo "jnadua";
+echo "prueba juanxo para alberto"
 ?>
