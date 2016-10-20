@@ -51,15 +51,20 @@ class UsuarioResource{
 		}
 	}
 	public static function postUsuario($type){
-		/*$obj = json_decode( file_get_contents('php://input'));
-		 $objArr = (array)$obj;
-		 echo json_encode($objArr);*/
+		$obj = json_decode( file_get_contents('php://input'));
+		$objArr = (array)$obj;
+		$dataArray = UsuarioService::updateUsuario($objArr);
 	}
 	public static function putUsuario($type){
+		$obj = json_decode( file_get_contents('php://input'));
+		$objArr = (array)$obj;
+		$dataArray = UsuarioService::insertUsuario($objArr);
 	}
 	public static function pathUsuario($type){
 	}
 	public static function deleteUsuario($type){
+		
+		$dataArray = UsuarioService::deleteUsuario($_GET['resource2']);
 	}
 }
 ?>

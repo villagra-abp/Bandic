@@ -7,6 +7,7 @@ class API {
     public function rest(){
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Headers:Origin, X-Requested-With, Content-Type, Accept");
+        header("Access-Control-Allow-Methods: PUT,GET,POST,DELETE");
         header('Content-Type: application/JSON; charset=utf-8');
         /*
         tipo 1: /recurso
