@@ -2,7 +2,6 @@
 require_once "./Classes/Usuario.php";
 
 class UsuarioDAO {
-
 	public function openConection(){
 		//Parametros para la conexion
 		try{		
