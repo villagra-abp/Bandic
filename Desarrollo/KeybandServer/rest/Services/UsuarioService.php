@@ -7,8 +7,12 @@ require_once "./Dao/MasterDAO.php";
 /*HABRAÁ QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
 class UsuarioService {
 	public static function getUsuarios () {
-		//getAll ($table,$columns)
-		$dataArray = MasterDAO::getAll('usuario',null);
+		$table = "usuario";
+		$columns = ["nombre","apellidos"];
+		$where = ["nombre"=>"Manuel","sexo"=>"M"];
+		$order = ["order"=>"Asc","by"=>"nombre"];
+		$pagination = ["initrow"=>"0","pageSize"=>"5"];
+		$dataArray = MasterDAO::getAll($table,$columns,$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	
@@ -16,31 +20,27 @@ class UsuarioService {
 		$primaries = [
 				"dni" => $id,
 		];
-		//getById(tabla,columnas,ArrayAsociativoPrimarias[Clave -> Valor])
 		$dataArray = MasterDAO::getById('usuario',null,$primaries);
 		echo json_encode($dataArray);
 	}
 	
 	public static function insertUsuario($obj) {
-		//insert(tabla,objetoainsertar)
 		$dataArray = MasterDAO::insert('usuario',$obj);
 		echo json_encode($dataArray);
 	}
 	
-	public static function updateUsuario($obj) {
+	public static function updateUsuario($obj,$id) {
 		$primaries = [
-			"dni" => $obj["dni"]
+			"dni" => $id
 		];
-		//update(tabla,ArrayAsociativoCamposAActualizar[Clave -> Valor],ArrayAsociativoPrimarias[Clave -> Valor])
 		$dataArray = MasterDAO::update('usuario',$obj,$primaries);
 		echo json_encode($dataArray);
 	}
 	
-	public static function deleteUsuario($obj) {
+	public static function deleteUsuario($id) {
 		$primaries = [
-				"dni" => $obj
+				"dni" => $id
 		];
-		//delete($tabla,ArrayAsociativoPrimarias[Clave -> Valor])
 		$dataArray = MasterDAO::delete('usuario',$primaries);
 		echo json_encode($dataArray);
 	}

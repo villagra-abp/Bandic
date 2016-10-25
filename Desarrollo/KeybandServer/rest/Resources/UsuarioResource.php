@@ -36,35 +36,58 @@ class UsuarioResource{
 			case '2':   //usuario/id
 				UsuarioService::getUsuarioById($_GET['resource2']);
 				break;
-			case '5':   //usuario/recurso/id
-				if($_GET['resource2']=="pulsera"){  //usuario/pulsera/id
-	
-				}else if($_GET['resource2']=="producto"){   //usuario/producto/id
-	
-				}else{
-					//metodo no soportado
-				}
-				break;
 			default:
-				# code...
+				echo "Método no soportado";
 				break;
 		}
 	}
 	public static function postUsuario($type){
 		$obj = json_decode( file_get_contents('php://input'));
 		$objArr = (array)$obj;
-		$dataArray = UsuarioService::updateUsuario($objArr);
+		
+		switch ($type) {
+			case '2':   //usuario/id
+				$dataArray = UsuarioService::updateUsuario($objArr,$_GET['resource2']);
+				break;
+			case '5':   //usuario/recurso/id
+				if($_GET['resource2']=="pulsera"){  //usuario/pulsera/id
+					
+				}else{
+					//metodo no soportado
+					echo "Método no soportado";
+				}
+				break;
+			default:
+				echo "Método no soportado";
+				
+				break;
+		}
+
 	}
 	public static function putUsuario($type){
 		$obj = json_decode( file_get_contents('php://input'));
 		$objArr = (array)$obj;
-		$dataArray = UsuarioService::insertUsuario($objArr);
+		switch ($type) {
+			case '1':   // usuario
+				$dataArray = UsuarioService::insertUsuario($objArr);
+				break;
+			default:
+				echo "Método no soportado";
+				break;
+		}
 	}
 	public static function pathUsuario($type){
 	}
 	public static function deleteUsuario($type){
+		switch ($type) {
+			case '2':   //usuario/id
+				$dataArray = UsuarioService::deleteUsuario($_GET['resource2']);
+				break;
+			default:
+				echo "Método no soportado";
 		
-		$dataArray = UsuarioService::deleteUsuario($_GET['resource2']);
+				break;
+		}
 	}
 }
 ?>

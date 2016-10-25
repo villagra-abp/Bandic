@@ -6,8 +6,19 @@
 
 <body ng-app="myApp">
 	<div ng-controller="myCtrl">
+				<button ng-click="addUsuario()">Nuevo usuario con dni random</button>
 		
+	
+		<input type="text" placeholder="actualizar" ng-model="actualizar">
+		<button ng-click="editUsuario()">Actualizar usuario</button>
+		
+		<input type="text" placeholder="borrar" ng-model="borrar">
+		<button ng-click="deleteUsuario()">Borrar usuario</button>
+		<pre>
+		{{respuesta | json}}
+		</pre>
 	</div>
+	
 <script src="script.js"></script>
 </body>
 </html>
