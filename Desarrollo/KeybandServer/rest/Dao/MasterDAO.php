@@ -1,4 +1,5 @@
 <?php
+include_once "./conection.php";
 
 class MasterDAO {
 	
@@ -9,20 +10,23 @@ class MasterDAO {
        	$primaries hay que construirlo en el service apartir de la URL. Como estamos en UsuarioService obviamente sabemos 
        	cual es la clave primaria de usuario - Soporta varias claves primarias
 		 */
-		if(!$table || !$primaries) 
-			return "Tienes que pasar lo que quieres insertar o la tabla";
+		if(!$table || !$primaries){
+			var_dump(http_response_code(400));
+			
+			return ("Los parametros no son correctos");
+		}
 		$dataArray = array();
 		try {
-			$conection = MasterDAO::openConection();
+			$conection = openConection();
 			/*DELETE FROM films WHERE kind = 'Musical'*/
 			$sql = "DELETE FROM ".$table;
 			$sql = $sql.MasterDAO::constructWhere($primaries);
-			$result = pg_query($conection, $sql);
+			$result = @pg_query($conection, $sql);
 				
 			if (!$result) {//Resultado erroneo
 					
-				return "Ocurrio un error.\n";
-					
+				var_dump(http_response_code(500));
+				return "Ocurriï¿½ un error en la consulta:".error_get_last();
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
@@ -30,6 +34,7 @@ class MasterDAO {
 					$dataArray[] = $row;
 				}
 			}
+			@pg_close($conection);
 		}catch(Exception $e){
 			throw new Exception ($e->getMessage());
 		}
@@ -48,11 +53,13 @@ class MasterDAO {
        	$obj te viene del FRONT tal cual, pero $primaries hay que construirlo en el service. Como estamos en UsuarioService obviamente sabemos 
        	cual es la clave primaria de usuario por lo tanto la extraemos del $obj en un nuevo array - Soporta varias claves primarias
 		 */
-		if(!$obj || !$table || !$primaries)
-			return "Tienes que pasar lo que quieres insertar o la tabla";
+		if(!$obj || !$table || !$primaries){
+			var_dump(http_response_code(400));
+			return ("Los parametros en MasterDAO no son correctos");
+		}
 		$dataArray = array();
 		try {
-			$conection = MasterDAO::openConection();
+			$conection = openConection();
 			/*UPDATE films SET kind = 'Dramatic', actor = 'Juanxo' WHERE kind = 'Drama' AND jefe='juanxo'*/
 			$sql = "UPDATE ".$table." SET ";
 			
@@ -76,12 +83,12 @@ class MasterDAO {
 			}
 			$sql = $sql.MasterDAO::constructWhere($primaries);
 			
-			$result = pg_query($conection, $sql);
+			$result = @pg_query($conection, $sql);
 			
 			if (!$result) {//Resultado erroneo
 			
-				return "Ocurrio un error.\n";
-			
+				var_dump(http_response_code(500));
+				return "Ocurriï¿½ un error en la consulta:".error_get_last();
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
@@ -90,7 +97,7 @@ class MasterDAO {
 				}
 			}
 			//Cierro conexion
-			pg_close($conection);
+			@pg_close($conection);
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			throw new Exception ($e->getMessage());
 		}
@@ -104,15 +111,17 @@ class MasterDAO {
         	    "sexo":"F","pais":"Espa\u00f1a","localidad":"San Vicente",
         	    "provincia":"Alicante","rol":"Cliente","estancia":null,
         	    "empleado":"f","email":"juliana@gmail.com","fecha_nacimiento":"2002-12-10"];
-       	Este objeto te debe venir así del FRONT supuestamente
+       	Este objeto te debe venir asï¿½ del FRONT supuestamente
 		 */
-		if(!$obj || !$table)
-			return "Tienes que pasar lo que quieres insertar o la tabla";
+		if(!$obj || !$table){
+			var_dump(http_response_code(400));
+			return ("Los parametros en MasterDAO no son correctos");
+		}
 	
 			$dataArray = array();
 			try {
 				//Crear conexion
-				$conection = MasterDAO::openConection();
+				$conection = openConection();
 				/*INSERT INTO films (code, title, did, date_prod, kind)
 			    VALUES ('T_601', 'Yojimbo', 106, DEFAULT, 'Drama');*/
 				$sql = "INSERT INTO ".$table." (";
@@ -138,17 +147,18 @@ class MasterDAO {
 				}
 				$sql = $sql.$keys.") VALUES (".$values.")";
 
-				$result = pg_query($conection, $sql);
+				$result = @pg_query($conection, $sql);
 	
 				if (!$result) {//Resultado erroneo
 	
-					return "Ocurrio un error.\n";
+					var_dump(http_response_code(500));
+					return "Ocurriï¿½ un error en la consulta:".error_get_last();
 	
 				}else{//Resultado correcto
 					 $dataArray = $obj;
 				}
 				//Cierro conexion
-				pg_close($conection);
+				@pg_close($conection);
 	
 			}catch (Exception $e) {//TODO Exception generica maaaal
 				//throw new Exception ($e->getMessage());
@@ -167,13 +177,15 @@ class MasterDAO {
 		 Las filas comienzan en 0, por lo tanto si quieres coger las 5 primeras tienes que pasar initrow=0,pageSize=5.
 		 Si quieres las siguientes 5 initrow=5,pagesize=5
 		 */
-		if(!$table)
-			return "Tienes que pasar la tabla";
+		if(!$table){
+			var_dump(http_response_code(400));
+			return ("Los parametros en MasterDAO no son correctos");
+		}
 		
 		$dataArray = array();
 		try {
 			//Crear conexion
-			$conection = MasterDAO::openConection();
+			$conection = openConection();
 			//SELECT * FROM "Keyband".usuario where nombre="Manuel" AND sexo='M' ORDER BY nombre ASC LIMIT 15 OFFSET 0
 			$sql = MasterDAO::constructSelectFrom($table, $columns);
 			if($where)
@@ -182,11 +194,11 @@ class MasterDAO {
 				$sql = $sql.MasterDAO::constructOrderBy($order);
 			if($pagination)
 				$sql = $sql.MasterDAO::constructPagination($pagination);
-			$result = pg_query($conection, $sql);
-
+			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
-
-				echo "Ocurrio un error.\n";
+				
+				var_dump(http_response_code(500));
+				return "Ocurriï¿½ un error en la consulta:".error_get_last();
 
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
@@ -196,10 +208,10 @@ class MasterDAO {
 				}
 			}
 			//Cierro conexion
-			pg_close($conection);
-
+			@pg_close($conection);
+			
 		}catch (Exception $e) {//TODO Exception generica maaaal
-			echo "Excepcion";
+			echo "Excepcion que nunca salta, si salta avisar a SAMU";
 			//throw new Exception ($e->getMessage());
 		}
 
@@ -216,23 +228,22 @@ class MasterDAO {
 		 */
 		$dataArray = array();
 		
-		if(!$primaries || !$ids || !$table)
-			return "Es necesarios que pases clave primaria y los ids y la tabla";
-		else
-			if(count($primaries))
-				return "Tienen que tener el mismo numero de primarias, que de ids";
-		
+		if(!$primaries || !$table) {
+			var_dump(http_response_code(400));
+			return ("Los parametros en MasterDAO no son correctos");
+		}
+
 		try {
 			//Crear conexion
-			$conection = MasterDAO::openConection();
+			$conection = openConection();
 				
 			$sql = MasterDAO::constructSelectFrom($table, $columns);
 			$sql = $sql.MasterDAO::constructWhere($primaries);
-			$result = pg_query($conection, $sql);
+			$result = @pg_query($conection, $sql);
 	
 			if (!$result) {//Resultado erroneo
-	
-				echo "Ocurrio un error.\n";
+				var_dump(http_response_code(500));
+				return "Ocurriï¿½ un error en la consulta:".error_get_last();
 	
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
@@ -242,11 +253,11 @@ class MasterDAO {
 				}
 			}
 			//Cierro conexion
-			pg_close($conection);
+			@pg_close($conection);
 	
 		}catch (Exception $e) {//TODO Exception generica maaaal
-			echo "Excepcion";
-			//throw new Exception ($e->getMessage());
+			echo "Excepcion que nunca salta, si salta avisar a SAMU";
+				//throw new Exception ($e->getMessage());
 		}
 	
 		return $dataArray;
@@ -271,9 +282,15 @@ class MasterDAO {
 		$i=0;
 		foreach($primaries as $key => $key_value) {
 			if($i == 0) {
-				$sql = $sql.$key."='".$key_value."'";
+				if($key_value=="")
+					$sql = $sql.$key." is null ";
+				else
+					$sql = $sql.$key."='".$key_value."' ";
 			}else{
-				$sql = $sql."AND ".$key."='".$key_value."'";
+				if($key_value=="")
+					$sql = "AND ".$sql.$key." is null";
+				else
+					$sql = $sql."AND ".$key."='".$key_value."'";
 			}
 			$i++;
 		}
@@ -294,23 +311,6 @@ class MasterDAO {
 			$sql = 'SELECT * FROM '.$table;
 		}
 		return $sql;
-	}
-	public function openConection(){
-		//Parametros para la conexion
-		try{
-			
-			$string = "host=elmer-02.db.elephantsql.com port=5432 dbname=ibtdrmai user=ibtdrmai password=RGeQRmOB8RIinvLqkIBV2TW49_ClE81w";
-			$conection = pg_pconnect($string);
-			//TODO esquema por defecto
-			if(!$conection){
-				echo "La conexion no funciona";
-			}
-			$set = 'SET search_path = "Keyband"';
-			$rec1 = pg_query($conection, $set);
-		}catch(Exception $e){
-			echo "PutoErrordemierda";
-		}
-		return $conection;
 	}
 }
 ?>

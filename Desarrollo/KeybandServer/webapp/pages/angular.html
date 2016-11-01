@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+<body ng-app="myApp">
+	<div ng-controller="myCtrl" ng-init = pruebas()>
+	
+	<div class="container banner-container">
+		<nav class="navbar navbar-default" ng-init="navbarCollapsed=true">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span> 
+						<span class="icon-bar"></span>
+					</button>
+					<span class="navbar-brand">Cliente de pruebas</span>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+					<ul class="nav navbar-nav">
+						<li><a href ="angular.html">Inicio</a></li>
+						<li><a href ="usuario.html">Usuario</a></li>
+						<li><a href ="pulsera.html">Pulsera</a></li>
+						<li><a href ="rol.html">Rol</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+	
+	<div ng-controller="myCtrl" ng-init = pruebas()>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table Class="table table-striped table-bordered table-hover">
+				<tbody>
+					<tr ng-repeat="usuarios in respuestaUsuarios">
+						<td>{{usuarios| json}}</td>
+					</tr>
+					<tr ng-repeat="pulseras in respuestaPulseras">
+						<td>{{pulseras | json}}</td>
+					</tr>
+					<tr ng-repeat="rol in respuestaRol">
+						<td>{{rol | json}}</td>
+					</tr>
+					
+				</tbody>
+			</table> 
+		</div>
+	</div>
+	<h3> que mierda pasa </h3>
+		<button ng-click="addUsuario()">Nuevo usuario con dni random</button>
+		<button ng-click="addPulsera()">Nueva pulsera</button>
+		<button ng-click="addRol()">Nuevo rol</button>
+	
+		<input type="text" placeholder="actualizarUsuario" ng-model="actualizarUsuario">
+		<button ng-click="editUsuario()">Actualizar usuario</button>
+		
+		<input type="text" placeholder="actualizarPulsera" ng-model="actualizarPulsera">
+		<button ng-click="editPulsera()">Actualizar pulsera</button>
+		
+		<input type="text" placeholder="borrarPulsera" ng-model="borrarPulsera">
+		<button ng-click="deletePulsera()">Borrar pulsera</button>
+		
+		<input type="text" placeholder="borrarRol" ng-model="borrarRol">
+		<button ng-click="deleteRol()">Borrar rol</button>
+
+	  <h1>Prueba Login</h1>
+	  <section>
+	       	DNI Usuario: <input type="text" ng-model="dni">
+	        <br>
+	        Contraseña: <input type="text" ng-model="password">
+	        <br>
+	        <button ng-click="login()">Enviar</button>
+	  </section>
+	  
+	  <section>
+	  		<button ng-click="listarUsuarios()">Listar Usuarios</button>
+	  		<br>
+					{{respuesta}}
+	</section>
+	<h1>Crear Estancia</h1>
+	  <section>
+	       	Identificador: <input type="text" ng-model="id">
+	        <br>
+	        Capacidad: <input type="text" ng-model="capacidad">
+	        <br>
+	        Pública: <input type="text" ng-model="publica">
+	        <br>
+	        <button ng-click="addEstancia()">Crear</button>
+	        <br>
+	        <input type="text" ng-model="idedit" placeholder="id estancia a modificar">
+	        <button ng-click="editEstancia()">Modificar</button>
+	        <br>
+	        <input type="text" ng-model="iddelete" placeholder="id estancia a borrar">
+	        <button ng-click="deleteEstancia()">Borrar</button>
+	        <br>
+	        <input type="text" ng-model="idaforo" placeholder="id estancia para aforo">
+	        <button ng-click="getAforoById()">Ver aforo</button>
+	        <br>
+	        {{respuestaAforo}}
+	        
+	  </section>
+	</div>
+	
+<script src="../static/js/script.js"></script>
+</body>
+</html>

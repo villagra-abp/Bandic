@@ -3,16 +3,11 @@ require_once "./Dao/UsuarioDAO.php";
 require_once "./Dao/MasterDAO.php";
 
 /***********************************************USUARIO Service****************************************/
-/*AQUÍ LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
-/*HABRAÁ QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
+/*AQUï¿½ LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
+/*HABRAï¿½ QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
 class UsuarioService {
-	public static function getUsuarios () {
-		$table = "usuario";
-		$columns = ["nombre","apellidos"];
-		$where = ["nombre"=>"Manuel","sexo"=>"M"];
-		$order = ["order"=>"Asc","by"=>"nombre"];
-		$pagination = ["initrow"=>"0","pageSize"=>"5"];
-		$dataArray = MasterDAO::getAll($table,$columns,$where,$order,$pagination);
+	public static function getUsuarios ($where,$order,$pagination) {
+		$dataArray = MasterDAO::getAll("usuario",null,$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	
@@ -43,6 +38,21 @@ class UsuarioService {
 		];
 		$dataArray = MasterDAO::delete('usuario',$primaries);
 		echo json_encode($dataArray);
+	}
+	
+	public static function asignarPulsera($pulsera, $id, $usuario, $dni) {
+		$primaries = [
+				"dni" => $dni
+		];
+		$usuario = MasterDAO::getById('usuario',null,$primaries);
+		$primaries = [
+				"id" => $id
+		];
+		$pulsera = MasterDAO::getById('pulsera',null,$primaries);
+		echo json_encode($pulsera);
+		
+		//$dataArray = UsuarioDAO::asignarPulsera();
+		//echo json_encode($dataArray);
 	}
 
 }

@@ -1,6 +1,12 @@
 <?php
-require_once "Resources/UsuarioResource.php";    
+require_once "Resources/UsuarioResource.php"; 
+require_once "Resources/CategoriaResource.php";
+require_once "Resources/PulseraResource.php";
 require_once "Resources/ProductoResource.php";
+require_once "Resources/RolResource.php";
+require_once "Resources/LoginResource.php";
+require_once "Resources/TicketResource.php";
+require_once "Resources/LineaTicketResource.php";
 
 class API {    
 
@@ -24,20 +30,40 @@ class API {
         $resource = $_GET['resource'];
         switch ($resource){
             case 'login':
-                $this->methodLogin($method,$type);
+            	LoginResource::methodLogin($method,$type);
                 break;
+                
             case 'usuario':
                 UsuarioResource::methodUsuario($method,$type);
                 break;
-
+                
             case 'producto':
-                $this->methodProducto($method,$type);
+                ProductoResource::methodProducto($method,$type);
                 break;
 
             case 'estancia':
-                $this->methodEstancia($method,$type);
+                EstanciaResource::methodEstancia($method,$type);
                 break;
-
+                
+            case 'pulsera':
+            	PulseraResource::methodPulsera($method,$type);
+                break;
+                
+            case 'rol':
+               	RolResource::methodRol($method,$type);
+                break;
+                	
+            case 'ticket':
+            	TicketResource::methodTicket($method,$type);
+            	break;
+            case 'lineaticket':
+            	LineaTicketResource::methodLineaTicket($method,$type);
+            	break;
+                /*
+            case 'categoria':
+            	CategoriaResource::methodCategoriaProducto($method,$type);
+            	break;
+            	*/
             default:
                 echo 'METODO NOT FOUND';
                 break;
@@ -77,13 +103,52 @@ class API {
         }
     }
     public function isResource($resource){//añadir al array por cada nuevo recurso que se cree
-        $array = array("usuario", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket","carrito");
+        // TODO comprobar diferencias $array = array("rol","usuario","producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket","carrito");
+        $array = array("usuario","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket", "lineaticket", "carrito", "factura");
         $longitud = count($array);
         for($i=0; $i<$longitud; $i++){
             if($resource==$array[$i])
                 return true;
         }
         return false;
+    }
+    public function getParams(){
+    	$PARAMS = array_slice($_GET, 1, count($_GET) - 1,true);
+    	return $PARAMS;
+    }
+    public function extractOrder($params){
+    	if($params['order'] || $params['by']){
+    		$order = array();
+    		if($params['order'])
+    			$order += array("order" => $params['order']);
+    		if($params['by'])
+    			$order += array("by" => $params['by']);
+    		return $order;
+    	}else{
+    		return null;
+    	}
+    }
+    public function extractPagination($params){
+    	$pagination = array();
+    	if($params['initrow'] || $params['pagesize']){
+    		$pagination += array("initrow" => $params['initrow']);
+    		$pagination += array("pagesize" => $params['pagesize']);
+    		return $pagination;
+    	}else{
+    		return null;
+    	}
+    }
+    public function extractWhere($params){
+    	$where = array();
+    	foreach($params as $key => $key_value) {
+			if($key!="order" && $key!="by" && $key!="pagesize" && $key!="initrow"){
+				$where += array($key => $key_value);
+			}
+    	}
+    	if(count($where)==0)
+    		return null;
+    	else
+    		return $where;
     }
 }//end class
 ?>

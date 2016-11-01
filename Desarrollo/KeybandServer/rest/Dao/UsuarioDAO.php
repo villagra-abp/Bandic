@@ -2,20 +2,22 @@
 require_once "./Classes/Usuario.php";
 
 class UsuarioDAO {
-	public function openConection(){
-		//Parametros para la conexion
-		try{		
-			$string = "host=elmer-02.db.elephantsql.com port=5432 dbname=ibtdrmai user=ibtdrmai password=RGeQRmOB8RIinvLqkIBV2TW49_ClE81w";
-			$conection = pg_pconnect($string);
-			//TODO esquema por defecto
-			$set = 'SET search_path = "Keyband"';
-			$rec1 = pg_query($conection, $set);
-		}catch(Exception $e){
-			echo "PutoErrordemierda";
+	public static function asignarPulsera () {
+	
+		$dataArray = array();
+		try {
+			//Crear conexion
+			$conection = openConection();
+			//$set = 'SET search_path = "Keyband"';
+			//SELECT * FROM "Keyband".usuario where nombre="Manuel" AND sexo='M' ORDER BY nombre ASC LIMIT 15 OFFSET 0
+			$sql = 'SELECT * FROM usuario';
+			pg_close($conection);
+		}catch (Exception $e) {//TODO Exception generica maaaal
+			echo "Excepcion";
+			//throw new Exception ($e->getMessage());
 		}
-		return $conection;
+	
+		return $dataArray;
 	}
-
-
 }
 ?>

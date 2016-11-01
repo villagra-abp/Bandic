@@ -1,5 +1,6 @@
-<?php
+ <?php
 require_once "./Services/UsuarioService.php";
+require_once "SupportResource.php";
 
 /***********************************************USUARIO RESOURCE****************************************/
 class UsuarioResource{
@@ -31,13 +32,21 @@ class UsuarioResource{
 		//comprobar siempre que haya un recurso de letras que se corresponde a una peticiÃ³n valida, haya uno o muchos casos de ese tipo
 		switch ($type) {
 			case '1':   // usuario
-				UsuarioService::getUsuarios();
+				//Cojo los parï¿½metros que me han pasado por URL
+				$params = SupportResource::getParams();		
+				
+				//Extraigo los parï¿½metros de order,filtros y de paginaciï¿½n que me interesan
+				$order = SupportResource::extractOrder($params);
+				$pagination = SupportResource::extractPagination($params);
+				$where = SupportResource::extractWhere($params);
+				
+				UsuarioService::getUsuarios($where,$order,$pagination);
 				break;
 			case '2':   //usuario/id
 				UsuarioService::getUsuarioById($_GET['resource2']);
 				break;
 			default:
-				echo "Método no soportado";
+				echo "Mï¿½todo no soportado";
 				break;
 		}
 	}
@@ -54,11 +63,11 @@ class UsuarioResource{
 					
 				}else{
 					//metodo no soportado
-					echo "Método no soportado";
+					echo "Mï¿½todo no soportado";
 				}
 				break;
 			default:
-				echo "Método no soportado";
+				echo "Mï¿½todo no soportado";
 				
 				break;
 		}
@@ -72,7 +81,7 @@ class UsuarioResource{
 				$dataArray = UsuarioService::insertUsuario($objArr);
 				break;
 			default:
-				echo "Método no soportado";
+				echo "Mï¿½todo no soportado";
 				break;
 		}
 	}
@@ -84,7 +93,31 @@ class UsuarioResource{
 				$dataArray = UsuarioService::deleteUsuario($_GET['resource2']);
 				break;
 			default:
-				echo "Método no soportado";
+				echo "Mï¿½todo no soportado";
+		
+				break;
+		}
+	}
+	//TODO Asignar pulsera sin terminar
+	public static function asignarPulsera($type){
+		$obj = json_decode( file_get_contents('php://input'));
+		$objArr = (array)$obj;
+		
+		switch ($type) {
+			case '2':   //usuario/id
+				$dataArray = UsuarioService::asignarPulsera($objArr,$_GET['resource2']);
+				break;
+			case '5':   //usuario/recurso/id
+				if($_GET['resource2']=="pulsera"){  //usuario/pulsera/id
+					
+					$dataArray = UsuarioService::asignarPulsera($_GET['resource2']);
+				}else{
+					//metodo no soportado
+					echo "Mï¿½todo no soportado";
+				}
+				break;
+			default:
+				echo "Mï¿½todo no soportado";
 		
 				break;
 		}
