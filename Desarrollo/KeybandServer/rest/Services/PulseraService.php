@@ -38,6 +38,11 @@ class PulseraService {
 		$dataArray = MasterDAO::delete('pulsera',$primaries);
 		echo json_encode($dataArray);
 	}
+	
+	public static function getEstado () {
+		$dataArray = PulseraDAO::getEstado();
+		echo json_encode($dataArray);
+	}
 
 }
 ?>

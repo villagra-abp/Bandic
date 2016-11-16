@@ -24,25 +24,25 @@ class EstanciaResource{
 				break;
 		}
 	}
-	
+
 	public static function getEstancia($type){
 		//comprobar siempre que haya un recurso de letras que se corresponde a una petición valida, haya uno o muchos casos de ese tipo
 		switch ($type) {
 			case '1':   //estancia
 				//Cojo los parametros que me han pasado por URL
 				$params = SupportResource::getParams();
-	
+
 				//Extraigo los parametros de order,filtros y de paginacion que me interesan
 				$order = SupportResource::extractOrder($params);
 				$pagination = SupportResource::extractPagination($params);
 				$where = SupportResource::extractWhere($params);
-	
+
 				EstanciaService::getEstancias($where,$order,$pagination);
 				break;
 			case '2':   //estancia/id
 				EstanciaService::getEstanciaById($_GET['resource2']);
 				break;
-				
+
 			case '5': //estancia/capacidad/id o /estancia/aforo/id
 				if($_GET['resource2']=='capacidad'){
 					EstanciaService::getEstanciaByCapacidad($_GET['resource2'],$_GET['resource3']);
@@ -56,7 +56,7 @@ class EstanciaResource{
 				break;
 		}
 	}
-	
+
 	public static function putEstancia($type){
 		$obj = json_decode( file_get_contents('php://input'));
 		$objArr = (array)$obj;
@@ -69,11 +69,11 @@ class EstanciaResource{
 				break;
 		}
 	}
-	
+
 	public static function postEstancia($type){
 		$obj = json_decode( file_get_contents('php://input'));
 		$objArr = (array)$obj;
-	
+
 		switch ($type) {
 			case '2':   //estancia/id
 				$dataArray = EstanciaService::updateEstancia($objArr,$_GET['resource2']);
@@ -82,9 +82,9 @@ class EstanciaResource{
 				echo "Metodo no soportado";
 				break;
 		}
-	
+
 	}
-	
+
 	public static function deleteEstancia($type){
 		switch ($type) {
 			case '2':   //estancia/id
@@ -92,13 +92,10 @@ class EstanciaResource{
 				break;
 			default:
 				echo "Metodo no soportado";
-	
+
 				break;
 		}
 	}
-	
-	
-	
 }
 
 ?>

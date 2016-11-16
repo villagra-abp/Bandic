@@ -2,11 +2,13 @@
 require_once "Resources/UsuarioResource.php"; 
 require_once "Resources/CategoriaResource.php";
 require_once "Resources/PulseraResource.php";
+require_once "Resources/EstanciaResource.php";
 require_once "Resources/ProductoResource.php";
 require_once "Resources/RolResource.php";
 require_once "Resources/LoginResource.php";
 require_once "Resources/TicketResource.php";
 require_once "Resources/LineaTicketResource.php";
+require_once "Resources/PermisoResource.php";
 
 class API {    
 
@@ -41,13 +43,17 @@ class API {
                 ProductoResource::methodProducto($method,$type);
                 break;
 
-            case 'estancia':
+            case 'estancia': 
                 EstanciaResource::methodEstancia($method,$type);
                 break;
                 
             case 'pulsera':
             	PulseraResource::methodPulsera($method,$type);
                 break;
+
+            case 'permiso':
+                PermisoResource::methodPermiso($method,$type);
+            	break;
                 
             case 'rol':
                	RolResource::methodRol($method,$type);
@@ -59,11 +65,13 @@ class API {
             case 'lineaticket':
             	LineaTicketResource::methodLineaTicket($method,$type);
             	break;
-                /*
+            case 'estadoPulsera':
+            	EstadoPulseraResource::methodEstadoPulsera($method,$type);
+            	break;
+                
             case 'categoria':
             	CategoriaResource::methodCategoriaProducto($method,$type);
             	break;
-            	*/
             default:
                 echo 'METODO NOT FOUND';
                 break;
@@ -82,7 +90,7 @@ class API {
                     if($this->isResource($_GET['resource3'])){  // si pasa esto como minimo es /recurso/recurso/recurso
                         if(!isset($_GET['resource4'])){
                             return 7;
-                        }else{  //si existe tiene que ser id, pero se puede afinar mas
+                        }else{ //si existe tiene que ser id, pero se puede afinar mas
                             return 8;
                         }
                     }else{
@@ -93,18 +101,24 @@ class API {
                         }
                     }
                 }
-            }else{
+            }else{	//hasta aqui es recurso/id
                 if(!isset($_GET['resource3'])){
                     return 2;
                 }else{
-                    return 3;
+                	if($this->isResource($_GET['resource3'])){//recurso/id/recurso
+                		header('HTTP/1.1 404 Not Found');
+                		exit();
+                	}else{
+                    	return 3;
+                	}
                 }
             }
         }
+       
     }
     public function isResource($resource){//añadir al array por cada nuevo recurso que se cree
         // TODO comprobar diferencias $array = array("rol","usuario","producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket","carrito");
-        $array = array("usuario","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket", "lineaticket", "carrito", "factura");
+        $array = array("usuario","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura");
         $longitud = count($array);
         for($i=0; $i<$longitud; $i++){
             if($resource==$array[$i])

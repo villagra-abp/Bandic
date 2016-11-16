@@ -1,7 +1,9 @@
 <?php
 class SupportResource {
-	public function getParams(){
-		$PARAMS = array_slice($_GET, 1, count($_GET) - 1,true);
+	public function getParams($param){
+		if(!$param)
+			$param=1;
+		$PARAMS = array_slice($_GET, $param, count($_GET) - 1,true);
 		return $PARAMS;
 	}
 	public function extractOrder($params){
@@ -20,8 +22,9 @@ class SupportResource {
 	}
 	public function extractPagination($params){
 		$pagination = array();
+		//echo $params['initrow'];
 		if(array_key_exists('initrow', $params) && array_key_exists('pagesize', $params) 
-			&& $params['initrow'] && $params['pagesize']){
+			&& $params['initrow']!=null && $params['pagesize']!=null){
 			$pagination += array("initrow" => $params['initrow']);
 			$pagination += array("pagesize" => $params['pagesize']);
 			return $pagination;

@@ -10,9 +10,9 @@ class RolResource{
 			case 'GET'://consulta
 				RolResource::getRol($type);
 				break;
-			/*case 'POST'://inserta
+			case 'POST'://inserta
 				RolResource::postRol($type);
-				break;*/
+				break;
 			case 'PUT'://actualiza
 				RolResource::putRol($type);
 				break;
@@ -20,7 +20,7 @@ class RolResource{
 				RolResource::deleteRol($type);
 				break;
 			default://metodo NO soportado
-				echo 'METODO NO SOPORTADO';
+				header('HTTP/1.1 501 Not Implemented');
 				break;
 		}
 	}
@@ -43,11 +43,11 @@ class RolResource{
 				RolService::getRolById($_GET['resource2']);
 				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
-	/*public static function postRol($type){
+	public static function postRol($type){
 		$obj = json_decode( file_get_contents('php://input'));
 		$objArr = (array)$obj;
 
@@ -69,7 +69,7 @@ class RolResource{
 				break;
 		}
 
-	}
+	}/*
 	public function prueba(){
 		return true;
 	}*/
@@ -81,7 +81,7 @@ class RolResource{
 				$dataArray = RolService::insertRol($objArr);
 				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -91,8 +91,7 @@ class RolResource{
 				$dataArray = RolService::deleteRol($_GET['resource2']);
 				break;
 			default:
-				echo "M�todo no soportado";
-
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}

@@ -12,7 +12,7 @@ class TicketResource{
 				TicketResource::putTicket($type);
 				break;
 			default://metodo NO soportado
-				echo 'METODO NO SOPORTADO';
+				header('HTTP/1.1 501 Not Implemented');
 				break;
 		}
 	}
@@ -25,6 +25,9 @@ class TicketResource{
 				//ProductoResource::uploadFile($objArr);
 				$dataArray = TicketService::insertTicket($objArr);
 				break;
+			default:
+				header('HTTP/1.1 405 Method Not Allowed');
+				break;
 		}
 	}
 	
@@ -33,13 +36,25 @@ class TicketResource{
 		$objArr = (array)$obj;
 		switch ($type) {
 			case '1':
-				$dataArray = TicketService::getTickets();
+				$params = SupportResource::getParams(2);
+					
+				//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
+				$order = SupportResource::extractOrder($params);
+				$pagination = SupportResource::extractPagination($params);
+				$where = SupportResource::extractWhere($params);
+				$dataArray = TicketService::getTickets($where,$order,$pagination);
 				break;
 			case '2':
 				$dataArray = TicketService::getTicketById($_GET['resource2']);
 				break;
 			case '5':
-				$dataArray = TicketService::getFactura($_GET['resource3']);
+				if($_GET['resource2'] == "factura")
+					$dataArray = TicketService::getFactura($_GET['resource3']);
+				if($_GET['resource2'] == "lineafactura")
+					$dataArray = TicketService::getLineaFactura($_GET['resource3']);
+				break;
+			default:
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}

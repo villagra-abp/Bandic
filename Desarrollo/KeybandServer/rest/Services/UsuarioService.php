@@ -40,19 +40,14 @@ class UsuarioService {
 		echo json_encode($dataArray);
 	}
 	
-	public static function asignarPulsera($pulsera, $id, $usuario, $dni) {
-		$primaries = [
-				"dni" => $dni
-		];
-		$usuario = MasterDAO::getById('usuario',null,$primaries);
-		$primaries = [
-				"id" => $id
-		];
-		$pulsera = MasterDAO::getById('pulsera',null,$primaries);
-		echo json_encode($pulsera);
+	public static function getProductosByUsuario($where,$order,$pagination) {
+		//	select id, nombre, descripcion from "Keyband".asignar_producto,"Keyband".producto where usuario='7380' and id = producto
 		
-		//$dataArray = UsuarioDAO::asignarPulsera();
-		//echo json_encode($dataArray);
+		$columnas = ['id', 'nombre', 'descripcion'];
+		$table = ['asignar_producto','producto'];
+
+		$dataArray = UsuarioDAO::getProductosByUsuario($table,$columnas,$where,$order,$pagination);
+		echo json_encode($dataArray);
 	}
 
 }

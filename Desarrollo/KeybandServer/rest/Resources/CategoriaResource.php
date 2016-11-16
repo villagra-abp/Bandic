@@ -20,7 +20,7 @@ class CategoriaResource{
 				CategoriaResource::deleteCategoria($type);
 				break;
 			default://metodo NO soportado
-				echo 'METODO NO SOPORTADO';
+				header('HTTP/1.1 501 Not Implemented');
 				break;
 			
 		}
@@ -36,7 +36,7 @@ class CategoriaResource{
 				CategoriaService::getCategoriaById($_GET['resource2']);
 				break;
 			default:
-				echo "Método no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -49,7 +49,7 @@ class CategoriaResource{
 				$dataArray = CategoriaService::insertCategoria($objArr);
 				break;
 			default:
-				echo "Método no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -67,12 +67,11 @@ class CategoriaResource{
 						
 				}else{
 					//metodo no soportado
-					echo "Método no soportado";
+					header('HTTP/1.1 405 Method Not Allowed');
 				}
 				break;
 			default:
-				echo "Método no soportado";
-	
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	
@@ -84,8 +83,7 @@ class CategoriaResource{
 				$dataArray = CategoriaService::deleteCategoria($_GET['resource2']);
 				break;
 			default:
-				echo "Método no soportado";
-	
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}

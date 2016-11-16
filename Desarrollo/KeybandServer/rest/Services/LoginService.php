@@ -11,15 +11,14 @@ class LoginService {
 	public static function comprobarLogin($datos){
 
 		$dataArray = MasterDAO::getById('usuario',null,$datos);
-		//echo json_encode($dataArray);
+		//echo json_encode($datos);
 		
-		
-
 		if(count($dataArray)!=0){
-
 			$token = TokenService::crearToken($datos);
 			$obj = ["token" => $token ];
-				
+			
+			
+	
 			$dataArray2 = MasterDAO::update("usuario",$obj,$datos);
 				
 		}

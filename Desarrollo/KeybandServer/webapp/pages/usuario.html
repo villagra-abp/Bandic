@@ -3,82 +3,123 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script>
+<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
 
 <body ng-app="myApp">
-	<div ng-controller="myCtrl" ng-init = pruebas()>
-	
-	<div class="container banner-container">
-		<nav class="navbar navbar-default" ng-init="navbarCollapsed=true">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span> 
-						<span class="icon-bar"></span>
-					</button>
-					<span class="navbar-brand">Cliente de pruebas</span>
+	<div ng-controller="myCtrl" ng-init = pruebas()>	
+			<div class="container banner-container">
+			<nav class="navbar navbar-default" ng-init="navbarCollapsed=true">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span> 
+							<span class="icon-bar"></span>
+						</button>
+						<span class="navbar-brand">Cliente de pruebas</span>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+						<ul class="nav navbar-nav">
+							<li><a href ="angular.html">Inicio</a></li>
+							<li><a href ="usuario.html">Usuario</a></li>
+							<li><a href ="pulsera.html">Pulsera</a></li>
+							<li><a href ="producto.html">Producto</a></li>
+							<li><a href ="categoria.html">Categoria</a></li>
+							<li><a href ="estancia.html">Estancia</a></li>
+							<li><a href ="rol.html">Rol</a></li>
+							<li><a href ="login.html">Login</a></li>
+						</ul>
+					</div>
 				</div>
-				<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-					<ul class="nav navbar-nav">
-						<li><a href ="angular.html">Inicio</a></li>
-						<li><a href ="usuario.html">Usuario</a></li>
-						<li><a href ="pulsera.html">Pulsera</a></li>
-						<li><a href ="rol.html">Rol</a></li>
-					</ul>
+			</nav>
+		</div>
+		<h1>Usuarios</h1>
+			<div class="panel-body">
+				<button ng-click="addUsuario()" class="btn btn-default btn-xs" title="Detalle">Nuevo usuario
+					<span class="glyphicon glyphicon-new"></span>
+				</button>
+				<div class="table-responsive">
+					<table Class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>				
+								<th class="text-center column80">Acciones</th>
+								<th class="text-center">DNI</th>
+								<th class="text-center">Nombre</th>
+								<th class="text-center">Apellidos</th>
+								<th class="text-center">Email</th>
+								<th class="text-center">Empleado</th>
+								<th class="text-center">Localidad</th>
+								<th class="text-center">Provincia</th>
+								<th class="text-center">Pais</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="usuario in respuestaUsuarios.data">
+								<td>
+									<button ng-click="deleteUsuario(usuario.dni)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+										<span class="glyphicon glyphicon-remove"></span>
+									</button>
+								</td>
+								<td>{{usuario.dni}}</td>
+								<td>{{usuario.nombre}}</td>
+								<td>{{usuario.apellidos}}</td>
+								<td>{{usuario.email}}</td>
+								<td>{{usuario.empleado}}</td>
+								<td>{{usuario.localidad}}</td>
+								<td>{{usuario.provincia}}</td>
+								<td>{{usuario.pais}}</td>
+							</tr>
+						</tbody>
+					</table> 
 				</div>
 			</div>
-		</nav>
-	</div>
-	
-	<div ng-controller="myCtrl" ng-init = pruebas()>
-	<div class="panel-body">
-		<div class="table-responsive">
-			<table Class="table table-striped table-bordered table-hover">
-				<tbody>
-					<tr ng-repeat="usuarios in respuestaUsuarios">
-						<td>{{usuarios| json}}</td>
-					</tr>
-					<tr ng-repeat="pulseras in respuestaPulseras">
-						<td>{{pulseras | json}}</td>
-					</tr>
-					<tr ng-repeat="rol in respuestaRol">
-						<td>{{rol | json}}</td>
-					</tr>
-					
-				</tbody>
-			</table> 
+		
+
+<div class="container">
+	<form>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="panel-title">Modificacion Usuario</span> 
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+						<label class="control-label">DNI</label>
+						<input type="text" ng-model="dni" />
+						
+						<label class="control-label">Nombre</label>
+						<input type="text" ng-model="nombre" />
+						
+						<label class="control-label">Apellidos</label>
+						<input type="text" ng-model="apellidos" />
+						
+						<label class="control-label">Email</label>
+						<input type="text" ng-model="email" />
+						
+						<label class="control-label">Empleado</label>
+						<input type="text" ng-model="empleado" />
+						
+						<label class="control-label">Localidad</label>
+						<input type="text" ng-model="localidad" />
+						
+						<label class="control-label">Provincia</label>
+						<input type="text" ng-model="provincia" />
+						
+						<label class="control-label">Pais</label>
+						<input type="text" ng-model="pais" />
+						
+				</div>
+				<div class="pull-right">
+					<button type="button" ng-click="editUsuario()">
+						<span class="glyphicon glyphicon-ok-sign margin" />Guardar
+					</button>
+				</div>
+			</div>
 		</div>
-	</div>
-	<h3> que mierda pasa </h3>
-		<button ng-click="addUsuario()">Nuevo usuario con dni random</button>
-		<button ng-click="addPulsera()">Nueva pulsera</button>
-		<button ng-click="addRol()">Nuevo rol</button>
-	
-		<!--  input type="text" placeholder="actualizarUsuario" ng-model="actualizarUsuario">
-		<button ng-click="editUsuario()">Actualizar usuario</button>
-		
-		<input type="text" placeholder="actualizarPulsera" ng-model="actualizarPulsera">
-		<button ng-click="editPulsera()">Actualizar pulsera</button>-->
-		
-		<input type="text" placeholder="borrarPulsera" ng-model="borrarPulsera">
-		<button ng-click="deletePulsera()">Borrar pulsera</button>
-		
-		<input type="text" placeholder="borrarRol" ng-model="borrarRol">
-		<button ng-click="deleteRol()">Borrar rol</button>
-		
-	</div>
-	
-	<div ng-controller="myCtrl2">
-	  <h1>Prueba Login</h1>
-	  <section>
-	       	DNI Usuario: <input type="text" ng-model="dni">
-	        <br>
-	        Contraseña: <input type="text" ng-model="password">
-	        <br>
-	        <button ng-click="login()">Enviar</button>
-	  </section>
-	</div>
-	
+	</form>
+</div>
+
 <script src="../static/js/script.js"></script>
 </body>
 </html>
+

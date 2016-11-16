@@ -1,17 +1,13 @@
 <?php
 require_once "./Dao/ProductoDAO.php";
 /***********************************************USUARIO Service****************************************/
-/*AQUÍ LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
-/*HABRAÁ QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
+/*AQUï¿½ LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
+/*HABRAï¿½ QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
 class ProductoService {
 	
-	public static function getProductos() {
+	public static function getProductos($where,$order,$pagination) {
 		$table = "producto";
-		$columns = [/*"id","comestible"*/];
-		$where = [/*"nombre"=>"Manuel","sexo"=>"M"*/];
-		$order = [/*"order"=>"Asc","by"=>"nombre"*/];
-		$pagination = [/*"initrow"=>"0","pageSize"=>"5"*/];
-		$dataArray = MasterDAO::getAll($table,$columns,$where,$order,$pagination);
+		$dataArray = MasterDAO::getAll($table,null,$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	
@@ -22,24 +18,53 @@ class ProductoService {
 		$dataArray = MasterDAO::getById('producto',null,$primaries);
 		echo json_encode($dataArray);
 	}
-	public static function getProductoByCategoria($id) {
-		$primaries = [
-				"categoria_producto" => $id,
-		];
-		$dataArray = MasterDAO::getById('producto',null,$primaries);
+	
+	public static function getProductoEmpleado($where,$order,$pagination) {
+		$table = "asignar_producto";
+		$dataArray = MasterDAO::getAll($table,null,$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	
+	/*
+	public static function getProductoByCategoria($where,$order,$pagination) {
+		$dataArray = MasterDAO::getById('producto',null,$primaries);
+		echo json_encode($dataArray);
+	}
+	*/
 	public static function insertProducto($obj) {
 		$dataArray = MasterDAO::insert('producto',$obj);
 		echo json_encode($dataArray);
 	}
 	
-	public static function insertProductoFoto($obj) {
-		if(isset($_POST['file'])) {
-			echo "imagennnnnnn";
+	public static function asignarProducto($obj) {
+		if(ProductoService::isEmpleado($obj)) {
+			$dataArray = MasterDAO::insert('asignar_producto',$obj);
+			echo json_encode($dataArray);
+		}
+		else {
+			$dataArray = "No se puede asignar ese producto a ese usuario";
+			echo json_encode($dataArray);
 		}
 	}
+	
+	public static function isEmpleado($obj) {
+		$primaries = [
+				"dni" => $obj['usuario'],
+		];
+		$dataArray = MasterDAO::getById('usuario',null,$primaries);
+		//echo $dataArray[0]['empleado'];
+		if($dataArray[0]['empleado'] == "t")
+			return true;
+		else 		
+			return false;	
+	}
+	
+	public static function insertProductoFoto($obj, $id) {	
+		$METODO = $_SERVER['REQUEST_METHOD'];
+		echo ((string)$obj);
+		echo json_encode($METODO);
+	}
+
 	
 	public static function updateProducto($obj, $id) {
 		$primaries = [

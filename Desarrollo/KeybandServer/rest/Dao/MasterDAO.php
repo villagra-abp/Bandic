@@ -10,9 +10,8 @@ class MasterDAO {
        	$primaries hay que construirlo en el service apartir de la URL. Como estamos en UsuarioService obviamente sabemos 
        	cual es la clave primaria de usuario - Soporta varias claves primarias
 		 */
-		if(!$table || !$primaries){
-			var_dump(http_response_code(400));
-			
+		if(!$table || !$primaries){			
+			header('HTTP/1.1 400 Bad Request');
 			return ("Los parametros no son correctos");
 		}
 		$dataArray = array();
@@ -26,7 +25,7 @@ class MasterDAO {
 			if (!$result) {//Resultado erroneo
 					
 				var_dump(http_response_code(500));
-				return "Ocurri� un error en la consulta:".error_get_last();
+				return "Ocurrio un error en la consulta:".error_get_last();
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
@@ -54,7 +53,7 @@ class MasterDAO {
        	cual es la clave primaria de usuario por lo tanto la extraemos del $obj en un nuevo array - Soporta varias claves primarias
 		 */
 		if(!$obj || !$table || !$primaries){
-			var_dump(http_response_code(400));
+			header('HTTP/1.1 400 Bad Request');
 			return ("Los parametros en MasterDAO no son correctos");
 		}
 		$dataArray = array();
@@ -86,9 +85,7 @@ class MasterDAO {
 			$result = @pg_query($conection, $sql);
 			
 			if (!$result) {//Resultado erroneo
-			
-				var_dump(http_response_code(500));
-				return "Ocurri� un error en la consulta:".error_get_last();
+				header('HTTP/1.1 410 No se ha modificado correctamente');
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
@@ -101,6 +98,7 @@ class MasterDAO {
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			throw new Exception ($e->getMessage());
 		}
+		header('HTTP/1.1 201 Created');
 		return $dataArray;
 	}
 	public static function insert ($table, $obj) {
@@ -114,7 +112,7 @@ class MasterDAO {
        	Este objeto te debe venir as� del FRONT supuestamente
 		 */
 		if(!$obj || !$table){
-			var_dump(http_response_code(400));
+			header('HTTP/1.1 400 Bad Request');
 			return ("Los parametros en MasterDAO no son correctos");
 		}
 	
@@ -148,11 +146,10 @@ class MasterDAO {
 				$sql = $sql.$keys.") VALUES (".$values.")";
 
 				$result = @pg_query($conection, $sql);
-	
+
 				if (!$result) {//Resultado erroneo
-	
-					var_dump(http_response_code(500));
-					return "Ocurri� un error en la consulta:".error_get_last();
+					header('HTTP/1.1 409 No se ha podido insertar');
+					return "Ocurrio un error en la consulta:".error_get_last();
 	
 				}else{//Resultado correcto
 					 $dataArray = $obj;
@@ -163,7 +160,7 @@ class MasterDAO {
 			}catch (Exception $e) {//TODO Exception generica maaaal
 				//throw new Exception ($e->getMessage());
 			}
-	
+			header('HTTP/1.1 201 Created');
 			return $dataArray;
 	}
 	public static function getAll ($table,$columns,$where,$order,$pagination) {
@@ -178,7 +175,7 @@ class MasterDAO {
 		 Si quieres las siguientes 5 initrow=5,pagesize=5
 		 */
 		if(!$table){
-			var_dump(http_response_code(400));
+			header('HTTP/1.1 400 Bad Request');
 			return ("Los parametros en MasterDAO no son correctos");
 		}
 		
@@ -194,14 +191,16 @@ class MasterDAO {
 				$sql = $sql.MasterDAO::constructOrderBy($order);
 			if($pagination)
 				$sql = $sql.MasterDAO::constructPagination($pagination);
+			
 			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
 				
-				var_dump(http_response_code(500));
-				return "Ocurri� un error en la consulta:".error_get_last();
+				header('HTTP/1.1 500 Ocurrio un error en la consulta');
 
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
+				if($count==0)
+					header('HTTP/1.1 210 No hay resultados');
 				for($i=0; $i<$count; $i++) {
 					$row = pg_fetch_assoc ($result);
 					$dataArray[] = $row;
@@ -214,7 +213,6 @@ class MasterDAO {
 			echo "Excepcion que nunca salta, si salta avisar a SAMU";
 			//throw new Exception ($e->getMessage());
 		}
-
 		return $dataArray;
 	}
 	public static function getById ($table,$columns,$primaries) {
@@ -229,7 +227,7 @@ class MasterDAO {
 		$dataArray = array();
 		
 		if(!$primaries || !$table) {
-			var_dump(http_response_code(400));
+			header('HTTP/1.1 400 Bad Request');
 			return ("Los parametros en MasterDAO no son correctos");
 		}
 
@@ -242,11 +240,13 @@ class MasterDAO {
 			$result = @pg_query($conection, $sql);
 	
 			if (!$result) {//Resultado erroneo
-				var_dump(http_response_code(500));
-				return "Ocurri� un error en la consulta:".error_get_last();
+				header('HTTP/1.1 500 Resultado erroneo');
+				return "Ocurrio un error en la consulta:".error_get_last();
 	
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
+				if($count==0)
+					header('HTTP/1.1 404 Not Found');
 				for($i=0; $i<$count; $i++) {
 					$row = pg_fetch_assoc ($result);
 					$dataArray[] = $row;
@@ -265,8 +265,9 @@ class MasterDAO {
 	public function constructPagination($pagination){
 		//recibe un array asociativo $pagination = ["initrow"=>"0","pageSize"=>"15"]
 		//LIMIT 15 OFFSET 0 
-		$limit = $pagination["initrow"] + $pagination["pageSize"];
+		$limit = $pagination["initrow"] + $pagination["pagesize"];
 		$sql = " LIMIT ".$limit." OFFSET ".$pagination["initrow"];
+		
 		return $sql;
 	}
 	public function constructOrderBy($order){
@@ -284,13 +285,23 @@ class MasterDAO {
 			if($i == 0) {
 				if($key_value=="")
 					$sql = $sql.$key." is null ";
-				else
-					$sql = $sql.$key."='".$key_value."' ";
+				else {
+					$key_table = explode(".", $key_value);
+					if($key_table[0] == $key_value)
+						$sql = $sql.$key."='".$key_value."' ";
+					else
+						$sql = $sql.$key."=".$key_value." ";
+				}
 			}else{
 				if($key_value=="")
 					$sql = "AND ".$sql.$key." is null";
-				else
-					$sql = $sql."AND ".$key."='".$key_value."'";
+				else {
+					$key_table = explode(".", $key_value);
+					if($key_table[0] == $key_value)
+						$sql = $sql."AND ".$key."='".$key_value."'";
+					else
+						$sql = $sql."AND ".$key."=".$key_value."";
+				}
 			}
 			$i++;
 		}
@@ -306,9 +317,29 @@ class MasterDAO {
 					$sql = $sql.",".$columns[$i];
 				}
 			}
-			$sql = $sql." FROM ".$table;
+			$sql = $sql." FROM ";
+			if(is_array($table)){
+				for($j=0;$j<count($table);$j++){
+					if($j==0)
+						$sql = $sql.$table[$j];
+						else
+							$sql = $sql.",".$table[$j];
+				}
+			}else{
+				$sql = $sql.$table;
+			}
 		}else{
-			$sql = 'SELECT * FROM '.$table;
+			$sql = 'SELECT * FROM ';
+			if(is_array($table)){
+				for($j=0;$j<count($table);$j++){
+					if($j==0)
+						$sql = $sql.$table[$j];
+						else
+							$sql = $sql.",".$table[$j];
+				}
+			}else{
+				$sql = $sql.$table;
+			}
 		}
 		return $sql;
 	}

@@ -7,8 +7,6 @@ class LoginResource{
 		if($method=='POST'){
 			$obj = json_decode( file_get_contents('php://input'));
 			$objArr = (array)$obj;
-			echo "LLEGO HASTA AQUI";
-			//echo $objArr["id"];
 			$dataArray = LoginService::comprobarLogin($objArr);
 			//echo json_encode($objArr);
 		}

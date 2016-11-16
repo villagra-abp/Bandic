@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="RedesSociales">
+<head>
+    <title>Redes Sociales</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="oauth.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers.js"></script>
+    <script src="services.js"></script>
+    <script type="text/javascript">
+        window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1323319391034368',
+      xfbml      : true,
+      version    : 'v2.8'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <style>
+        .container {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        #results .row {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+     <div class="container" ng-controller="RedesSocialesController">
+  <!--      <h1>Productos</h1>
+        <ul ng-repeat="p in productos">
+            <li>{{p.nombre}}</li>
+            <li>{{p.precio}}</li>
+            <li><button ng-click="publicar(p.facebook)" id="publicar" type="button" class="btn btn-info" >Ejemplo de publicación</button></li>
+        </ul>-->
+        <h1>Login y publicación de Facebook y Twitter</h1>
+        <h4>Twitter</h4>
+        <div class="row">
+            <div class="col-xs-12">
+                <button ng-click="connectTwitterButton()" id="connectButtonTwitter" type="button" class="btn btn-primary">Connect Twitter</button>
+                <button ng-click="twittear()" id="twittear" type="button" class="btn btn-info" style="display:none;">Ejemplo de twit</button>
+                <button ng-click="signOutTwitter()" id="signOutTwitter" type="button" class="btn btn-link" style="display:none;">Sign Out</button>
+            </div>
+        </div>
+        <h4>Facebook</h4>
+     <div class="row">
+            <div class="col-xs-12">
+                <button ng-click="connectFacebookButton()" id="connectButtonFacebook" type="button" class="btn btn-primary">Connect Facebook</button>
+                <button ng-click="publicar()" id="publicar" type="button" class="btn btn-info" style="display:none;">Ejemplo de publicación</button>
+                <button ng-click="signOutFacebook()" id="signOutFacebook" type="button" class="btn btn-link" style="display:none;">Sign Out</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" id="results">
+                <div class="row" ng-repeat="t in tweets">
+                    <div class="col-xs-2 col-sm-1">
+                        <img ng-src="{{t.user.profile_image_url}}" class="img-circle">
+                    </div>
+                    <div class="col-xs-10 col-sm-11">
+                        <small>{{t.user.name}}</small><br>{{t.text}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

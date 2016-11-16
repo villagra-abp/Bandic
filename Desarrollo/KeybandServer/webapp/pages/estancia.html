@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script>
+<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
+
+<body ng-app="myApp">
+	<div ng-controller="myCtrl" ng-init = pruebas()>	
+		<div class="container banner-container">
+			<nav class="navbar navbar-default" ng-init="navbarCollapsed=true">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span> 
+							<span class="icon-bar"></span>
+						</button>
+						<span class="navbar-brand">Cliente de pruebas</span>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+						<ul class="nav navbar-nav">
+							<li><a href ="angular.html">Inicio</a></li>
+							<li><a href ="usuario.html">Usuario</a></li>
+							<li><a href ="pulsera.html">Pulsera</a></li>
+							<li><a href ="producto.html">Producto</a></li>
+							<li><a href ="categoria.html">Categoria</a></li>
+							<li><a href ="estancia.html">Estancia</a></li>
+							<li><a href ="rol.html">Rol</a></li>
+							<li><a href ="login.html">Login</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<h1>Estancias</h1>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table Class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>				
+								<th class="text-center column80">Acciones</th>
+								<th class="text-center">Identificador</th>
+								<th class="text-center">Capacidad</th>
+								<th class="text-center">Pública</th>				
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="estancia in respuestaEstancia.data">
+								<td>
+									<button ng-click="" class="btn btn-default btn-xs" title="Detalle">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+									<button ng-click="" class="btn btn-default btn-xs" title="Editar">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</button>
+									<button ng-click="deleteEstancia(estancia.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+										<span class="glyphicon glyphicon-remove"></span>
+									</button>
+								</td>
+								<td>{{estancia.id}}</td>
+								<td>{{estancia.capacidad}}</td>
+								<td>{{estancia.publica}}</td>
+							</tr>
+						</tbody>
+					</table> 
+			</div>	
+		<h2> Crear Estancia </h2>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-2 control-label">Identificador</label>
+		    <div class="col-sm-4">
+		      <input type="text" ng-model="id" class="form-control" id="inputEmail3" placeholder="Identificador">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">Capacidad</label>
+		    <div class="col-sm-4">
+		      <input type="number" ng-model="capacidad" class="form-control" id="inputPassword3" placeholder="Capacidad de usuarios">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">Pública</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-model="publica" class="form-control" id="inputPassword3" placeholder="T or F">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-6 col-sm-1">
+		      <button ng-click="addEstancia()" type="submit" class="btn btn-default">Crear Estancia</button>
+		    </div>
+		  </div>
+		</form>
+		
+		<h2> Modificar Estancia </h2>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-2 control-label">Identificador</label>
+		    <div class="col-sm-4">
+		      <input type="text" ng-model="idedit" class="form-control" id="inputEmail3" placeholder="Identificador">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">Capacidad</label>
+		    <div class="col-sm-4">
+		      <input type="number" ng-model="capacidad" class="form-control" id="inputPassword3" placeholder="Capacidad de usuarios">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">Pública</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-model="publica" class="form-control" id="inputPassword3" placeholder="T or F">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-6 col-sm-1">
+		      <button ng-click="editEstancia()" type="submit" class="btn btn-default">Modificar Estancia</button>
+		    </div>
+		  </div>
+		</form>
+		
+		<h2> Ver aforo de una estancia </h2>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-2 control-label">Identificador</label>
+		    <div class="col-sm-4">
+		      <input type="text" ng-model="idaforo" class="form-control" id="inputEmail3" placeholder="Identificador">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-6 col-sm-1">
+		      <button ng-click="getAforoById()" type="submit" class="btn btn-default">Ver aforo</button>
+		    </div>
+		  </div>
+		  <div class="panel-body">
+				<div class="table-responsive">
+					<table Class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>				
+								<th class="text-center">Entradas</th>				
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="aforo in respuestaAforo.data">
+								<td>{{aforo.hora_entrada}}</td>
+							</tr>
+						</tbody>
+					</table> 
+				</div>
+			</div>		
+		</form>
+	</div>
+<script src="../static/js/script.js"></script>
+</body>
+</html>
+

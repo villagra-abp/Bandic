@@ -1,13 +1,13 @@
 <?php
-require_once "./Dao/EstanciaDAO.php";
 require_once "./Dao/MasterDAO.php";
+require_once "./Dao/EstanciaDAO.php";
 
 /***********************************************USUARIO Service****************************************/
 /*AQU� LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
 /*HABRA� QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
 class EstanciaService {
 	public static function getEstancias ($where,$order,$pagination) {
-		$dataArray = MasterDAO::getAll("estancia",null,$where,$order,$pagination);
+		$dataArray = MasterDAO::getAll('estancia',null,$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	
@@ -29,7 +29,7 @@ class EstanciaService {
 				"id" => $id,
 		];
 		$dataArray = MasterDAO::getById('estancia',["capacidad"],$primaries);
-		echo json_encode($dataArray); //Ver como mostrar solo capacidad
+		echo json_encode($dataArray); 
 	}
 	
 	public static function insertEstancia($obj) {

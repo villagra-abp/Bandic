@@ -28,7 +28,7 @@ class RolService {
 		$primaries = [
 				"id" => $id
 		];
-		$dataArray = MasterDAO::update('pulsera',$obj,$primaries);
+		$dataArray = MasterDAO::update('rol',$obj,$primaries);
 		echo json_encode($dataArray);
 	}
 	public static function deleteRol($id) {

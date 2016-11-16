@@ -5,13 +5,9 @@ require_once "./Dao/MasterDAO.php";
 
 class CategoriaService {
 	
-	public static function getCategorias () {
+	public static function getCategorias ($where,$order,$pagination) {
 		$table = "categoria_producto";
-		$columns = [/*"id","comestible"*/];
-		$where = [/*"nombre"=>"Manuel","sexo"=>"M"*/];
-		$order = [/*"order"=>"Asc","by"=>"nombre"*/];
-		$pagination = [/*"initrow"=>"0","pageSize"=>"5"*/];
-		$dataArray = MasterDAO::getAll($table,$columns,$where,$order,$pagination);
+		$dataArray = MasterDAO::getAll($table,null,$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	

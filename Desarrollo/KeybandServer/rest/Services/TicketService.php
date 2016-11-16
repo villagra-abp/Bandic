@@ -9,13 +9,9 @@ class TicketService {
 		echo json_encode($dataArray);
 	}
 	
-	public static function getTickets () {
+	public static function getTickets($where,$order,$pagination) {
 		$table = "ticket";
-		$columns = [/*"id","comestible"*/];
-		$where = [/*"nombre"=>"Manuel","sexo"=>"M"*/];
-		$order = [/*"order"=>"Asc","by"=>"nombre"*/];
-		$pagination = [/*"initrow"=>"0","pageSize"=>"5"*/];
-		$dataArray = MasterDAO::getAll($table,$columns,$where,$order,$pagination);
+		$dataArray = MasterDAO::getAll($table,null,$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	
@@ -34,7 +30,25 @@ class TicketService {
 	}
 	
 	public static function getFactura($id) {
-		
+		/////////////consulta 1//////////////
+		$where["ticket.id"] = $id;
+		$where["ticket.usuario"] = "usuario.dni";
+		$dataArray = MasterDAO::getAll(["usuario, ticket"],["usuario.nombre, usuario.dni, ticket.fecha"],$where,null,null);
+		echo json_encode($dataArray);
+		////////////consulta 2///////////////
+		/*
+		$where2["linea_ticket.ticket"] = $id;
+		$where2["producto.id"] = "linea_ticket.producto";
+		$dataArray2 = MasterDAO::getAll(["linea_ticket, producto"],["linea_ticket.cantidad, linea_ticket.precio, producto.nombre, linea_ticket.cantidad*linea_ticket.precio as importe"],$where2,null,null);
+		echo json_encode($dataArray2);
+		*/
+	}
+	
+	public static function getLineaFactura($id) {
+		$where["linea_ticket.ticket"] = $id;
+		$where["producto.id"] = "linea_ticket.producto";
+		$dataArray = MasterDAO::getAll(["linea_ticket, producto"],["linea_ticket.cantidad, linea_ticket.precio, producto.nombre, linea_ticket.cantidad*linea_ticket.precio as importe"],$where,null,null);
+		echo json_encode($dataArray);
 	}
 }
 

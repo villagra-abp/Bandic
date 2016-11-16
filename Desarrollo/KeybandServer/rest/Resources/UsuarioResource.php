@@ -1,8 +1,7 @@
- <?php
+<?php
 require_once "./Services/UsuarioService.php";
 require_once "SupportResource.php";
 
-/***********************************************USUARIO RESOURCE****************************************/
 class UsuarioResource{
 	
 	public static function methodUsuario($method,$type){   //filtra por metodo
@@ -45,8 +44,35 @@ class UsuarioResource{
 			case '2':   //usuario/id
 				UsuarioService::getUsuarioById($_GET['resource2']);
 				break;
+			case '5':   //usuario/recurso/id
+				if($_GET['resource2']=="pulsera") {
+					//Cojo los par�metros que me han pasado por URL
+					$params = SupportResource::getParams(3);
+					
+					//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
+					$order = SupportResource::extractOrder($params);
+					$pagination = SupportResource::extractPagination($params);
+					
+					$where =  SupportResource::extractWhere($params);
+					$where["usuario"] = $_GET['resource3'] ; //a�ado yo mismo el where
+						
+					PulseraService::getPulseras($where,$order,$pagination);
+				}else if($_GET['resource2']=="producto"){
+					//Cojo los par�metros que me han pasado por URL
+					$params = SupportResource::getParams(3);
+						
+					//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
+					$order = SupportResource::extractOrder($params);
+					$pagination = SupportResource::extractPagination($params);
+					$where =  SupportResource::extractWhere($params);
+						
+					$where['usuario']= $_GET['resource3'];
+					UsuarioService::getProductosByUsuario($where,$order,$pagination);
+					
+				}
+				break;
 			default:
-				echo "M�todo no soportado";
+				echo "Metodo no soportado";
 				break;
 		}
 	}
@@ -57,14 +83,6 @@ class UsuarioResource{
 		switch ($type) {
 			case '2':   //usuario/id
 				$dataArray = UsuarioService::updateUsuario($objArr,$_GET['resource2']);
-				break;
-			case '5':   //usuario/recurso/id
-				if($_GET['resource2']=="pulsera"){  //usuario/pulsera/id
-					
-				}else{
-					//metodo no soportado
-					echo "M�todo no soportado";
-				}
 				break;
 			default:
 				echo "M�todo no soportado";
@@ -91,30 +109,6 @@ class UsuarioResource{
 		switch ($type) {
 			case '2':   //usuario/id
 				$dataArray = UsuarioService::deleteUsuario($_GET['resource2']);
-				break;
-			default:
-				echo "M�todo no soportado";
-		
-				break;
-		}
-	}
-	//TODO Asignar pulsera sin terminar
-	public static function asignarPulsera($type){
-		$obj = json_decode( file_get_contents('php://input'));
-		$objArr = (array)$obj;
-		
-		switch ($type) {
-			case '2':   //usuario/id
-				$dataArray = UsuarioService::asignarPulsera($objArr,$_GET['resource2']);
-				break;
-			case '5':   //usuario/recurso/id
-				if($_GET['resource2']=="pulsera"){  //usuario/pulsera/id
-					
-					$dataArray = UsuarioService::asignarPulsera($_GET['resource2']);
-				}else{
-					//metodo no soportado
-					echo "M�todo no soportado";
-				}
 				break;
 			default:
 				echo "M�todo no soportado";

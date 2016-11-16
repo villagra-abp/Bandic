@@ -1,7 +1,8 @@
 <?php
 require_once "./Services/LineaTicketService.php";
+require_once "SupportResource.php";
 
-/***********************************************LINEATICKET****************************************/
+/* **********************************************LINEATICKET*************************************** */
 
 class LineaTicketResource{
 	public static function methodLineaTicket($method,$type){
@@ -10,7 +11,7 @@ class LineaTicketResource{
 				LineaTicketResource::putLineaTicket($type);
 				break;
 			default://metodo NO soportado
-				echo 'METODO NO SOPORTADO';
+				header('HTTP/1.1 501 Not Implemented');
 				break;
 		}
 	}
@@ -22,9 +23,11 @@ class LineaTicketResource{
 			case '1':   // lineaticket
 				$dataArray = LineaTicketService::insertLineaTicket($objArr);
 				break;
+			default:
+				header('HTTP/1.1 405 Method Not Allowed');
+				break;
 		}
 	}
 }
 
 ?>
-

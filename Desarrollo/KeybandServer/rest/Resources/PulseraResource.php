@@ -1,4 +1,4 @@
- <?php
+<?php
 require_once "./Services/PulseraService.php";
 require_once "SupportResource.php";
 
@@ -20,7 +20,7 @@ class PulseraResource{
 				PulseraResource::deletePulsera($type);
 				break;
 			default://metodo NO soportado
-				echo 'METODO NO SOPORTADO';
+				header('HTTP/1.1 501 Not Implemented');
 				break;
 		}
 	}
@@ -39,11 +39,27 @@ class PulseraResource{
 				
 				PulseraService::getPulseras($where,$order,$pagination);
 				break;
+				
 			case '2':   //usuario/id
 				PulseraService::getPulseraById($_GET['resource2']);
 				break;
+				
+			case '4': //pulsera/estado
+				if($_GET['resource2']=='estado'){
+
+					PulseraService::getEstado();
+				}
+				break;
+			case '5': //estancia/capacidad/id o /estancia/aforo/id
+				if($_GET['resource2']=='estado'){
+					PulseraService::getEstanciaByCapacidad($_GET['resource2'],$_GET['resource3']);
+				}
+				else if($_GET['resource2']=='aforo'){
+					EstanciaService::getAforoByEstancia($_GET['resource3']);
+				}
+				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -60,12 +76,11 @@ class PulseraResource{
 						
 				}else{
 					//metodo no soportado
-					echo "M�todo no soportado";
+					header('HTTP/1.1 405 Method Not Allowed');
 				}
 				break;
 			default:
-				echo "M�todo no soportado";
-	
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	
@@ -81,7 +96,7 @@ class PulseraResource{
 				$dataArray = PulseraService::insertPulsera($objArr);
 				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -91,8 +106,7 @@ class PulseraResource{
 				$dataArray = PulseraService::deletePulsera($_GET['resource2']);
 				break;
 			default:
-				echo "M�todo no soportado";
-	
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
