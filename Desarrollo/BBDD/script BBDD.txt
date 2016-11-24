@@ -147,3 +147,9 @@ CREATE TABLE "Keyband".permisos (
 WITH (
 	OIDS=false
 );
+/*INSERTS*/
+insert into "Keyband".Usuario values('48731586S','qwerty','Paco','Perez Perez',0.0,'M','España','El Raal','Murcia',false,'pacopp@gmail.com','09/09/1964','01/01/2017','02/02/2017', null);
+insert into "Keyband".Usuario values('27452286T','qwerty','Juan','Martinez Gomez',0.0,'M','España','Cox','Alicante',false,'juanchocolate@gmail.com','10/10/1986','12/12/2016','01/01/2017', null);
+insert into "Keyband".Usuario values('78642986K','qwerty','Antonio','Macias Moreno',0.0,'M','España','Granada','Granada',false,'toni-maki@hotmail.com','08/08/1994','11/11/2016','12/12/2016', null);
+insert into "Keyband".Usuario values('58964855F','qwerty','Patricia','Gonzalez Garcia',0.0,'F','España','Villena','Alicante',false,'patriGG@gmail.com','10/09/1991','07/07/2016','08/08/2017', null);
+insert into "Keyband".Usuario values('65842984P','qwerty','Maria','Soriano Lopez',0.0,'F','España','Denia','Alicante',false,'marisolop@hotmail.com','10/10/1995','08/07/2016','08/08/2017', null);
