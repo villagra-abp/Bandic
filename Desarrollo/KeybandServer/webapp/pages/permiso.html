@@ -1,86 +1,52 @@
-<!DOCTYPE html>
-<html>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script>
-<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
-
-<body ng-app="myApp">
-	<div ng-controller="myCtrl" ng-init = pruebas()>	
-			<div class="container banner-container">
-			<nav class="navbar navbar-default" ng-init="navbarCollapsed=true">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar">
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span> 
-							<span class="icon-bar"></span>
-						</button>
-						<span class="navbar-brand">Cliente de pruebas</span>
-					</div>
-					<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-						<ul class="nav navbar-nav">
-							<li><a href ="angular.html">Inicio</a></li>
-							<li><a href ="usuario.html">Usuario</a></li>
-							<li><a href ="pulsera.html">Pulsera</a></li>
-							<li><a href ="producto.html">Producto</a></li>
-							<li><a href ="categoria.html">Categoria</a></li>
-							<li><a href ="estancia.html">Estancia</a></li>
-							<li><a href ="rol.html">Rol</a></li>
-							<li><a href ="login.html">Login</a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
+<div ng-controller="PermisoController" ng-init = "getPermisos()">	
+	<h1>Permisos</h1>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table Class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>				
+						<th class="text-center column80">Acciones</th>
+						<th class="text-center">Id</th>
+						<th class="text-center">Descripción</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="permisos in respuestaPermiso.data">
+						<td>
+							<button ng-click="deletePermiso(permisos.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+						</td>
+						<td>{{permisos.id}}</td>
+						<td>{{permisos.descripcion}}</td>
+					</tr>
+				</tbody>
+			</table> 
 		</div>
-		<h1>Permisos</h1>
-			<div class="panel-body">
-				<div class="table-responsive">
-					<table Class="table table-striped table-bordered table-hover">
-						<thead>
-							<tr>				
-								<th class="text-center column80">Acciones</th>
-								<th class="text-center">Rol</th>
-								<th class="text-center">Estancia</th>
-										
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="permisos in respuestaPermiso.data">
-								<td>
-									<button ng-click="" class="btn btn-default btn-xs" title="Detalle">
-										<span class="glyphicon glyphicon-search"></span>
-									</button>
-									<button ng-click="" class="btn btn-default btn-xs" title="Editar">
-										<span class="glyphicon glyphicon-pencil"></span>
-									</button>
-									<button ng-click="" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
-										<span class="glyphicon glyphicon-remove"></span>
-									</button>
-								</td>
-								<td>{{permisos.rol}}</td>
-								<td>{{permisos.estancia}}</td>
-								
-							</tr>
-						</tbody>
-					</table> 
+	</div>
+	<div class="container">
+		<form>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<span class="panel-title">Modificacion Permisos</span> 
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="control-label">ID</label>
+						<input type="text" ng-model="idPermiso" />
+						<label class="control-label">Descripcion</label>
+						<input type="text" ng-model="descripcionPermiso" />
+					</div>
+					<div class="pull-right">
+						<button type="button" ng-click="editPermiso()">
+							<span class="glyphicon glyphicon-ok-sign margin" />Guardar
+						</button>
+						<button ng-click="addPermiso()" class="btn btn-default btn-xs" title="Detalle">Nuevo permiso
+							<span class="glyphicon glyphicon-new"></span>
+						</button>
+					</div>
 				</div>
 			</div>
-		<button ng-click="addPermiso()" class="btn btn-default btn-xs" title="Detalle">Nuevo Permiso
-			<span class="glyphicon glyphicon-new"></span>
-		</button>
-		<h2>Comprobar permiso</h2>
-		<label class="control-label">Usuario</label>
-		<input type="text" ng-model="usuario" />
-		<label class="control-label">Acción</label>
-		<input type="text" ng-model="accion" />
-		
-		<button ng-click="comprobarPermiso()" class="btn btn-default btn-xs" title="Detalle">Comprobar permiso
-			<span class="glyphicon glyphicon-new"></span>
-		</button>
-		<pre>{{respuestaPermisos | json }} </pre>
+		</form>
 	</div>
-<script src="../static/js/script.js"></script>
-</body>
-</html>
+</div>

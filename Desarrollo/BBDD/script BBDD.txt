@@ -6,6 +6,7 @@ CREATE TABLE "Keyband".Rol (
 WITH (
 	OIDS=FALSE
 );
+
 CREATE TABLE "Keyband".Estancia (
 	id varchar(100) NOT NULL,
 	capacidad numeric(10) null,
@@ -15,6 +16,8 @@ CREATE TABLE "Keyband".Estancia (
 WITH (
 	OIDS=false
 );
+
+
 CREATE TABLE "Keyband".Usuario (
 	dni varchar(12) NOT NULL,
 	password varchar(100) NOT NULL,
@@ -29,14 +32,23 @@ CREATE TABLE "Keyband".Usuario (
 	fecha_nacimiento date not null,
 	fecha_entrada timestamp not null,
 	fecha_salida timestamp not null,
-	token varchar(100) null,
-	fecha_token timestamp null,
+	token varchar(500) null,
 	PRIMARY KEY (dni),
-	FOREIGN KEY (rol) REFERENCES "Keyband".Rol(id),
 	FOREIGN KEY (estancia) REFERENCES "Keyband".Estancia(id)
 )
 WITH (
 	OIDS=false
+);
+
+CREATE TABLE "Keyband".Usuario_rol (
+	dni varchar(12) NOT NULL,
+	id_rol varchar(100) NOT NULL,
+	PRIMARY KEY (dni, id_rol),
+	FOREIGN KEY (id_rol) REFERENCES "Keyband".Rol(id),
+	FOREIGN KEY (dni) REFERENCES "Keyband".Usuario(dni)
+)
+WITH (
+	OIDS=FALSE
 );
 
 CREATE TABLE "Keyband".Estado_pulsera (
@@ -137,19 +149,53 @@ WITH (
 	OIDS=false
 );
 
-CREATE TABLE "Keyband".permisos (
-	rol varchar(100) NOT NULL,
-	estancia varchar(100) NOT NULL,
-	FOREIGN KEY (rol) REFERENCES "Keyband".rol(id),
-	FOREIGN KEY (estancia) REFERENCES "Keyband".estancia(id),
-	PRIMARY KEY (rol, estancia)
+/*JUANXO, ESTAS SON LAS TABLAS BUENAS
+
+CREATE TABLE "Keyband".Permiso (
+	id varchar(100) NOT NULL,
+	descricpion varchar(500) NOT NULL,
+	PRIMARY KEY (id)
 )
 WITH (
 	OIDS=false
 );
+
+CREATE TABLE "Keyband".Permisos_rol (
+	id_rol varchar(100) NOT NULL,
+	id_permiso varchar(100) NOT NULL,
+	FOREIGN KEY (id_rol) REFERENCES "Keyband".Rol(id),
+	FOREIGN KEY (id_permiso) REFERENCES "Keyband".Permiso(id),
+	PRIMARY KEY (id_rol, id_permiso)
+)
+WITH (
+	OIDS=false
+);
+CREATE TABLE "Keyband".usuario_rol (
+	usuario varchar(12) NOT NULL,
+	rol varchar(100) NOT NULL,
+	PRIMARY KEY (usuario, rol),
+	FOREIGN KEY (usuario) REFERENCES "Keyband".usuario(dni),
+	FOREIGN KEY (rol) REFERENCES "Keyband".rol(id)
+)
+
 /*INSERTS*/
 insert into "Keyband".Usuario values('48731586S','qwerty','Paco','Perez Perez',0.0,'M','España','El Raal','Murcia',false,'pacopp@gmail.com','09/09/1964','01/01/2017','02/02/2017', null);
 insert into "Keyband".Usuario values('27452286T','qwerty','Juan','Martinez Gomez',0.0,'M','España','Cox','Alicante',false,'juanchocolate@gmail.com','10/10/1986','12/12/2016','01/01/2017', null);
 insert into "Keyband".Usuario values('78642986K','qwerty','Antonio','Macias Moreno',0.0,'M','España','Granada','Granada',false,'toni-maki@hotmail.com','08/08/1994','11/11/2016','12/12/2016', null);
 insert into "Keyband".Usuario values('58964855F','qwerty','Patricia','Gonzalez Garcia',0.0,'F','España','Villena','Alicante',false,'patriGG@gmail.com','10/09/1991','07/07/2016','08/08/2017', null);
 insert into "Keyband".Usuario values('65842984P','qwerty','Maria','Soriano Lopez',0.0,'F','España','Denia','Alicante',false,'marisolop@hotmail.com','10/10/1995','08/07/2016','08/08/2017', null);
+
+insert into "Keyband".estado_pulsera values('activa');
+insert into "Keyband".estado_pulsera values('inactiva');
+
+insert into "Keyband".pulsera values('1', '7380','inactiva');
+insert into "Keyband".pulsera values('2', '7380','activa');
+
+insert into "Keyband".permiso values('1','permiso de prueba');
+insert into "Keyband".permiso values('2','permiso de prueba');
+insert into "Keyband".permiso values('3','permiso de prueba');
+
+insert into "Keyband".usuario_rol values('7380','prueba');
+insert into "Keyband".usuario_rol values('7380','Monitor');
+
+insert into "Keyband".rol_permiso values('5077','1');

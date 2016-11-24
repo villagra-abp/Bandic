@@ -40,13 +40,34 @@ class UsuarioService {
 		echo json_encode($dataArray);
 	}
 	
+	
 	public static function getProductosByUsuario($where,$order,$pagination) {
 		//	select id, nombre, descripcion from "Keyband".asignar_producto,"Keyband".producto where usuario='7380' and id = producto
 		
-		$columnas = ['id', 'nombre', 'descripcion'];
-		$table = ['asignar_producto','producto'];
+		$columnas = ['dni', 'nombre'];
+		$table = ['usuario_rol','rol'];
 
 		$dataArray = UsuarioDAO::getProductosByUsuario($table,$columnas,$where,$order,$pagination);
+		echo json_encode($dataArray);
+	}
+	
+	public static function getRolByUsuario($where,$order,$pagination) {
+		$columnas = ['dni' , 'nombre' , 'ur.rol'];
+		$table = ['usuario_rol as ur' , 'usuario as u'];
+	
+		$dataArray = MasterDAO::getAll($table, $columnas, $where, $order, $pagination);
+		echo json_encode($dataArray);
+	}
+	
+	public static function insertRolUsuario($obj) {
+		$dataArray = MasterDAO::insert('usuario_rol', $obj);
+		echo json_encode($dataArray);
+	}
+	
+	public static function deleteRolUsuario($dni , $rol) {
+		$primaries = ["usuario" => $dni,"rol" => $rol ];
+		
+		$dataArray = MasterDAO::delete('usuario_rol' , $primaries);
 		echo json_encode($dataArray);
 	}
 

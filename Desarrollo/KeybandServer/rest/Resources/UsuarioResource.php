@@ -22,7 +22,7 @@ class UsuarioResource{
 				UsuarioResource::deleteUsuario($type);
 				break;
 			default://metodo NO soportado
-				echo 'METODO NO SOPORTADO';
+				header('HTTP/1.1 501 Not Implemented');
 				break;
 		}
 	}
@@ -32,7 +32,7 @@ class UsuarioResource{
 		switch ($type) {
 			case '1':   // usuario
 				//Cojo los par�metros que me han pasado por URL
-				$params = SupportResource::getParams();		
+				$params = SupportResource::getParams(1);		
 				
 				//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
 				$order = SupportResource::extractOrder($params);
@@ -69,10 +69,20 @@ class UsuarioResource{
 					$where['usuario']= $_GET['resource3'];
 					UsuarioService::getProductosByUsuario($where,$order,$pagination);
 					
+				}else if($_GET['resource2']=="rol"){
+					$params = SupportResource::getParams(3);
+					$order = SupportResource::extractOrder($params);
+					$pagination = SupportResource::extractPagination($params);
+					$where =  SupportResource::extractWhere($params);
+						
+					$where['u.dni'] = $_GET['resource3'];
+					$where['ur.usuario'] = "u.dni";
+					UsuarioService::getRolByUsuario($where,$order,$pagination);
 				}
 				break;
+				
 			default:
-				echo "Metodo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -85,7 +95,7 @@ class UsuarioResource{
 				$dataArray = UsuarioService::updateUsuario($objArr,$_GET['resource2']);
 				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				
 				break;
 		}
@@ -98,8 +108,13 @@ class UsuarioResource{
 			case '1':   // usuario
 				$dataArray = UsuarioService::insertUsuario($objArr);
 				break;
+			case '5':
+				if($_GET['resource2'] == "rol") {
+					$dataArray = UsuarioService::insertRolUsuario($objArr);
+				}
+				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -110,8 +125,15 @@ class UsuarioResource{
 			case '2':   //usuario/id
 				$dataArray = UsuarioService::deleteUsuario($_GET['resource2']);
 				break;
+				
+			case '6':
+				if($_GET['resource2']=="rol") {
+					$dataArray = UsuarioService::deleteRolUsuario($_GET['resource3'], $_GET['resource4']);
+				}
+				break;
+				
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 		
 				break;
 		}

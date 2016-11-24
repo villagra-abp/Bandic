@@ -7,7 +7,7 @@ require_once "./Dao/MasterDAO.php";
 /*HABRA� QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
 class PermisoService {
 	public static function getPermisos ($where,$order,$pagination) {
-		$dataArray = MasterDAO::getAll("permisos",null,$where,$order,$pagination);
+		$dataArray = MasterDAO::getAll("permiso",null,$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	

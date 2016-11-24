@@ -17,3 +17,6 @@ RewriteRule ^([a-zA-Z_-]*)/([0-9a-zA-Z_-]+)$ index.php?resource=$1&resource2=$2 
 
 # Con tres recursos Ej:SampleWS/recurso1/recurso2/6 o /recurso1/7/4 (el ultimo siempre es numero) 
 RewriteRule ^([a-zA-Z_-]*)/([0-9a-zA-Z_-]*)/([0-9a-zA-Z_-]+)$ index.php?resource=$1&resource2=$2&resource3=$3 [L,QSA]
+
+# Con cuatro recursos Ej:SampleWS/recurso1/recurso2/6 o /recurso1/7/4 (el ultimo siempre es numero) 
+RewriteRule ^([a-zA-Z_-]*)/([0-9a-zA-Z_-]*)/([0-9a-zA-Z_-]+)/([0-9a-zA-Z_-]*)$ index.php?resource=$1&resource2=$2&resource3=$3&resource4=$4 [L,QSA]

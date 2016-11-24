@@ -11,7 +11,7 @@ class LoginResource{
 			//echo json_encode($objArr);
 		}
 		else{
-			echo "Método no soportado";
+			header('HTTP/1.1 501 Not Implemented');
 		}
 	}
 }

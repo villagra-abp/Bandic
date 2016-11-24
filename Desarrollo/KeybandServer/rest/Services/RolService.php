@@ -11,11 +11,11 @@ class RolService {
 		echo json_encode($dataArray);
 	}
 	
-	public static function getPulseraById ($id) {
+	public static function getRolById ($id) {
 		$primaries = [
 				"id" => $id,
 		];
-		$dataArray = MasterDAO::getById('pulsera',null,$primaries);
+		$dataArray = MasterDAO::getById('rol',null,$primaries);
 		echo json_encode($dataArray);
 	}
 	
@@ -36,6 +36,26 @@ class RolService {
 				"id" => $id
 		];
 		$dataArray = MasterDAO::delete('rol',$primaries);
+		echo json_encode($dataArray);
+	}
+	
+	public static function getPermisoByRol($where , $order , $pagination) {
+		$columnas = ['*'];
+		$table = ['rol_permiso as ro','rol as r'];
+		//$table = ['rol_permiso as ro','rol as r', 'permiso as p'];
+	
+		$dataArray = MasterDAO::getAll($table , $columnas , $where , $order , $pagination);
+		echo json_encode($dataArray);
+	}
+	
+	public static function insertPermisoRol($obj) {
+		$dataArray = MasterDAO::insert('rol_permiso', $obj);
+		echo json_encode($dataArray);
+	}
+	
+	public static function deletePermisoRol($rol, $permiso) {
+		$primaries = [ "rol" => $rol , "permiso" => $permiso ];
+		$dataArray = MasterDAO::delete('rol_permiso' , $primaries);
 		echo json_encode($dataArray);
 	}
 

@@ -1,47 +1,10 @@
-<!DOCTYPE html>
-<html>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-<script src='../../build/pdfmake.min.js'></script>
-<script src='../../build/vfs_fonts.js'></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script>
-<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
-
-<body ng-app="myApp">
-	<div class="container banner-container">
-			<nav class="navbar navbar-default" ng-init="navbarCollapsed=true">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar">
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span> 
-							<span class="icon-bar"></span>
-						</button>
-						<span class="navbar-brand">Cliente de pruebas</span>
-					</div>
-					<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-						<ul class="nav navbar-nav">
-							<li><a href ="angular.html">Inicio</a></li>
-							<li><a href ="usuario.html">Usuario</a></li>
-							<li><a href ="pulsera.html">Pulsera</a></li>
-							<li><a href ="producto.html">Producto</a></li>
-							<li><a href ="categoria.html">Categoria</a></li>
-							<li><a href ="estancia.html">Estancia</a></li>
-							<li><a href ="rol.html">Rol</a></li>
-							<li><a href ="login.html">Login</a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</div>	
-		
 	<div ng-controller="ControllerProducto">
 		<input type="text" placeholder="nombre producto" ng-model="nuevoProducto">
 		<input type="text" placeholder="categoria" ng-model="categoria">
 		<input type="file" id="fileToUpload" ngf-select="onFileSelect($file)">
 		<button ng-click="addProducto();">subir producto</button>
 		<br><br>
+		<h3>ESTO NO EDITA NI BORRA NA</h3>
 		<input type="text" placeholder="editar producto" ng-model="editar">
 		<input type="file" id="fileToUploadEdit" ngf-select="onFileSelectEdit($file)">
 		<button ng-click="editProducto();">editar producto</button>
@@ -59,7 +22,3 @@
 		<input type="text" placeholder="IDticket" ng-model="ticket">
 		<button ng-click="descargarTicket();">Descargar ticket</button>
 	</div>
-	
-<script src="../static/js/script.js"></script>
-</body>
-</html>

@@ -1,340 +1,3 @@
-var app = angular.module("myApp", ['ngFileUpload']);
-
-var config;
-
-app.controller("myCtrl", function($scope,$http) {
-	
-    /* ************************************ LOGIN - TOKEN  *******************************************/
-	
-	function cambiarToken($token){
-	    	config = {headers: {
-	       	  	'Authorization': $token
-	       	  }
-	        };
-	 }
-	$http.get("../../rest/pulsera").then(function(response){
-		console.log(response);
-		$scope.respuestaPulseras = response;
-	});
-  
-    $scope.login = function(){
-            var enviar = {"dni":$scope.dni,"password":$scope.password};  
-            $http.post("../../rest/login",enviar).success(function(response,headers){     
-            	console.log(response);  
-              //$scope.respuesta = response; 
-            	sessionStorage["usertoken"] = response[0].token;
-            	cambiarToken(sessionStorage["usertoken"]);
-                console.log(sessionStorage["usertoken"]); 
-            });
-            
-    }
-     
-    $scope.listarUsuarios = function(){
-  
-        $http.get("../../rest/usuario",config).success(function(response){     
-        	console.log(config); 
-        	console.log(response);
-        	sessionStorage["usertoken"] = response[1].token;
-        	cambiarToken(sessionStorage["usertoken"]);
-        	//console.log(sessionStorage["usertoken"]); 
-        	
-        	$scope.respuesta = response; 
-        });
-    }
-    
-    /* ************************************ USUARIO *******************************************/
-    
-	var dnirandom = Math.floor((Math.random() * 10000) + 1);
-
-    $scope.nombre=0;
-    $scope.addUsuario = function() {
-    	
-    	var dnirandom = Math.floor((Math.random() * 10000) + 1);
-        var enviar = {"dni":dnirandom,"nombre":"Prueba"	,"apellidos":"deSamu",
-        	    "sexo":"F","pais":"Espa\u00f1a","localidad":"San Vicente",
-        	    "provincia":"Alicante","rol":"Administrador","empleado":true,
-        	    "email":dnirandom+"@gmail.com","fecha_nacimiento":"2002-12-10","fecha_entrada":"2016-10-09","fecha_salida":"2016-11-03","token":null,"password":"1"};
-    	$http.put("../../rest/usuario",enviar).then(function(response){
-	    	console.log(response);
-	    	$scope.nombre++;
-	    	$scope.respuesta=response;
-	    	getUsuarios();
-    	});
-    };
-    
-    function getUsuarios(){
-    	$http.get("../../rest/usuario").then(function(response){
-    		console.log(response);
-    		$scope.respuestaUsuarios = response;
-    	});
-    }
-    
-    $scope.editUsuario = function() {
-    	var camporandom = Math.floor((Math.random() * 10000) + 1);
-        var enviar = {"dni":$scope.dni,"nombre":$scope.nombre,"apellidos":$scope.apellidos,
-        	    "pais":$scope.pais,"localidad":$scope.localidad,
-        	    "provincia":$scope.localidad,"empleado":"f","email":$scope.email};
-    	    $http.post("../../rest/usuario/"+$scope.dni,enviar).then(function(response){
-    	console.log(response);
-    	$scope.respuesta=response;
-    	getUsuarios();
-
-    });	
-    }
-    
-    $scope.deleteUsuario = function($dni) {
-    	$http.delete("../../rest/usuario/"+$dni).then(function(response){
-    		console.log(response);
-        	$scope.respuesta=response;
-        	getUsuarios();
-
-    	});
-    	
-    }
-    
-    /* ************************************ PULSERA *******************************************/
-    
-    $scope.addPulsera = function() {
-    	var dnirandom = Math.floor((Math.random() * 10000) + 1);
-        var enviar = {"id": dnirandom, "usuario": '', "estado_pulsera": "Desactivada"};
-    	$http.put("../../rest/pulsera",enviar).then(function(response){
-	    	console.log(response);
-	    	$scope.insetarPulsera=response;
-	    	getPulseras();
-    	});
-    };
-    
-    function getPulseras(){
-    	$http.get("../../rest/pulsera").then(function(response){
-    		console.log(response);
-    		$scope.respuestaPulseras = response;
-    	});
-    }
-    
-	 $scope.editPulsera = function() {
-	    	
-	        var enviar = {"id":$scope.idPulsera,"estado_pulsera": $scope.estado_pulsera};
-	    	$http.post("../../rest/pulsera/"+$scope.idPulsera,enviar).then(function(response){
-		    	console.log(response);
-		    	$scope.respuesta=response;
-		    	getPulseras();
-	
-	    	});
-	    	    
-	    }
-	 
-	
-	 $scope.deletePulsera = function(id) {
-	 	if(confirmDelete("pulsera", "id", id)){
-	 		$http.delete("../../rest/pulsera/"+id).then(function(response){
-	     		console.log(response);
-	         	$scope.respuesta=response;
-	         	getPulseras();
-	
-	     	});
-	 	}
-	 }
-	 
-	 function confirmDelete(tabla, id, valor) {
-	        var r = confirm("Seguro que quieres eliminar " + tabla + " con " + id + ": " + valor);
-	        if (r){
-	           	
-	            return true;
-	            getPulseras();
-	        }
-	        else
-	            return false;
-	    }
-	 
-	  /* ************************************ ROL *******************************************/
-    
-	 function getRol(){
-		 $http.get("../../rest/rol").then(function(response){
-	    		console.log(response);
-	    		$scope.respuestaRol = response;
-	    	});
-	 }
-	 
-	 
-    $scope.addRol = function() {
-        var enviar = {"id": dnirandom, "empleado": true};
-    	$http.put("../../rest/rol",enviar).then(function(response){
-	    	console.log(response);
-	    	$scope.insetarRol=response;
-	    	getRol();
-    	});
-    };
-    
-    $scope.editRol = function() {
-        var enviar = {"id":$scope.idRol,"empleado": $scope.empleadoRol};
-    	$http.post("../../rest/rol/"+$scope.idRol,enviar).then(function(response){
-	    	console.log(response);
-	    	$scope.respuesta=response;
-	    	getRol();
-    	});
-    	    
-    }
-  
-    $scope.deleteRol = function(id) {
-    	$http.delete("../../rest/rol/"+id).then(function(response){
-    		console.log(response);
-        	$scope.respuesta=response;
-        	getRol();
-    	});
-    }
-    
-    /* ************************************ PERMISOS *******************************************/
-    $scope.comprobarPermiso = function(){
-    	$http.get("../../rest/permiso/"+ $scope.usuario+ "/" + $scope.accion + "").then(function(response){
-    		console.log(response);
-    		$scope.respuestaPermisos = response;
-    	});
-    }
-    
-    /* ************************************ ESTANCIA *******************************************/
-    
-    function getEstancias(){
-    	$http.get("../../rest/estancia").then(function(response){
-    		console.log(response);
-    		$scope.respuestaEstancia = response;
-    	});
-    }
-    
-    $scope.addEstancia = function() {
-    	
-    	var idrandom = Math.floor((Math.random() * 10000) + 1);
-    	var enviar = {"id":$scope.id + idrandom, "capacidad":$scope.capacidad, "publica":$scope.publica}; 
-    	
-    	$http.put("../../rest/estancia",enviar).then(function(response){
-    	console.log(response);
-    	getEstancias();
-    });
-    	
-    };
-    
-    $scope.editEstancia = function() {
-   	
-    	var enviar = {"id":$scope.idedit, "capacidad":$scope.capacidad, "publica":$scope.publica}; 
-
-    	$http.post("../../rest/estancia/"+$scope.idedit,enviar).then(function(response){
-    	console.log(response);
-    	$scope.respuesta=response;
-    	getEstancias();
-
-    	    });	
-    }
-    
-    $scope.deleteEstancia = function($id) {
-    	$http.delete("../../rest/estancia/"+$id).then(function(response){
-    		console.log(response);
-        	$scope.respuesta=response;
-        	getEstancias();
-        	
-    	});
-    	
-    }
-    $scope.getAforoById = function() {
-    	$http.get("../../rest/estancia/aforo/"+$scope.idaforo).then(function(response){
-    		console.log(response);
-        	$scope.respuestaAforo=response;
-
-    	});
-    	
-    }
-    
-    /* ************************************ NG-INIT PRUEBA *******************************************/
-  
-    $scope.pruebas = function(){
-    	$http.get("../../rest/usuario").then(function(response){
-    		console.log(response);
-    		$scope.respuestaUsuarios = response;
-    	});
-    	$http.get("../../rest/pulsera").then(function(response){
-    		console.log(response);
-    		$scope.respuestaPulseras = response;
-    	});
-    	$http.get("../../rest/rol").then(function(response){
-    		console.log(response);
-    		$scope.respuestaRol = response;
-    	});
-    	$http.get("../../rest/estancia").then(function(response){
-    		console.log(response);
-    		$scope.respuestaEstancia = response;
-    	});
-    	$http.get("../../rest/pulsera/estado").then(function(response){
-    		console.log(response);
-    		$scope.respuestaEstado = response;
-    	});
-    	$http.get("../../rest/permiso").then(function(response){
-    		console.log(response);
-    		$scope.respuestaPermiso = response;
-    	});
-    	
-    	 /**********EstadosPulsera**************/
-        /*departamentoResource.findAllOrderByName(function(data){
-    		$scope.estadosPulsera = data;
-    	});*/
-    }
-});
-
-/* ************************************ CATEGORIA *******************************************/
-
-app.controller("ControllerCat", function($scope, $http) {
-	
-	$scope.getCategoria = function(){
-		 $http.get("../../rest/categoria").then(function(response){
-	    		console.log(response);
-	    		$scope.respuestaCategoria = response;
-	    	});
-	 }
-	
-	function getCategoria(){
-		 $http.get("../../rest/categoria").then(function(response){
-	    		console.log(response);
-	    		$scope.respuestaCategoria = response;
-	    	});
-	}
-	
-	 $scope.addCategoria = function() {
-		 var comestible = $scope.comestible;
-		 if($scope.comestible == undefined)
-			 $scope.comestible = "false";
-		 var enviar = {"id":$scope.nuevaCategoria,"comestible":$scope.comestible};
-		 $http.put("../../rest/producto/categoria",enviar).then(function(response){
-			 console.log(response);
-			 $scope.respuesta=response;
-			getCategoria();
-		 });		 
-	 }
-	 
-	 $scope.newNombre = 1;
-	 
-	 $scope.editCategoria = function() {
-		 var comestible = Math.round(Math.random());
-		 
-		 if(comestible == 0)
-			 var enviar = {"comestible":"true"};
-		 else
-			 var enviar = {"comestible":"false"};
-
-		 $http.post("../../rest/producto/categoria/"+$scope.editCat,enviar).then(function(response){
-			 console.log(response);
-			 $scope.respuesta=response;
-			 $scope.newNombre++;
-			 getCategoria();
-		 });		 
-	 }
-	 
-	 $scope.deleteCategoria = function($id) {
-		 $http.delete("../../rest/producto/categoria/"+$id).then(function(response){
-			 console.log(response);
-			 $scope.respuesta=response;
-			 getCategoria();
-		 });
-	 }
-});
-
-
 /* ************************************ PRODUCTO *******************************************/
 
 app.controller("ControllerProducto", function($scope, $http, Upload) {
@@ -344,7 +7,7 @@ app.controller("ControllerProducto", function($scope, $http, Upload) {
 		console.log(file);
 		    if (!file) return;
 		    Upload.upload({
-		        url: '../../rest/upload.php/?id='+id+'&&method=put',
+		        url: '../rest/upload.php/?id='+id+'&&method=put',
 		        data: {file: file, username: $scope.username}
 		      }).then(function(resp) {
 		        // file is uploaded successfully
@@ -364,7 +27,7 @@ app.controller("ControllerProducto", function($scope, $http, Upload) {
 				"cantidad_disponible": 3,"categoria_producto":$scope.categoria,"estancia":null,"imagen":filename,
 				"imagen_redes":filename};
 		
-		 $http.put("../../rest/producto",enviar)
+		 $http.put("../rest/producto",enviar)
 		 
 		 .success(function(response){
 			 console.log(response);
@@ -377,7 +40,7 @@ app.controller("ControllerProducto", function($scope, $http, Upload) {
 		console.log(file);
 		    if (!file) return;
 		    Upload.upload({
-		        url: '../../rest/upload.php/?id='+$scope.editar+'&&method=post',
+		        url: '../rest/upload.php/?id='+$scope.editar+'&&method=post',
 		        data: {file: file, username: $scope.username}
 		      }).then(function(resp) {
 		        // file is uploaded successfully
@@ -393,7 +56,7 @@ app.controller("ControllerProducto", function($scope, $http, Upload) {
 		var enviar = {"descripcion":"un maravilloso producto MODIFICADO del hotel","imagen":filename,
 				"imagen_redes":filename};
 		
-		$http.post("../../rest/producto/"+$scope.editar,enviar).then(function(response){
+		$http.post("../rest/producto/"+$scope.editar,enviar).then(function(response){
 			 console.log(response);
 			 $scope.respuesta=response;
 			 $scope.newNombre++;
@@ -403,14 +66,14 @@ app.controller("ControllerProducto", function($scope, $http, Upload) {
 
 	$scope.deleteProducto = function() {
 	    Upload.upload({
-	        url: '../../rest/upload.php/?id='+$scope.borrar+'&&method=delete',
+	        url: '../rest/upload.php/?id='+$scope.borrar+'&&method=delete',
 	        data: {file: 'undefined', username: $scope.username}
 	      }).then(function(resp) {
 	        // file is uploaded successfully
 	        console.log(resp.data);
 	      });
 	    
-		$http.delete("../../rest/producto/"+$scope.borrar).then(function(response){
+		$http.delete("../rest/producto/"+$scope.borrar).then(function(response){
 			console.log(response);
 			$scope.respuesta=response;
 		}); 
@@ -420,7 +83,7 @@ app.controller("ControllerProducto", function($scope, $http, Upload) {
 app.controller("AsignarProducto", function($scope,$http) {
 	$scope.asignarProducto = function() {
 		var enviar = {"usuario":$scope.asigUsuario,"producto":$scope.asigProducto};
-		$http.put("../../rest/producto/empleado",enviar).then(function(response){
+		$http.put("../rest/producto/empleado",enviar).then(function(response){
 			 console.log(response);
 			 $scope.respuesta=response;
 		 });
@@ -432,7 +95,7 @@ app.controller("ControllerTicket", function($scope,$http) {
 		var idrandom = Math.floor((Math.random() * 100) + 1);
 		var enviar = {"id":idrandom,"usuario":"48735654B","fecha":"2002-12-10"};
 		
-		$http.put("../../rest/ticket",enviar)
+		$http.put("../rest/ticket",enviar)
 		
 	       .success(function(response){
 	    	   console.log(response);
@@ -442,7 +105,7 @@ app.controller("ControllerTicket", function($scope,$http) {
 	   		var idrandom2 = Math.floor((Math.random() * 1000) + 1);
 	   		enviar = {"id":idrandom2,"ticket":idrandom,"producto":"59","cantidad":"1","precio":2.10};
 	   		
-	   		$http.put("../../rest/lineaticket",enviar).then(function(response){
+	   		$http.put("../rest/lineaticket",enviar).then(function(response){
 	   			 console.log(response);
 	   			 $scope.respuesta=response;
 	   		});
@@ -452,7 +115,7 @@ app.controller("ControllerTicket", function($scope,$http) {
 	   		var idrandom3 = Math.floor((Math.random() * 1000) + 1);
 	   		enviar = {"id":idrandom3,"ticket":idrandom,"producto":"59","cantidad":"1","precio":2.50};
 	   		
-	   		$http.put("../../rest/lineaticket",enviar).then(function(response){
+	   		$http.put("../rest/lineaticket",enviar).then(function(response){
 	   			 console.log(response);
 	   			 $scope.respuesta=response;
 	   		});
@@ -462,7 +125,7 @@ app.controller("ControllerTicket", function($scope,$http) {
 	   		var idrandom4 = Math.floor((Math.random() * 1000) + 1);
 	   		enviar = {"id":idrandom4,"ticket":idrandom,"producto":"59","cantidad":"2","precio":5.10};
 	   		
-	   		$http.put("../../rest/lineaticket",enviar).then(function(response){
+	   		$http.put("../rest/lineaticket",enviar).then(function(response){
 	   			 console.log(response);
 	   			 $scope.respuesta=response;
 	   		});
@@ -472,7 +135,7 @@ app.controller("ControllerTicket", function($scope,$http) {
 	   		var idrandom5 = Math.floor((Math.random() * 1000) + 1);
 	   		enviar = {"id":idrandom5,"ticket":idrandom,"producto":"59","cantidad":"1","precio":2.40};
 	   		
-	   		$http.put("../../rest/lineaticket",enviar).then(function(response){
+	   		$http.put("../rest/lineaticket",enviar).then(function(response){
 	   			 console.log(response);
 	   			 $scope.respuesta=response;
 	   		});
@@ -483,12 +146,12 @@ app.controller("ControllerTicket", function($scope,$http) {
 	}
 	
 	$scope.descargarTicket = function() {
-		$http.get("../../rest/ticket/factura/"+$scope.ticket)
+		$http.get("../rest/ticket/factura/"+$scope.ticket)
 		
 		.success(function(response){
 			console.log(response);
   		
-	    	$http.get("../../rest/ticket/lineafactura/"+$scope.ticket).then(function(response2){
+	    	$http.get("../rest/ticket/lineafactura/"+$scope.ticket).then(function(response2){
 	    		console.log(response2);
 	    		crearFactura(response, response2);
 	    	});

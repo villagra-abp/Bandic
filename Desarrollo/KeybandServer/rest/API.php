@@ -73,7 +73,7 @@ class API {
             	CategoriaResource::methodCategoriaProducto($method,$type);
             	break;
             default:
-                echo 'METODO NOT FOUND';
+            	header('HTTP/1.1 404 Not Found');
                 break;
         }
 
@@ -118,7 +118,8 @@ class API {
     }
     public function isResource($resource){//añadir al array por cada nuevo recurso que se cree
         // TODO comprobar diferencias $array = array("rol","usuario","producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket","carrito");
-        $array = array("usuario","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura");
+    	$array = array("usuario","password","passwordrestore","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo",
+        		"accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura","rol");
         $longitud = count($array);
         for($i=0; $i<$longitud; $i++){
             if($resource==$array[$i])

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<!--  
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>-->
+<script src="static/js/angular/angular.js"></script>
+<script src="static/js/angular/angular-route.js"></script>
+
+<script src='../build/pdfmake.min.js'></script>
+<script src='../build/vfs_fonts.js'></script>
+<!-- 
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+ -->
+ 
+ <link rel="stylesheet" href="static/css/bootstrap/bootstrap.min.css">
+ 
+<script src="static/js/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script>
+<script src="static/js/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
+
+<body ng-app="myApp">
+		<div class="container banner-container">
+			<nav class="navbar navbar-default" ng-init="navbarCollapsed=true">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span> 
+							<span class="icon-bar"></span>
+						</button>
+						<span class="navbar-brand">Cliente de pruebas</span>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+						<ul class="nav navbar-nav">
+							<li><a href ="">Inicio</a></li>
+							<li><a href ="#usuario">Usuario</a></li>
+							<li><a href ="#pulsera">Pulsera</a></li>
+							<li><a href ="#producto">Producto</a></li>
+							<li><a href ="#categoria">Categoria</a></li>
+							<li><a href ="#estancia">Estancia</a></li>
+							<li><a href ="#permiso">Permiso</a></li>
+							<li><a href ="#rol">Rol</a></li>
+							<li><a href ="#login">Login</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+		
+		<!-- page content -->
+        <div ng-view class="container" style="height: 100%"></div>
+        <!-- /page content -->
+		
+
+
+<script src="static/js/MainController.js"></script>
+<script src="static/js/Controllers/UsuarioController.js"></script>
+<script src="static/js/Controllers/PulseraController.js"></script>
+<script src="static/js/Controllers/ProductoController.js"></script>
+<script src="static/js/Controllers/CategoriaController.js"></script>
+<script src="static/js/Controllers/EstanciaController.js"></script>
+<script src="static/js/Controllers/PermisoController.js"></script>
+<script src="static/js/Controllers/RolController.js"></script>
+
+</body>
+</html>

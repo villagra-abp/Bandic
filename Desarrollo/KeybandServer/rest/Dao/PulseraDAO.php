@@ -8,17 +8,13 @@ class PulseraDAO {
 		$dataArray = array();
 	
 			try {
-				//Crear conexion
 				$conection = openConection();
-				//SELECT * FROM "Keyband".usuario where nombre="Manuel" AND sexo='M' ORDER BY nombre ASC LIMIT 15 OFFSET 0
 				$sql = "SELECT * FROM estado_pulsera";
-				//echo $sql;
 				$result = pg_query($conection, $sql);
-					
 				if (!$result) {//Resultado erroneo
-						
+
+					header('HTTP/1.1 500 Resultado erroneo');
 					echo "Ocurrio un error.\n";
-						
 				}else{//Resultado correcto
 					$count = pg_numrows($result);
 					for($i=0; $i<$count; $i++) {
@@ -32,7 +28,6 @@ class PulseraDAO {
 				echo "Excepcion";
 				//throw new Exception ($e->getMessage());
 			}
-	
 			return $dataArray;
 	}
 }

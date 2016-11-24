@@ -20,7 +20,7 @@ class PermisoResource{
 				PermisoResource::deletePermiso($type);
 				break;
 			default://metodo NO soportado
-				echo 'METODO NO SOPORTADO';
+				header('HTTP/1.1 501 Not Implemented');
 				break;
 		}
 	}
@@ -46,7 +46,7 @@ class PermisoResource{
 				PermisoService::getPermisoByUsuario($_GET['resource2'], $_GET['resource3']);
 				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -63,11 +63,11 @@ class PermisoResource{
 						
 				}else{
 					//metodo no soportado
-					echo "M�todo no soportado";
+					header('HTTP/1.1 405 Method Not Allowed');
 				}
 				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 	
 				break;
 		}
@@ -84,7 +84,7 @@ class PermisoResource{
 				$dataArray = PermisoService::insertPermiso($objArr);
 				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -94,7 +94,7 @@ class PermisoResource{
 				$dataArray = PermisoService::deletePermiso($_GET['resource2']);
 				break;
 			default:
-				echo "M�todo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 	
 				break;
 		}

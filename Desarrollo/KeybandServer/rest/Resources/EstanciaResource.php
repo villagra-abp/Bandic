@@ -20,7 +20,7 @@ class EstanciaResource{
 				EstanciaResource::deleteEstancia($type);
 				break;
 			default://metodo NO soportado
-				echo 'METODO NO SOPORTADO';
+				header('HTTP/1.1 501 Not Implemented');
 				break;
 		}
 	}
@@ -30,7 +30,7 @@ class EstanciaResource{
 		switch ($type) {
 			case '1':   //estancia
 				//Cojo los parametros que me han pasado por URL
-				$params = SupportResource::getParams();
+				$params = SupportResource::getParams(1);
 
 				//Extraigo los parametros de order,filtros y de paginacion que me interesan
 				$order = SupportResource::extractOrder($params);
@@ -45,14 +45,14 @@ class EstanciaResource{
 
 			case '5': //estancia/capacidad/id o /estancia/aforo/id
 				if($_GET['resource2']=='capacidad'){
-					EstanciaService::getEstanciaByCapacidad($_GET['resource2'],$_GET['resource3']);
+					EstanciaService::getEstanciaByCapacidad($_GET['resource3']);
 				}
-				else if($_GET['resource2']=='aforo'){
+				else if($_GET['resource2']=='aforo'){	
 					EstanciaService::getAforoByEstancia($_GET['resource3']);
 				}
 				break;
 			default:
-				echo "Metodo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -65,7 +65,7 @@ class EstanciaResource{
 				$dataArray = EstanciaService::insertEstancia($objArr);
 				break;
 			default:
-				echo "Metodo no soportado RESOURCE";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -79,7 +79,7 @@ class EstanciaResource{
 				$dataArray = EstanciaService::updateEstancia($objArr,$_GET['resource2']);
 				break;
 			default:
-				echo "Metodo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 
@@ -91,7 +91,7 @@ class EstanciaResource{
 				$dataArray = EstanciaService::borrarEstancia($_GET['resource2']);
 				break;
 			default:
-				echo "Metodo no soportado";
+				header('HTTP/1.1 405 Method Not Allowed');
 
 				break;
 		}

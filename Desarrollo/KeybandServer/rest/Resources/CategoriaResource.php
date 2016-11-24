@@ -29,10 +29,17 @@ class CategoriaResource{
 	public static function getCategoria($type){
 		//comprobar siempre que haya un recurso de letras que se corresponde a una petición valida, haya uno o muchos casos de ese tipo
 		switch ($type) {
-			case '1':   // usuario
-				CategoriaService::getCategorias();
+			case '1':   // categoria
+				//Cojo los par�metros que me han pasado por URL
+				$params = SupportResource::getParams(1);
+				
+				//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
+				$order = SupportResource::extractOrder($params);
+				$pagination = SupportResource::extractPagination($params);
+				$where = SupportResource::extractWhere($params);
+				CategoriaService::getCategorias($where,$order,$pagination);
 				break;
-			case '2':   //usuario/id
+			case '2':   //categoria/id
 				CategoriaService::getCategoriaById($_GET['resource2']);
 				break;
 			default:

@@ -4,7 +4,8 @@ class PermisoDAO {
 	public static function getPermisoByUsuario($usuario, $permiso){
 		$dataArray = array();
 		if($usuario == "undefined" || $permiso == "undefined"){
-			$dataArray[] = "permiso denegado";
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray[] = "permiso denegado";	//creo que sobra, no es lo mismo paramametros incorrectos que permiso denegado
 		}
 		try {
 			$conection = openConection();
@@ -12,7 +13,7 @@ class PermisoDAO {
 			$result = pg_query($conection, $sql);
 				
 			if (!$result) {
-		
+				header('HTTP/1.1 500 Resultado erroneo');
 				echo "Ocurrio un error.\n";
 		
 			}else{
@@ -21,7 +22,6 @@ class PermisoDAO {
 					$dataArray[] = "ok";
 				else
 					$dataArray[] = "permiso denegado";
-				
 				/*for($i=0; $i<$count; $i++) {
 					$row = pg_fetch_assoc ($result);
 					$dataArray[] = $row;

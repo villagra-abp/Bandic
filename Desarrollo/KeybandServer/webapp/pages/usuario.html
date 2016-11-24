@@ -1,125 +1,174 @@
-<!DOCTYPE html>
-<html>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script>
-<script src="../static/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
-
-<body ng-app="myApp">
-	<div ng-controller="myCtrl" ng-init = pruebas()>	
-			<div class="container banner-container">
-			<nav class="navbar navbar-default" ng-init="navbarCollapsed=true">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar">
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span> 
-							<span class="icon-bar"></span>
-						</button>
-						<span class="navbar-brand">Cliente de pruebas</span>
-					</div>
-					<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-						<ul class="nav navbar-nav">
-							<li><a href ="angular.html">Inicio</a></li>
-							<li><a href ="usuario.html">Usuario</a></li>
-							<li><a href ="pulsera.html">Pulsera</a></li>
-							<li><a href ="producto.html">Producto</a></li>
-							<li><a href ="categoria.html">Categoria</a></li>
-							<li><a href ="estancia.html">Estancia</a></li>
-							<li><a href ="rol.html">Rol</a></li>
-							<li><a href ="login.html">Login</a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
+<div ng-controller="UsuarioController" ng-init="listarUsuarios()">
+	<h1>Usuarios</h1>
+	<div class="panel-body">
+		<button ng-click="listarUsuarios()" class="btn btn-default btn-xs" title="Listar">Actualizar lista usuarios
+			<span class="glyphicon glyphicon-new"></span>
+		</button>
+		<div class="table-responsive">
+			<table Class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>				
+						<th class="text-center column80">Acciones</th>
+						<th class="text-center">DNI</th>
+						<th class="text-center">Nombre</th>
+						<th class="text-center">Apellidos</th>
+						<th class="text-center">Email</th>
+						<th class="text-center">Empleado</th>
+						<th class="text-center">Localidad</th>
+						<th class="text-center">Provincia</th>
+						<th class="text-center">Pais</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="usuario in respuesta">
+						<td>
+							<button ng-click="deleteUsuario(usuario.dni)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+						</td>
+						<td>{{usuario.dni}}</td>
+						<td>{{usuario.nombre}}</td>
+						<td>{{usuario.apellidos}}</td>
+						<td>{{usuario.email}}</td>
+						<td>{{usuario.empleado}}</td>
+						<td>{{usuario.localidad}}</td>
+						<td>{{usuario.provincia}}</td>
+						<td>{{usuario.pais}}</td>
+					</tr>
+				</tbody>
+			</table> 
 		</div>
-		<h1>Usuarios</h1>
-			<div class="panel-body">
-				<button ng-click="addUsuario()" class="btn btn-default btn-xs" title="Detalle">Nuevo usuario
-					<span class="glyphicon glyphicon-new"></span>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<span class="panel-title">Busqueda by ID</span> 
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+					<label class="control-label">DNI</label>
+					<input type="text" ng-model="byid" />
+			</div>
+			<div class="pull-right">
+				<button type="button" ng-click="usuarioById();">
+					<span class="glyphicon glyphicon-ok-sign margin" />Get
 				</button>
-				<div class="table-responsive">
-					<table Class="table table-striped table-bordered table-hover">
-						<thead>
-							<tr>				
-								<th class="text-center column80">Acciones</th>
-								<th class="text-center">DNI</th>
-								<th class="text-center">Nombre</th>
-								<th class="text-center">Apellidos</th>
-								<th class="text-center">Email</th>
-								<th class="text-center">Empleado</th>
-								<th class="text-center">Localidad</th>
-								<th class="text-center">Provincia</th>
-								<th class="text-center">Pais</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="usuario in respuestaUsuarios.data">
-								<td>
-									<button ng-click="deleteUsuario(usuario.dni)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
-										<span class="glyphicon glyphicon-remove"></span>
-									</button>
-								</td>
-								<td>{{usuario.dni}}</td>
-								<td>{{usuario.nombre}}</td>
-								<td>{{usuario.apellidos}}</td>
-								<td>{{usuario.email}}</td>
-								<td>{{usuario.empleado}}</td>
-								<td>{{usuario.localidad}}</td>
-								<td>{{usuario.provincia}}</td>
-								<td>{{usuario.pais}}</td>
-							</tr>
-						</tbody>
-					</table> 
+			</div>
+		</div>
+		<div class="container">
+			<form>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="panel-title">Modificacion Usuario</span> 
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+								<label class="control-label">DNI</label>
+								<input type="text" ng-model="dni" />
+								
+								<label class="control-label">Nombre</label>
+								<input type="text" ng-model="nombre" />
+								
+								<label class="control-label">Apellidos</label>
+								<input type="text" ng-model="apellidos" />
+								
+								<label class="control-label">Email</label>
+								<input type="text" ng-model="email" />
+								
+								<label class="control-label">Empleado</label>
+								<input type="text" ng-model="empleado" />
+								
+								<label class="control-label">Localidad</label>
+								<input type="text" ng-model="localidad" />
+								
+								<label class="control-label">Provincia</label>
+								<input type="text" ng-model="provincia" />
+								
+								<label class="control-label">Pais</label>
+								<input type="text" ng-model="pais" />
+								
+								<label class="control-label">Sexo</label>
+								<input type="text" ng-model="sexo" />
+	
+								<label class="control-label">Estancia</label>
+								<input type="text" ng-model="estancia" />
+								
+								<label class="control-label">Fecha de nacimiento</label>
+								<input type="text" ng-model="fecha" />
+						</div>
+						<div class="pull-right">
+							<button type="button" ng-click="editUsuario()">
+								<span class="glyphicon glyphicon-ok-sign margin" />Editar
+							</button>
+							<button type="button" ng-click="addUsuario()">
+								<span class="glyphicon glyphicon-ok-sign margin" />Nuevo
+							</button>
+							<button type="button" ng-click="filtrarUsuarios()">
+								<span class="glyphicon glyphicon-ok-sign margin" />Filtrar
+							</button>
+						</div>
+					</div>
+				<div class="panel-footer">							
+					<label class="control-label">order</label>
+					<input type="text" ng-model="order" />
+								<label class="control-label">by</label>
+					<input type="text" ng-model="by" />
+												<label class="control-label">initrow</label>
+					<input type="text" ng-model="initrow" />
+												<label class="control-label">pagesize</label>
+					<input type="text" ng-model="pagesize" />
 				</div>
 			</div>
-		
-
+		</form>
+	</div>	
+</div>
 <div class="container">
 	<form>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<span class="panel-title">Modificacion Usuario</span> 
+				<span class="panel-title">Listar roles de usuarios</span> 
 			</div>
 			<div class="panel-body">
-				<div class="form-group">
-						<label class="control-label">DNI</label>
-						<input type="text" ng-model="dni" />
-						
-						<label class="control-label">Nombre</label>
-						<input type="text" ng-model="nombre" />
-						
-						<label class="control-label">Apellidos</label>
-						<input type="text" ng-model="apellidos" />
-						
-						<label class="control-label">Email</label>
-						<input type="text" ng-model="email" />
-						
-						<label class="control-label">Empleado</label>
-						<input type="text" ng-model="empleado" />
-						
-						<label class="control-label">Localidad</label>
-						<input type="text" ng-model="localidad" />
-						
-						<label class="control-label">Provincia</label>
-						<input type="text" ng-model="provincia" />
-						
-						<label class="control-label">Pais</label>
-						<input type="text" ng-model="pais" />
-						
-				</div>
-				<div class="pull-right">
-					<button type="button" ng-click="editUsuario()">
-						<span class="glyphicon glyphicon-ok-sign margin" />Guardar
-					</button>
-				</div>
+				<label class="control-label">Dni</label>
+				<input type="text" ng-model="dni" />
+				<button type="button" ng-click="getRoles()">
+					<span class="glyphicon glyphicon-ok-sign margin" />Listar roles
+				</button>
+			</div>
+			<div class="table-responsive">
+				<table Class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>		
+							<th class="text-center">Roles</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="rol in roles.data">
+							<td>{{rol.rol}}</td>
+						</tr>
+					</tbody>
+				</table> 
 			</div>
 		</div>
 	</form>
 </div>
-
-<script src="../static/js/script.js"></script>
-</body>
-</html>
-
+<div class="container">
+	<form>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="panel-title">Asignar roles a usuario</span> 
+			</div>
+			<div class="panel-body">
+				<label class="control-label">DNI</label>
+				<input type="text" ng-model="dniRol" />
+				<label class="control-label">Rol</label>
+				<input type="text" ng-model="rol" />
+				<button type="button" ng-click="addRol()">
+					<span class="glyphicon glyphicon-ok-sign margin" />Añadir rol
+				</button>
+				<button type="button" ng-click="deleteRol()">
+					<span class="glyphicon glyphicon-ok-sign margin" />Eliminar rol
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

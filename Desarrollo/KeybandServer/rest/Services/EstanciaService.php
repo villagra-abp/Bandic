@@ -7,16 +7,22 @@ require_once "./Dao/EstanciaDAO.php";
 /*HABRA� QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
 class EstanciaService {
 	public static function getEstancias ($where,$order,$pagination) {
-		$dataArray = MasterDAO::getAll('estancia',null,$where,$order,$pagination);
+		$dataArray = MasterDAO::getAll('estancia',['id'],$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	
 	public static function getEstanciaById ($id) {
-		$primaries = [
-				"id" => $id,
-		];
-		$dataArray = MasterDAO::getById('estancia',null,$primaries);
-		echo json_encode($dataArray);
+		echo json_encode($id);
+		if($id == ""){
+			header('HTTP/1.1 200 No ha introducido ID');
+		}
+		else{
+			$primaries = [
+					"id" => $id,
+			];
+			$dataArray = MasterDAO::getById('estancia',null,$primaries);
+			echo json_encode($dataArray);
+		}
 	}
 	
 	public static function getAforoByEstancia ($id) {
@@ -33,16 +39,40 @@ class EstanciaService {
 	}
 	
 	public static function insertEstancia($obj) {
-		$dataArray = MasterDAO::insert('estancia',$obj);
-		echo json_encode($dataArray);
+		if($obj['id'] == null || $obj['capacidad'] == null){
+			header('HTTP/1.1 200 No ha introducido ID/Capacidad');
+		}
+		else{
+			$primaries = [
+					"id" => $obj['id'],
+			];
+			$dataArray2 = MasterDAO::getById('estancia',null,$primaries);
+			if(count($dataArray2)!=0){
+				header('HTTP/1.1 200 ID que ya existe');
+			}
+			else{
+				$dataArray = MasterDAO::insert('estancia',$obj);
+				echo json_encode($dataArray);
+			}
+		}
 	}
 	
 	public static function updateEstancia($obj,$id) {
-		$primaries = [
-			"id" => $id
-		];
-		$dataArray = MasterDAO::update('estancia',$obj,$primaries);
-		echo json_encode($dataArray);
+		if($obj['id'] == null || $id == null ){
+			header('HTTP/1.1 200 No ha introducido ningun parametro');
+		}
+		else{
+			if($obj['capacidad'] == null){
+				header('HTTP/1.1 200 No ha introducido capacidad');
+			}
+			else{
+				$primaries = [
+					"id" => $id
+				];
+				$dataArray = MasterDAO::update('estancia',$obj,$primaries);
+				echo json_encode($dataArray);
+			}
+		}
 	}
 	
 	public static function borrarEstancia($id) {
