@@ -1,0 +1,27 @@
+<h2>Detalle de Estancia</h2>
+<div ng-controller="EstanciaController"  ng-init="getDetallesEstancia()">
+	 <ul ng-repeat="detalle in respuestaDetalle.data">
+		<li><strong>Estancia: </strong>{{detalle.id}}</li>
+		<li><strong>Descripcion: </strong>{{detalle.descripcion}}</li>
+		<li><strong>Capacidad: </strong>{{detalle.capacidad}}</li>
+	</ul>
+	<h3> Historico por meses </h3>
+	<div class="panel-body">
+        <div class="table-responsive">
+            <table Class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>    
+                        <th class="text-center">Mes</th>                
+                        <th class="text-center">Asistencia</th>        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="datosmes in respuestaMes">
+                        <td>{{datosmes.mes}}</td>
+                        <td>{{datosmes.visitas}}</td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>

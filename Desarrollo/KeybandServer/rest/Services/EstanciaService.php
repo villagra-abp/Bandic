@@ -1,10 +1,8 @@
 <?php
 require_once "./Dao/MasterDAO.php";
 require_once "./Dao/EstanciaDAO.php";
-
+require_once "SupportService.php";
 /***********************************************USUARIO Service****************************************/
-/*AQU� LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
-/*HABRA� QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
 class EstanciaService {
 	public static function getEstancias ($where,$order,$pagination) {
 		$dataArray = MasterDAO::getAll('estancia',['id'],$where,$order,$pagination);
@@ -12,7 +10,6 @@ class EstanciaService {
 	}
 	
 	public static function getEstanciaById ($id) {
-		echo json_encode($id);
 		if($id == ""){
 			header('HTTP/1.1 200 No ha introducido ID');
 		}
@@ -30,48 +27,50 @@ class EstanciaService {
 		echo json_encode($dataArray); 
 	}
 	
-	public static function getEstanciaByCapacidad ($capacidad,$id) {
-		$primaries = [
-				"id" => $id,
-		];
-		$dataArray = MasterDAO::getById('estancia',["capacidad"],$primaries);
-		echo json_encode($dataArray); 
+	public static function getAforoByMes ($id) {
+		$dataArray = EstanciaDAO::getAforoByMes($id);
+		echo json_encode($dataArray);
+	}
+	
+	public static function getEstanciaByCapacidad ($id) {
+		if($id == 'undefined')
+			header('HTTP/1.1 200 No ha introducido estancia');
+			else{
+				$primaries = [
+						"id" => $id,
+				];
+				$dataArray = MasterDAO::getById('estancia',["capacidad", "id"],$primaries);
+				echo json_encode($dataArray);
+			}
 	}
 	
 	public static function insertEstancia($obj) {
-		if($obj['id'] == null || $obj['capacidad'] == null){
-			header('HTTP/1.1 200 No ha introducido ID/Capacidad');
-		}
-		else{
-			$primaries = [
-					"id" => $obj['id'],
-			];
-			$dataArray2 = MasterDAO::getById('estancia',null,$primaries);
-			if(count($dataArray2)!=0){
-				header('HTTP/1.1 200 ID que ya existe');
-			}
-			else{
-				$dataArray = MasterDAO::insert('estancia',$obj);
-				echo json_encode($dataArray);
-			}
+		$primaries = [
+				"id" => $id
+		];
+	
+		if(SupportService::IdValido('estancia',$primaries,"Ya hay una estancia con ese nombre")){
+			//echo json_encode($obj['id']);
+			$dataArray = MasterDAO::insert('estancia',$obj);
+			echo json_encode($dataArray);
 		}
 	}
 	
 	public static function updateEstancia($obj,$id) {
-		if($obj['id'] == null || $id == null ){
-			header('HTTP/1.1 200 No ha introducido ningun parametro');
-		}
-		else{
-			if($obj['capacidad'] == null){
-				header('HTTP/1.1 200 No ha introducido capacidad');
-			}
-			else{
-				$primaries = [
-					"id" => $id
-				];
+		$primaries = [
+			"id" => $id
+		];
+		if($obj['id']!=$id){	//si intento modificar el id
+			$primariesaux = [
+					"id" => $obj['id']
+			];
+			if(SupportService::IdValido('estancia', $primariesaux,"Ya hay una categoria con ese nombre")){
 				$dataArray = MasterDAO::update('estancia',$obj,$primaries);
 				echo json_encode($dataArray);
 			}
+		}else{
+			$dataArray = MasterDAO::update('estancia',$obj,$primaries);
+			echo json_encode($dataArray);
 		}
 	}
 	
@@ -82,6 +81,5 @@ class EstanciaService {
 		$dataArray = MasterDAO::delete('estancia',$primaries);
 		echo json_encode($dataArray);
 	}
-
 }
 ?>

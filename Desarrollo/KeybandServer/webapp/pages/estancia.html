@@ -21,6 +21,11 @@
 									<button ng-click="deleteEstancia(estancia.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
 										<span class="glyphicon glyphicon-remove"></span>
 									</button>
+									<a href="#detalleEstancia/{{estancia.id}}">
+										<button ng-click="" class="btn btn-default btn-xs confirmation-modal" title="Detalle">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</a>
 								</td>
 								<td>{{estancia.id}}</td>
 							</tr>
@@ -32,6 +37,12 @@
 		    <label for="inputEmail3" class="col-sm-2 control-label">Identificador</label>
 		    <div class="col-sm-4">
 		      <input type="text" ng-model="id" class="form-control" id="inputEmail3" placeholder="Identificador">
+		    </div>
+		  </div>
+		   <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-2 control-label">Descripción</label>
+		    <div class="col-sm-4">
+		      <input type="text" ng-model="descripcion" class="form-control" id="inputDescripcion" placeholder="Descripcion">
 		    </div>
 		  </div>
 		  <div class="form-group">
@@ -53,6 +64,22 @@
 		    </div>
 		  </div>
 		</form>
+		
+		<h2> Estancia por identificador </h2>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-2 control-label">Identificador de estancia</label>
+		    <div class="col-sm-4">
+		      <input type="text" ng-model="byid" class="form-control" id="inputEmail3" placeholder="Introduzca ID de la estancia">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-6 col-sm-1">
+		      <button ng-click="getEstanciaById()" type="submit" class="btn btn-default">Buscar</button>
+		    </div>
+		  </div>	
+		</form>
+		
 		<h2> Ver aforo de una estancia </h2>
 		<form class="form-horizontal">
 		  <div class="form-group">
@@ -72,15 +99,49 @@
 						<thead>
 							<tr>	
 								<th class="text-center">Estancia</th>				
-								<th class="text-center">Aforo en tiempo real</th>
-								<th class="text-center">Capacidad</th>					
+								<th class="text-center">Ocupación act.</th>
+								<th class="text-center">Capacidad</th>
+								<th class="text-center">% Ocupado</th>					
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="aforo in respuestaAforo.data">
 								<td>{{aforo.id}}</td>
-								<td ng-model="respuesta">{{respuesta}}</td>
+								<td>{{respuesta}}</td>
 								<td>{{aforo.capacidad}}</td>
+								<td>{{porcentaje}}</td>
+							</tr>
+						</tbody>
+					</table> 
+				</div>
+			</div>		
+		</form>
+		<h2> Histórico por meses </h2>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-2 control-label">Identificador</label>
+		    <div class="col-sm-4">
+		      <input type="text" ng-model="idmes" class="form-control" id="inputEmail3" placeholder="Introduzca ID de la estancia">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-6 col-sm-1">
+		      <button ng-click="getDatosMes()" type="submit" class="btn btn-default">Ver histórico</button>
+		    </div>
+		  </div>
+		  <div class="panel-body">
+				<div class="table-responsive">
+					<table Class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>	
+								<th class="text-center">Mes</th>				
+								<th class="text-center">Visitas</th>		
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="datosmes in respuestaMes">
+								<td>{{datosmes.mes}}</td>
+								<td>{{datosmes.visitas}}</td>
 							</tr>
 						</tbody>
 					</table> 

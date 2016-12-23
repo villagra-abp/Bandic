@@ -85,6 +85,28 @@ class TokenService
 		
 	}
 
+	public static function checkPassword($token){
+	
+		$comprobar = JWT::decode(
+				$token,
+				self::$secret_key,
+				self::$encrypt
+				)->data;
+	
+				$dataArray = MasterDAO::getById('usuario',null,$comprobar);
+				
+				//echo $dataArray[0]["email"];
+				//echo json_encode($dataArray);
+	
+				if(count($dataArray)!=0){
+					return $dataArray;
+				}
+				else{
+					return null;
+				}
+	
+	}
+	
 	private static function Aud() //este se encarga de validar que el usuario que esta navegando aparte de validar que el token sea válido, el secret key, también validará el navegador, ip, etc.
 	{
 		$aud = '';

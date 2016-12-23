@@ -1,0 +1,72 @@
+
+	<div ng-controller="ControllerProducto">
+		<h2> Crear producto </h2>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Nombre*</label>
+		    <div class="col-sm-4">
+		      <input type="text" ng-required="true" ng-model="nombre" class="form-control" placeholder="Nombre">
+		    <p id="sinNombre"></p>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Descripcion</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-model="descripcion" class="form-control" placeholder="Descripcion">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Precio</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-model="precio" class="form-control" placeholder="Precio">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Iva</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-model="iva" class="form-control" placeholder="Iva">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Tweet</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-model="tweet" class="form-control" placeholder="Tweet">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Cantidad disponible</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-model="cantidad_disponible" class="form-control" placeholder="Cantidad disponible">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Categoria</label>
+		    <div class="col-sm-4" ng-init="getCategorias()">
+		      <select ng-model="categoria_producto" ng-options="x for x in categorias"></select>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Estancia</label>
+		    <div class="col-sm-4" ng-init="getEstancias()">
+		      <select ng-model="estancia" ng-options="x for x in estancias"></select>		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Foto</label>
+		    <div class="col-sm-4">
+		      <input type="file" accept="image/x-png,image/gif,image/jpeg" id="fileToUpload" ngf-select="onFileSelect($file)">
+		    </div>
+		    <p id="errorUploadfoto"></p>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Foto redes sociales</label>
+		    <div class="col-sm-4">
+		      <input type="file" id="fileToUploadRRSS" ngf-select="onFileSelectRRSS($file)">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-6 col-sm-1">
+		      <button ng-click="addProducto()" type="submit" class="btn btn-default">Crear Producto</button>
+		    </div>
+		  </div>
+		</form>
+	</div>

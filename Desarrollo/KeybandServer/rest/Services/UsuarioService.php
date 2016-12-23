@@ -1,7 +1,7 @@
 <?php
 require_once "./Dao/UsuarioDAO.php";
 require_once "./Dao/MasterDAO.php";
-
+require_once "SupportService.php";
 /***********************************************USUARIO Service****************************************/
 /*AQU� LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
 /*HABRA� QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
@@ -20,16 +20,24 @@ class UsuarioService {
 	}
 	
 	public static function insertUsuario($obj) {
-		$dataArray = MasterDAO::insert('usuario',$obj);
-		echo json_encode($dataArray);
+		$primaries = array("dni" => $obj["dni"]);
+		$primaries2 = array("email" => $obj["email"]);
+		if(SupportService::IdValido("usuario",$primaries,"Ya existe un usuario con ese DNI") && SupportService::IdValido("usuario",$primaries2,"Ya existe un usuario con ese email")){
+			
+			$dataArray = MasterDAO::insert('usuario',$obj);
+			echo json_encode($dataArray);
+		}
 	}
 	
 	public static function updateUsuario($obj,$id) {
 		$primaries = [
 			"dni" => $id
 		];
-		$dataArray = MasterDAO::update('usuario',$obj,$primaries);
-		echo json_encode($dataArray);
+		if(!SupportService::IdValido("usuario",$obj["dni"],"No existe ningun usuario con ese DNI")){
+			$dataArray = MasterDAO::update('usuario',$obj,$primaries);
+			echo json_encode($dataArray);
+			
+		}
 	}
 	
 	public static function deleteUsuario($id) {

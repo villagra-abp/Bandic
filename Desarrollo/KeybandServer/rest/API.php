@@ -9,6 +9,8 @@ require_once "Resources/LoginResource.php";
 require_once "Resources/TicketResource.php";
 require_once "Resources/LineaTicketResource.php";
 require_once "Resources/PermisoResource.php";
+require_once "Resources/PromocionResource.php";
+require_once "Resources/TpvResource.php";
 
 class API {    
 
@@ -54,6 +56,10 @@ class API {
             case 'permiso':
                 PermisoResource::methodPermiso($method,$type);
             	break;
+            	
+            case 'promocion':
+            		PromocionResource::methodPromocion($method,$type);
+       		break;
                 
             case 'rol':
                	RolResource::methodRol($method,$type);
@@ -71,6 +77,15 @@ class API {
                 
             case 'categoria':
             	CategoriaResource::methodCategoriaProducto($method,$type);
+            	break;
+            case 'empleado': //a producto, para tenerla junto a la otra que es muy parecida
+            	ProductoResource::methodProducto($method,$type);
+            	break;
+            case 'reservas': //a producto, para tenerla junto a la otra que es muy parecida
+            	ProductoResource::methodProducto($method,$type);
+            	break;
+            case 'tpv':
+            	TpvResource::methodTpv($method,$type);
             	break;
             default:
             	header('HTTP/1.1 404 Not Found');
@@ -119,7 +134,7 @@ class API {
     public function isResource($resource){//añadir al array por cada nuevo recurso que se cree
         // TODO comprobar diferencias $array = array("rol","usuario","producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket","carrito");
     	$array = array("usuario","password","passwordrestore","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo",
-        		"accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura","rol");
+        		"accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura","rol", "promocion", "reservable", "tpv");
         $longitud = count($array);
         for($i=0; $i<$longitud; $i++){
             if($resource==$array[$i])

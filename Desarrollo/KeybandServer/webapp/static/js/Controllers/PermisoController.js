@@ -24,7 +24,7 @@ app.controller("PermisoController", function($scope,$http) {
     }
     
     $scope.editPermiso = function() {
-        var enviar = {"id":$scope.idPermiso,"desripcion": $scope.descripcionPermiso};
+        var enviar = {"id":$scope.idPermiso,"descripcion": $scope.descripcionPermiso};
         console.log(enviar);
     	$http.post("../rest/permiso/"+$scope.idPermiso,enviar).then(function(response){
 	    	console.log(response);

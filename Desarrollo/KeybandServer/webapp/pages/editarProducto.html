@@ -1,0 +1,74 @@
+<h2> Editar producto </h2>
+	<div ng-controller="ControllerProducto" ng-init="getDetails();">
+	<div ng-repeat="producto in respuestaProducto.data">
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Nombre*</label>
+		    <div class="col-sm-4">
+		      <input type="text" ng-required="true" ng-value="nombreEdit" id="nombre" class="form-control" placeholder="Nombre">
+		    <p id="sinNombre"></p>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Descripcion</label>
+		    <div class="col-sm-4">
+		      <input type="text" id="descripcion" ng-value="descripcionEdit" class="form-control" placeholder="Descripcion">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Precio</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-value='{{producto.precio}}' id="precio" class="form-control" placeholder="Precio">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Iva</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-value='{{producto.iva}}' id="iva" class="form-control" placeholder="Iva">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Tweet</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-value='tweetEdit' id="tweet" class="form-control" placeholder="Tweet">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Cantidad disponible</label>
+		    <div class="col-sm-4">
+		      <input type="text"  ng-value='{{producto.cantidad_disponible}}' id="cantidad_disponible" class="form-control" placeholder="Cantidad disponible">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Categoria</label>
+		    <div class="col-sm-4" ng-init="getCategorias()">
+		      <select id="categoria_producto" ng-model="categoria_producto" ng-init='categoria_producto = categoriaEdit' ng-options="x for x in categorias"></select>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Estancia</label>
+		    <div class="col-sm-4" ng-init="getEstancias()">
+		      <select id="estancia" ng-model="estancia" ng-init='estancia = estanciaEdit' ng-options="x for x in estancias"></select>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Foto</label>
+		    <div class="col-sm-4">
+		      <input type="file" accept="image/x-png,image/gif,image/jpeg" id="fileToUploadEdit" ngf-select="onFileSelectEdit($file)">
+		    </div>
+		    <p id="errorUploadfoto"></p>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Foto redes sociales</label>
+		    <div class="col-sm-4">
+		      <input type="file" id="fileToUploadEditRRSS" ngf-select="onFileSelectEditRRSS($file)">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-6 col-sm-1">
+		      <button ng-click="editProducto()" type="submit" class="btn btn-default">Editar Producto</button>
+		    </div>
+		  </div>
+		</form>
+		</div>
+	</div>

@@ -1,7 +1,7 @@
 <?php
 require_once "./Dao/PulseraDAO.php";
 require_once "./Dao/MasterDAO.php";
-
+require_once "SupportService.php";
 /***********************************************USUARIO Service****************************************/
 class PulseraService {
 	public static function getPulseras ($where,$order,$pagination) {
@@ -18,16 +18,54 @@ class PulseraService {
 	}
 	
 	public static function insertPulsera($obj) {
-		$dataArray = MasterDAO::insert('pulsera',$obj);
-		echo json_encode($dataArray);
+		$primaries = [
+				"dni" => $obj['usuario']
+		];
+		$primaries2 = [
+				"id" => $obj['id']
+		];
+		$primaries3 = [
+				"id" => $obj['estado_pulsera']
+		];
+		if(SupportService::FkValido('usuario',$primaries,"No existe un usuario con este DNI") &&
+				SupportService::FkValido('estado_pulsera',$primaries3,"El estado tiene que coincidir con un estado de pulsera v�lido (activa, sin asignar, inactiva") &&
+				SupportService::IdValido('pulsera',$primaries2,"Ya hay una pulsera con ese ID")){
+			$dataArray = MasterDAO::insert('pulsera',$obj);
+			echo json_encode($dataArray);
+		}
 	}
 	
 	public static function updatePulsera($obj,$id) {
 		$primaries = [
 				"id" => $id
 		];
-		$dataArray = MasterDAO::update('pulsera',$obj,$primaries);
-		echo json_encode($dataArray);
+		$primaries2 = [
+				"id" => $obj['id']
+		];
+		$primaries3 = [
+				"id" => $obj['estado_pulsera']
+		];
+		$primaries4 = [
+				"dni" => $obj['usuario']
+		];
+		if($obj['id']!=$id){    //si intento modificar el id
+			$primariesaux = [
+					"id" => $obj['id']
+			];
+			if(SupportService::FkValido('usuario',$primaries4,"No existe un usuario con este DNI") &&
+				SupportService::FkValido('estado_pulsera',$primaries3,"El estado tiene que coincidir con un estado de pulsera v�lido (activa, sin asignar, inactiva") &&
+				SupportService::IdValido('pulsera',$primaries2,"Ya hay una pulsera con ese ID")){
+				$dataArray = MasterDAO::update('pulsera',$obj,$primaries);
+				echo json_encode($dataArray);
+			}
+		}else{
+			if(SupportService::FkValido('usuario',$primaries4,"No existe un usuario con este DNI") &&
+				SupportService::FkValido('estado_pulsera',$primaries3,"El estado tiene que coincidir con un estado de pulsera v�lido (activa, sin asignar, inactiva")){
+						$dataArray = MasterDAO::update('pulsera',$obj,$primaries);
+						echo json_encode($dataArray);
+			}
+		};
+		
 	}
 	public static function deletePulsera($id) {
 		$primaries = [

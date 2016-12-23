@@ -1,0 +1,15 @@
+<h2>Detalle de producto</h2>
+<div ng-controller="ControllerProducto"  ng-init="getDetails();">
+	<ul ng-repeat="producto in respuestaProducto.data">
+		<li><strong>ID: </strong>{{producto.id}}</li>
+		<li><strong>Nombre: </strong>{{producto.nombre}}</li>
+		<li><strong>Descripcion: </strong>{{producto.descripcion}}</li>
+		<li><strong>Precio: </strong>{{producto.precio}}</li>
+		<li><strong>IVA: </strong>{{producto.iva}}</li>
+		<li><strong>Tweet: </strong>{{producto.tweet}}</li>
+		<li><strong>Cantidad disponible: </strong>{{producto.cantidad_disponible}}</li>
+		<li><strong>Categoria_producto: </strong>{{producto.categoria}}</li>
+		<li><strong>Imagen: </strong><br><img style="width:300px;heigth:300px" src="../fotos/normal/{{producto.id}}/{{producto.imagen}}"></img></li><br>
+		<li><strong>Imagen redes: </strong><br><img style="width:300px;heigth:300px" src="../fotos/RRSS/{{producto.id}}/{{producto.imagen_redes}}"></img></li>
+	</ul>
+</div>

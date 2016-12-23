@@ -1,5 +1,6 @@
 <?php
 include_once "./conection.php";
+include_once "./Resources/SupportResource.php";
 
 class MasterDAO {
 	
@@ -10,11 +11,19 @@ class MasterDAO {
        	$primaries hay que construirlo en el service apartir de la URL. Como estamos en UsuarioService obviamente sabemos 
        	cual es la clave primaria de usuario - Soporta varias claves primarias
 		 */
-		if(!$table || !$primaries){			
-			header('HTTP/1.1 400 Bad Request');
-			return ("Los parametros no son correctos");
-		}
 		$dataArray = array();
+		if(!$table || !$primaries){			
+			
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Los parametros en MasterDAO no son correctos";
+			return $dataArray;
+		}
+		$primaries = MasterDAO::scape_tags($primaries);	//elimina html
+		if(!MasterDAO::real_scape($primaries)){	//si entra han intentado inyectar
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Has intentado jugarnosla";
+			return $dataArray;
+		}
 		try {
 			$conection = openConection();
 			/*DELETE FROM films WHERE kind = 'Musical'*/
@@ -23,9 +32,8 @@ class MasterDAO {
 			$result = @pg_query($conection, $sql);
 				
 			if (!$result) {//Resultado erroneo
-					
-				var_dump(http_response_code(500));
-				return "Ocurrio un error en la consulta:".error_get_last();
+				header('HTTP/1.1 200 Error con la base de datos');
+				return error_get_last();
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
@@ -52,11 +60,24 @@ class MasterDAO {
        	$obj te viene del FRONT tal cual, pero $primaries hay que construirlo en el service. Como estamos en UsuarioService obviamente sabemos 
        	cual es la clave primaria de usuario por lo tanto la extraemos del $obj en un nuevo array - Soporta varias claves primarias
 		 */
-		if(!$obj || !$table || !$primaries){
-			header('HTTP/1.1 400 Bad Request');
-			return ("Los parametros en MasterDAO no son correctos");
-		}
 		$dataArray = array();
+		if(!$obj || !$table || !$primaries){
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Los parametros en MasterDAO no son correctos";
+			return $dataArray;
+		}
+		$primaries = MasterDAO::scape_tags($primaries);	//elimina html
+		if($table=="Promocion"){
+			$obj = MasterDAO::scape_tags_promocion($obj);	//elimina html
+		}else{
+			$obj = MasterDAO::scape_tags($obj);	//elimina html
+		}
+		if(!MasterDAO::real_scape($primaries)){	//si entra han intentado inyectar
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Has intentado jugarnosla";
+			return $dataArray;
+		}
+		
 		try {
 			$conection = openConection();
 			/*UPDATE films SET kind = 'Dramatic', actor = 'Juanxo' WHERE kind = 'Drama' AND jefe='juanxo'*/
@@ -81,11 +102,11 @@ class MasterDAO {
 				$i++;
 			}
 			$sql = $sql.MasterDAO::constructWhere($primaries);
-			
 			$result = @pg_query($conection, $sql);
 			
 			if (!$result) {//Resultado erroneo
-				header('HTTP/1.1 410 No se ha modificado correctamente');
+				header('HTTP/1.1 200 No se ha modificado correctamente');
+				return error_get_last();
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
@@ -98,7 +119,6 @@ class MasterDAO {
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			throw new Exception ($e->getMessage());
 		}
-		header('HTTP/1.1 201 Created');
 		return $dataArray;
 	}
 	public static function insert ($table, $obj) {
@@ -111,12 +131,23 @@ class MasterDAO {
         	    "empleado":"f","email":"juliana@gmail.com","fecha_nacimiento":"2002-12-10"];
        	Este objeto te debe venir as� del FRONT supuestamente
 		 */
+		$dataArray = array();
 		if(!$obj || !$table){
-			header('HTTP/1.1 400 Bad Request');
-			return ("Los parametros en MasterDAO no son correctos");
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Los parametros en MasterDAO no son correctos";
+			return $dataArray;
 		}
-	
-			$dataArray = array();
+
+		if($table=="Promocion"){
+			$obj = MasterDAO::scape_tags_promocion($obj);	//elimina html
+		}else{
+			$obj = MasterDAO::scape_tags($obj);	//elimina html
+		}
+		if(!MasterDAO::real_scape($obj)){	//si entra han intentado inyectar
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Has intentado jugarnosla";
+			return $dataArray;
+		}
 			try {
 				//Crear conexion
 				$conection = openConection();
@@ -148,8 +179,8 @@ class MasterDAO {
 				$result = @pg_query($conection, $sql);
 
 				if (!$result) {//Resultado erroneo
-					header('HTTP/1.1 409 No se ha podido insertar');
-					return "Ocurrio un error en la consulta:".error_get_last();
+					header('HTTP/1.1 200 No se ha podido insertar');
+					return error_get_last();
 	
 				}else{//Resultado correcto
 					 $dataArray = $obj;
@@ -160,7 +191,6 @@ class MasterDAO {
 			}catch (Exception $e) {//TODO Exception generica maaaal
 				//throw new Exception ($e->getMessage());
 			}
-			header('HTTP/1.1 201 Created');
 			return $dataArray;
 	}
 	public static function getAll ($table,$columns,$where,$order,$pagination) {
@@ -174,12 +204,20 @@ class MasterDAO {
 		 Las filas comienzan en 0, por lo tanto si quieres coger las 5 primeras tienes que pasar initrow=0,pageSize=5.
 		 Si quieres las siguientes 5 initrow=5,pagesize=5
 		 */
-		if(!$table){
-			header('HTTP/1.1 400 Bad Request');
-			return ("Los parametros en MasterDAO no son correctos");
-		}
-		
 		$dataArray = array();
+		if(!$table){
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Los parametros en MasterDAO no son correctos";
+			return $dataArray;
+		}
+		$where = MasterDAO::scape_tags($where);	//elimina html
+		$order = MasterDAO::scape_tags($order);	//elimina html
+		$pagination = MasterDAO::scape_tags($pagination);	//elimina html
+		if(!MasterDAO::real_scape($where) || !MasterDAO::real_scape($order) || !MasterDAO::real_scape($pagination)){	//si entra han intentado inyectar
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Has intentado jugarnosla";
+			return $dataArray;
+		}
 		try {
 			//Crear conexion
 			$conection = openConection();
@@ -191,16 +229,12 @@ class MasterDAO {
 				$sql = $sql.MasterDAO::constructOrderBy($order);
 			if($pagination)
 				$sql = $sql.MasterDAO::constructPagination($pagination);
-			
 			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
-				
-				header('HTTP/1.1 500 Ocurrio un error en la consulta');
-
+				header('HTTP/1.1 200 Ocurrio un error en la consulta');
+				return error_get_last();
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
-				if($count==0)
-					header('HTTP/1.1 210 No hay resultados');
 				for($i=0; $i<$count; $i++) {
 					$row = pg_fetch_assoc ($result);
 					$dataArray[] = $row;
@@ -227,26 +261,29 @@ class MasterDAO {
 		$dataArray = array();
 		
 		if(!$primaries || !$table) {
-			header('HTTP/1.1 400 Bad Request');
-			return ("Los parametros en MasterDAO no son correctos");
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Los parametros en MasterDAO no son correctos";
+			return $dataArray;
+		}
+		$primaries = MasterDAO::scape_tags($primaries);	//elimina html
+		if(!MasterDAO::real_scape($primaries)){	//si entra han intentado inyectar
+			header('HTTP/1.1 200 Los parametros no son correctos');
+			$dataArray['message'] = "Has intentado jugarnosla";
+			return $dataArray;
 		}
 
 		try {
 			//Crear conexion
 			$conection = openConection();
-				
 			$sql = MasterDAO::constructSelectFrom($table, $columns);
 			$sql = $sql.MasterDAO::constructWhere($primaries);
 			$result = @pg_query($conection, $sql);
-	
 			if (!$result) {//Resultado erroneo
-				header('HTTP/1.1 500 Resultado erroneo');
-				return "Ocurrio un error en la consulta:".error_get_last();
+				header('HTTP/1.1 200 Error con la base de datos');
+				return error_get_last();
 	
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
-				if($count==0)
-					header('HTTP/1.1 404 Not Found');
 				for($i=0; $i<$count; $i++) {
 					$row = pg_fetch_assoc ($result);
 					$dataArray[] = $row;
@@ -285,23 +322,25 @@ class MasterDAO {
 			if($i == 0) {
 				if($key_value=="")
 					$sql = $sql.$key." is null ";
-				else {
-					$key_table = explode(".", $key_value);
-					if($key_table[0] == $key_value)
-						$sql = $sql.$key."='".$key_value."' ";
-					else
-						$sql = $sql.$key."=".$key_value." ";
-				}
+					else {
+						if(!SupportResource::isTable($key_value)){
+							$sql = $sql.$key."='".$key_value."' ";
+						}
+						else {
+							$sql = $sql.$key."=".$key_value." ";
+						}
+					}
 			}else{
 				if($key_value=="")
-					$sql = "AND ".$sql.$key." is null";
-				else {
-					$key_table = explode(".", $key_value);
-					if($key_table[0] == $key_value)
-						$sql = $sql."AND ".$key."='".$key_value."'";
-					else
-						$sql = $sql."AND ".$key."=".$key_value."";
-				}
+					$sql = $sql."AND".$key." is null";
+					else {
+						if(!SupportResource::isTable($key_value)){
+							$sql = $sql."AND ".$key."='".$key_value."' ";
+						}
+						else {
+							$sql = $sql."AND ".$key."=".$key_value." ";
+						}
+					}
 			}
 			$i++;
 		}
@@ -342,6 +381,73 @@ class MasterDAO {
 			}
 		}
 		return $sql;
+	}
+	public function scape_tags($var){	/*devuelve la variable sin etiquetas*/
+		if(is_array($var))
+			$return=MasterDAO::scape_tags_array($var);
+		else
+			$return=MasterDAO::scape_tags_string($var);
+		return $return;
+	}
+	public function scape_tags_array($array){/*recibe array asociativo*/
+		$params =  array();
+		$aux ="";
+		foreach($array as $key => $key_value) {
+			//echo "tags antes: ".$key_value." ";
+			$aux=strip_tags($key_value);
+			$params += array($key => $aux);
+			//echo "tags Despues: ".$aux."\n";
+		}
+		return $params;
+	}
+	public function scape_tags_string($string){
+		return strip_tags($string);
+	}
+	public function scape_tags_promocion($array){
+		$params =  array();
+		$aux ="";
+		foreach($array as $key => $key_value) {
+			if($key!="descripcion"){
+				$aux=strip_tags($key_value);
+			}
+			else{
+				$aux=$key_value;
+			}
+			$params += array($key => $aux);
+			//echo "tags Despues: ".$aux."\n";
+		}
+		return $params;
+	}
+	public function real_scape($var){	/*devuelve true si NO hay cambios, false si los hay*/
+		if(is_array($var))
+			$return=MasterDAO::real_scape_array($var);
+		else
+			$return=MasterDAO::real_scape_string($var);
+		return $return;
+	}
+	public function real_scape_array($array){/*recibe array asociativo*/
+		$cadena= "";
+		$caracteres = '& ; " \' = *';	//  \n es necesario?
+		$caracteres = explode(' ',$caracteres);
+		foreach($array as $key => $key_value) {
+			$cadena = str_replace($caracteres,'_',$key_value);
+			$cadena=pg_escape_string($cadena);
+			if(strcmp($cadena,$key_value) != 0)
+				return false;
+		}
+		return true;
+	}
+	public function real_scape_string($string){
+		$cadena="";
+		$caracteres = '& ; " \' = *';	//  \n es necesario?
+		$caracteres = explode(' ',$caracteres);
+		$cadena = str_replace($caracteres,'_',$string);
+		$cadena=pg_escape_string($cadena);
+		if(strcmp($cadena,$string) != 0){
+			return false;
+		}else{
+			return true;
+		}
 	}
 }
 ?>

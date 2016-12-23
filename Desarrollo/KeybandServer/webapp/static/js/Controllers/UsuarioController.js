@@ -1,9 +1,9 @@
 app.controller("UsuarioController", function($scope,$http) {
 	
     $scope.listarUsuarios = function(){
-        $http.get("../rest/usuario",config).success(function(response){     
+        $http.get("../rest/usuario",config).then(function(response){     
         	console.log(response);
-        	$scope.respuesta = response; 
+        	$scope.respuesta = response.data; 
         });
     }
     $scope.usuarioById = function(){
@@ -25,12 +25,12 @@ app.controller("UsuarioController", function($scope,$http) {
 	var dnirandom = Math.floor((Math.random() * 10000) + 1);
     $scope.addUsuario = function() {
     	
-        var enviar = {"dni":$scope.dni,"nombre":$scope.nombre,"apellidos":$scope.apellidos,
+        var enviar = {"dni":$scope.dni,"password":$scope.password,"nombre":$scope.nombre,"apellidos":$scope.apellidos,
         	    "sexo":$scope.sexo,"pais":$scope.pais,"localidad":$scope.localidad,
-        	    "provincia":$scope.provincia,"rol":$scope.rol,"estancia":$scope.estancia,
-        	    "empleado":$scope.empleado,"email":$scope.email,"fecha_nacimiento":$scope.fecha, "fecha_entrada":"11-12-2000", "fecha_salida":"11-12-2000"};
+        	    "provincia":$scope.provincia,
+        	    "empleado":$scope.empleado,"email":$scope.email,"fecha_nacimiento":$scope.fecha, "fecha_entrada":"11-12-2000", "fecha_salida":"11-12-2000","token":"inventado"};
     	$http.put("../rest/usuario",enviar).then(function(response){
-	    	console.log(response);
+	    	console.log(response.data);
 	    	$scope.listarUsuarios();
     	});
     };

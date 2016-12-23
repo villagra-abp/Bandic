@@ -1,24 +1,101 @@
 	<div ng-controller="ControllerProducto">
-		<input type="text" placeholder="nombre producto" ng-model="nuevoProducto">
-		<input type="text" placeholder="categoria" ng-model="categoria">
-		<input type="file" id="fileToUpload" ngf-select="onFileSelect($file)">
-		<button ng-click="addProducto();">subir producto</button>
-		<br><br>
-		<h3>ESTO NO EDITA NI BORRA NA</h3>
-		<input type="text" placeholder="editar producto" ng-model="editar">
-		<input type="file" id="fileToUploadEdit" ngf-select="onFileSelectEdit($file)">
-		<button ng-click="editProducto();">editar producto</button>
-		<br><br>
-		<input type="text" placeholder="borrar producto" ng-model="borrar">
-		<button ng-click="deleteProducto();">delete producto</button>
-	</div>
-	<div ng-controller="AsignarProducto">
-		<input type="text" placeholder="nombre producto" ng-model="asigProducto">
-		<input type="text" placeholder="DNI usuario" ng-model="asigUsuario">
-		<button ng-click="asignarProducto();">Asignar producto</button>
-	</div>
-	<div ng-controller="ControllerTicket">
-		<button ng-click="generarTicket();">Generar Ticket</button>
-		<input type="text" placeholder="IDticket" ng-model="ticket">
-		<button ng-click="descargarTicket();">Descargar ticket</button>
-	</div>
+		<div ng-init="getProductos();">	
+			<h1>Producto</h1>
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>				
+								<th class="text-center">Identificador</th>
+								<th class="text-center">Nombre</th>
+								<th class="text-center">Descripcion</th>
+								<th class="text-center">Precio</th>	
+								<th class="text-center">Cantidad disponible</th>	
+								<th class="text-center">Categoria</th>
+								<th class="text-center column80">Acciones</th>				
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="producto in respuesta.data | orderBy:'id'">		
+								<td>{{producto.id}}</td>
+								<td>{{producto.nombre}}</td>
+								<td>{{producto.descripcion}}</td>
+								<td>{{producto.precio}}</td>
+								<td>{{producto.cantidad_disponible}}</td>
+								<td>{{producto.categoria_producto}}</td>
+								
+								<td>
+									<a href="#detalleProducto/{{producto.id}}">
+										<button ng-click="" class="btn btn-default btn-xs" title="Detalle">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</a>
+									<a href="#editarProducto/{{producto.id}}">
+										<button ng-click="" class="btn btn-default btn-xs" title="Editar">
+											<span class="glyphicon glyphicon-pencil"></span>
+										</button>
+									</a>
+									<button ng-click="deleteProducto(producto.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+										<span class="glyphicon glyphicon-remove"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table> 
+				</div>
+			</div>
+			
+			<a href="#crearProducto">
+				<button ng-click="addProducto();">Nuevo producto</button>
+			</a>
+			<h2>Asignar empleado</h2>
+			<br><br>
+			<form class="form-horizontal">
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">Producto</label>
+			    <div class="col-sm-4">
+			      <input type="text" class="form-control" placeholder="nombre producto" ng-model="asigProducto">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">Usuario</label>
+			    <div class="col-sm-4">
+			      <input type="text" class="form-control" placeholder="DNI usuario" ng-model="asigUsuario">
+			    </div>
+			  </div>
+			<button ng-click="asignarProducto();">Asignar empleado</button>
+			<p> Para ver el/los empleado/s de un producto: http://localhost/keyband/Desarrollo/KeybandServer/rest/empleado/producto/1</p>
+			<p> Para ver los productos que tiene asignado un empleado: /keyband/Desarrollo/KeybandServer/rest/producto/empleado/48764260M</p>
+			</form>
+			<br><br>
+			<h2>Reservar productos</h2>
+			<div class="form-group">
+				<div class="col-sm-4">
+					<input type="text" class="form-control" placeholder="DNI usuario" ng-model="reservaUsuario">
+				</div>
+			</div>
+			<br>
+			<div class="container table-responsive" ng-init="getProductosReservables();">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>				
+							<th class="text-center">Reservar</th>
+							<th class="text-center">Nombre</th>
+							<th class="text-center">Descripcion</th>
+							<th class="text-center">Precio</th>	
+							<th class="text-center">Cantidad disponible</th>	
+							<th class="text-center">Categoria</th>			
+						</tr>
+					</thead>		
+					<tbody>
+						<tr ng-repeat="producto in respuestaReservables.data | orderBy:'id'">		
+							<td><button ng-click="reservarProducto(producto.id);">Reservar producto</button></td>
+							<td>{{producto.nombre}}</td>
+							<td>{{producto.descripcion}}</td>
+							<td>{{producto.precio}}</td>
+							<td>{{producto.cantidad_disponible}}</td>
+							<td>{{producto.categoria_producto}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>

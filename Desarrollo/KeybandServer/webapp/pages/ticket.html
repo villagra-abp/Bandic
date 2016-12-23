@@ -1,0 +1,88 @@
+<div ng-controller="ControllerTicket">
+<h2> Crear tpv </h2>
+	<form class="form-horizontal">
+	  <div class="form-group">
+	    <label class="col-sm-2 control-label">Nombre</label>
+	    <div class="col-sm-4">
+	      <input type="text" ng-model="nombreTpv" class="form-control" placeholder="Nombre">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label class="col-sm-2 control-label">Descripcion</label>
+	    <div class="col-sm-4">
+	      <input type="text"  ng-model="descripcionTpv" class="form-control" placeholder="Descripcion">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-6 col-sm-1">
+	      <button ng-click="addTpv();" class="btn btn-default">Crear tpv</button>
+	    </div>
+		</div>
+	  </form>
+	  <div ng-init="getTpvs();" ng-if="true">
+	  		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>				
+						<th class="text-center">Identificador</th>
+						<th class="text-center">Nombre</th>
+						<th class="text-center">Descripcion</th>
+						<th class="text-center column80">Acciones</th>				
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="tpv in respuestaTpvs.data | orderBy:'id'">		
+						<td>{{tpv.id}}</td>
+						<td>{{tpv.nombre}}</td>
+						<td>{{tpv.descripcion}}</td>	
+						<td>
+							<a href="#detalleTpv/{{tpv.id}}">
+								<button ng-click="" class="btn btn-default btn-xs" title="Detalle">
+									<span class="glyphicon glyphicon-search"></span>
+								</button>
+							</a>
+							<a href="#editarTpv/{{tpv.id}}">
+								<button ng-click="" class="btn btn-default btn-xs" title="Editar">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</button>
+							</a>
+							<button ng-click="deleteTpv(tpv.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+							<button ng-click="abrirTpv(tpv.id)">Abrir</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+	  </div>
+	  <div ng-if="abrir" >
+		  <div class="table-responsive" ng-init="showProductosTpv()">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>				
+							<th class="text-center">Identificador</th>
+							<th class="text-center">Nombre</th>
+							<th class="text-center">Descripcion</th>
+							<th class="text-center column80">Seleccionar</th>
+							<th class="text-center column80">Cantidad</th>			
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="producto in productosTpv.data | orderBy:'id'">		
+							<td>{{producto.id}}</td>
+							<td>{{producto.nombre}}</td>
+							<td>{{producto.descripcion}}</td>
+							<td><input type="checkbox" id="{{producto.id}}" ng-model="lineas" ng-change="addLinea(producto,cantidad)"></td>
+							<td><input type="number" ng-model="cantidad" ng-if="lineas" ng-init="cantidad = 0" ng-change="addCantidad(producto,cantidad)"></td>	
+						</tr>
+					</tbody>
+				</table>
+		</div>
+		<button ng-click="generarTicket();" class="btn btn-default">Generar Ticket</button>	
+	</div>
+	
+	<h2>Ticket</h2>
+		<input type="text" placeholder="IDticket" ng-model="ticket" >
+		<button ng-click="descargarTicket();" class="btn btn-default">Descargar ticket</button>
+</div>

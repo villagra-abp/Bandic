@@ -16,33 +16,46 @@ if(isset($_FILES['file'])){
     $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
     $extensions = array("jpeg","jpg","png");        
     if(in_array($file_ext,$extensions )=== false){
-     $errors[]="image extension not allowed, please choose a JPEG or PNG file.";
+    	$errors[]="image extension not allowed, please choose a JPEG or PNG file.";
     }
     if($file_size > 2097152){
-    $errors[]='File size cannot exceed 2 MB';
+    	$errors[]='File size cannot exceed 2 MB';
     }
-  
-    $uploadfile = $uploaddir . $id_producto . '/' .  $file_name . '.' . $file_ext; // path fichero destino
-
-	if(isset($_GET['method'])) {
-		 // Se crea el directorio si no existe
-		 if (!file_exists($uploaddir . $id_producto)) 
-		     mkdir($uploaddir . $id_producto, 0777, true);
-		 else {//si existe el directorio elimino lo que haya dentro
-		    $files = glob($uploaddir.$id_producto.'/*'); // get all file names
-		    foreach($files as $file){ // iterate files
-		    	if(is_file($file))
-		    		unlink($file); // delete file
-		    }
-		 }
-		 if(move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) // se sube el fichero
-		     echo "Foto subida correctamente";                 
-		 else
-		     echo "Error en la subida de foto";
+    
+    if(isset($_GET['RRSS'])) {
+    	if($_GET['RRSS'] == 'n')
+    		$uploaddir = "../fotos/normal/";
+    	else
+    		$uploaddir = "../fotos/RRSS/";  
+    	
+	    $uploadfile = $uploaddir . $id_producto . '/' .  $file_name; // path fichero destino
+	
+		if(isset($_GET['method'])) {
+			 // Se crea el directorio si no existe
+			 if (!file_exists($uploaddir . $id_producto)) 
+			     mkdir($uploaddir . $id_producto, 0777, true);
+			 else {//si existe el directorio elimino lo que haya dentro
+			    $files = glob($uploaddir.$id_producto.'/*'); // get all file names
+			    foreach($files as $file){ // iterate files
+			    	if(is_file($file))
+			    		unlink($file); // delete file
+			    }
+			 }
+			 if(move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) // se sube el fichero
+			     echo "Foto subida correctamente";                 
+			 else 
+			     echo "Error en la subida de foto";
+		}
 	}
 }
 else { //Si no mando file es que estoy borrando el producto
+	$uploaddir = "../fotos/normal/";
 	$dir = $uploaddir . $id_producto;
+	if (file_exists($dir))
+		rmdir_recursive($dir);
+	
+	$uploaddir2 = "../fotos/RRSS/";
+	$dir = $uploaddir2 . $id_producto;
 	if (file_exists($dir))
 		rmdir_recursive($dir);
 }

@@ -7,15 +7,20 @@ app.controller("RolController", function($scope,$http) {
 	 }
 	 
     $scope.addRol = function() {
-        var enviar = {"id": $scope.idRol , "empleado": true};
+    		
+    	var enviar = {"id": $scope.idRol , "empleado": $scope.empleadoRol};
+    
+      // var enviar = {"id": $scope.idRol , "empleado": true};
     	$http.put("../rest/rol" , enviar).then(function(response){
 	    	$scope.getRol();
+	    	console.log(response);
     	});
     };
     
     /* ************ ESTA MIERDA NO FUNCIONA BIEN *********************/
     $scope.editRol = function() {
-        var enviar = {"id": $scope.idRol,"empleado": false};
+    	var enviar = {"id": $scope.idRol , "empleado": $scope.empleadoRol};
+    	console.log(enviar);
     	$http.post("../rest/rol/"+$scope.idRol,enviar).then(function(response){
 	    	console.log(response);
 	    	$scope.respuesta=response;
@@ -38,6 +43,7 @@ app.controller("RolController", function($scope,$http) {
 	$scope.addPermiso = function() {
         var enviar = {"rol" : $scope.rol , "permiso" : $scope.permiso};
     	$http.put("../rest/rol/permiso/" + $scope.rol , enviar).then(function(response){
+    		console.log(response);
 	    	$scope.getPermiso();
     	});
     };

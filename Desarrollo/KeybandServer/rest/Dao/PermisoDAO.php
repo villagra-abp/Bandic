@@ -5,17 +5,17 @@ class PermisoDAO {
 		$dataArray = array();
 		if($usuario == "undefined" || $permiso == "undefined"){
 			header('HTTP/1.1 200 Los parametros no son correctos');
-			$dataArray[] = "permiso denegado";	//creo que sobra, no es lo mismo paramametros incorrectos que permiso denegado
+			$dataArray['message'] = "Los parametros en MasterDAO no son correctos";
+			return $dataArray;
 		}
 		try {
 			$conection = openConection();
 			$sql = "SELECT * FROM permisos where rol = '".$usuario."' and estancia = '".$permiso."'";
-			$result = pg_query($conection, $sql);
+			$result = @pg_query($conection, $sql);
 				
 			if (!$result) {
-				header('HTTP/1.1 500 Resultado erroneo');
-				echo "Ocurrio un error.\n";
-		
+				header('HTTP/1.1 200 Error con la base de datos');
+				return error_get_last();
 			}else{
 				$count = pg_numrows($result);
 				if($count!=0)
@@ -28,7 +28,7 @@ class PermisoDAO {
 				}*/
 			}
 				
-			pg_close($conection);
+			@pg_close($conection);
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			echo "Excepcion";
 		}

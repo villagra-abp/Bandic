@@ -1,0 +1,71 @@
+<div ng-controller="PromocionController" ng-init="getPromociones()">	
+	<h1>Promociones</h1>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table Class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>				
+							<th class="text-center column80">Acciones</th>
+							<th class="text-center">Id</th>
+							<th class="text-center">Titulo</th>
+							<th class="text-center">Descripcion</th>				
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="promociones in respuestaPromociones.data">
+							<td>
+								<button ng-click="" class="btn btn-default btn-xs" title="Editar" >
+									<span class="glyphicon glyphicon-pencil"></span>
+								</button>
+								<button ng-click="deletePromocion(promociones.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+							</td>
+							<td>{{promociones.id}}</td>
+							<td>{{promociones.titulo}}</td>
+							<td >
+							<div ng-bind-html="promociones.descripcion"></div>
+						
+							</td>
+						</tr>
+					</tbody>
+				</table> 
+			</div>
+		</div>
+	<div class="container">
+		<form>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<span class="panel-title">Modificacion promocion</span> 
+				</div>
+				<div class="panel-body">
+
+					<div class="form-group">
+							<label class="control-label">ID</label>
+							<input type="text" ng-model="idPromocion" />
+							
+							<label class="control-label">Titulo</label>
+							<input type="text" name="tituloPromocion" ng-model="tituloPromocion" />
+							
+							<label class="control-label">Descripcion</label>
+						<!--  <input type="text" name="descripcionPromocion" ng-model="descripcionPromocion" />-->
+						<br>
+						<br>
+						<textarea name="descripcionPromocion" id="desc" ng-model="descripcionPromocion"></textarea>
+		
+					</div>
+					<div class="pull-right">
+						<button type="button" ng-click="editPromocion()">
+							<span class="glyphicon glyphicon-ok-sign margin" />Guardar
+						</button>
+						<button ng-click="addPromocion()" class="btn btn-default btn-xs" title="Detalle">Nueva Promocion
+							<span class="glyphicon glyphicon-new"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+	  
+</div>

@@ -47,10 +47,15 @@ class MailService {
 		//Attach an image file
 		//$mail->addAttachment('images/phpmailer_mini.png');
 		//send the message, check for errors
+		$dataArray = array();
 		if (!$mail->send()) {
-			echo "Mailer Error: " . $mail->ErrorInfo;
+			header('HTTP/1.1 200 Error con el envio');
+			$dataArray['message'] = "Ha habido un error con el envío";
+			return $dataArray;
+			//echo "Mailer Error: " . $mail->ErrorInfo;
 		} else {
-			echo "Message sent!";
+			$dataArray['message'] = "Correo enviado correctamente";
+			return $dataArray;
 		}
 	}
 

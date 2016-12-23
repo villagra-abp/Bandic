@@ -1,0 +1,27 @@
+<h2>Detalle de tpv</h2>
+<div ng-controller="ControllerTicket"  ng-init="getDetailsTpv()">
+	 <ul ng-repeat="tpv in respuestaTpv.data">
+		<li><strong>ID: </strong>{{tpv.id}}</li>
+		<li><strong>Nombre: </strong>{{tpv.nombre}}</li>
+		<li><strong>Descripcion: </strong>{{tpv.descripcion}}</li>
+	</ul>
+	<h3> Historico por meses </h3>
+	<div class="panel-body">
+        <div class="table-responsive">
+            <table Class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>    
+                        <th class="text-center">Mes</th>                
+                        <th class="text-center">Recaudacion</th>        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="datosmes in respuestaMes">
+                        <td>{{datosmes.mes}}</td>
+                        <td>{{datosmes.fondos}} euros</td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>

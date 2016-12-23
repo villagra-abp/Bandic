@@ -7,15 +7,7 @@ WITH (
 	OIDS=FALSE
 );
 
-CREATE TABLE "Keyband".Estancia (
-	id varchar(100) NOT NULL,
-	capacidad numeric(10) null,
-	publica boolean not null,
-	PRIMARY KEY (id)
-)
-WITH (
-	OIDS=false
-);
+
 
 
 CREATE TABLE "Keyband".Usuario (
@@ -28,13 +20,12 @@ CREATE TABLE "Keyband".Usuario (
 	localidad varchar(100) null,
 	provincia varchar(100) null,
 	empleado boolean not null,
-	email varchar(100) not null unique
+	email varchar(100) not null unique,
 	fecha_nacimiento date not null,
 	fecha_entrada timestamp not null,
 	fecha_salida timestamp not null,
 	token varchar(500) null,
-	PRIMARY KEY (dni),
-	FOREIGN KEY (estancia) REFERENCES "Keyband".Estancia(id)
+	PRIMARY KEY (dni)
 )
 WITH (
 	OIDS=false
@@ -70,7 +61,38 @@ CREATE TABLE "Keyband".Pulsera (
 WITH (
 	OIDS=false
 );
+CREATE TABLE "Keyband".Fecha_acceso (
+ hora_entrada timestamp not null,
+ PRIMARY KEY (hora_entrada)
+)
+WITH (
+ OIDS=false
+);
 
+CREATE TABLE "Keyband".Estancia (
+ id varchar(100) NOT NULL,
+ capacidad numeric(10) null,
+ publica boolean not null,
+ descripcion varchar(500) null,
+ PRIMARY KEY (id)
+)
+WITH (
+ OIDS=false
+);
+
+CREATE TABLE "Keyband".acceso_estancia (
+ estancia varchar(100) NOT NULL,
+ pulsera varchar(100) NOT NULL,
+ hora_entrada timestamp not null,
+ hora_salida timestamp null,
+ PRIMARY KEY (estancia, pulsera,hora_entrada),
+ FOREIGN KEY (estancia) REFERENCES "Keyband".estancia(id),
+ FOREIGN KEY (hora_entrada) REFERENCES "Keyband".fecha_acceso(hora_entrada),
+ FOREIGN KEY (pulsera) REFERENCES "Keyband".pulsera(id)
+)
+WITH (
+ OIDS=false
+);
 CREATE TABLE "Keyband".Categoria_producto (
 	id varchar(100) NOT NULL,
 	comestible boolean not null,
@@ -82,7 +104,7 @@ WITH (
 
 CREATE TABLE "Keyband".Producto (
 	id varchar(100) NOT NULL,
-	nombre varchar(100)not NULL,
+	nombre varchar(100)NOT NULL,
 	descripcion varchar(100),
 	precio numeric(6,2),
 	iva numeric(2),
@@ -124,10 +146,22 @@ WITH (
 	OIDS=false
 );
 
+CREATE TABLE "Keyband".tpv (
+	id varchar(100) NOT NULL,
+	nombre varchar(100),
+	descripcion varchar(100),
+	PRIMARY KEY (id)
+)
+WITH (
+	OIDS=false
+);
+
 CREATE TABLE "Keyband".ticket (
 	id varchar(100) NOT NULL,
 	usuario varchar(12)not NULL,
 	fecha timestamp not null,
+	tpv varchar(100),
+	foreign key (tpv) REFERENCES "Keyband".tpv(id),
 	FOREIGN KEY (usuario) REFERENCES "Keyband".usuario(dni),
 	PRIMARY KEY (id)
 )
@@ -149,7 +183,6 @@ WITH (
 	OIDS=false
 );
 
-/*JUANXO, ESTAS SON LAS TABLAS BUENAS
 
 CREATE TABLE "Keyband".Permiso (
 	id varchar(100) NOT NULL,
@@ -170,32 +203,29 @@ CREATE TABLE "Keyband".Permisos_rol (
 WITH (
 	OIDS=false
 );
-CREATE TABLE "Keyband".usuario_rol (
-	usuario varchar(12) NOT NULL,
-	rol varchar(100) NOT NULL,
-	PRIMARY KEY (usuario, rol),
-	FOREIGN KEY (usuario) REFERENCES "Keyband".usuario(dni),
-	FOREIGN KEY (rol) REFERENCES "Keyband".rol(id)
-)
 
-/*INSERTS*/
-insert into "Keyband".Usuario values('48731586S','qwerty','Paco','Perez Perez',0.0,'M','España','El Raal','Murcia',false,'pacopp@gmail.com','09/09/1964','01/01/2017','02/02/2017', null);
-insert into "Keyband".Usuario values('27452286T','qwerty','Juan','Martinez Gomez',0.0,'M','España','Cox','Alicante',false,'juanchocolate@gmail.com','10/10/1986','12/12/2016','01/01/2017', null);
-insert into "Keyband".Usuario values('78642986K','qwerty','Antonio','Macias Moreno',0.0,'M','España','Granada','Granada',false,'toni-maki@hotmail.com','08/08/1994','11/11/2016','12/12/2016', null);
-insert into "Keyband".Usuario values('58964855F','qwerty','Patricia','Gonzalez Garcia',0.0,'F','España','Villena','Alicante',false,'patriGG@gmail.com','10/09/1991','07/07/2016','08/08/2017', null);
-insert into "Keyband".Usuario values('65842984P','qwerty','Maria','Soriano Lopez',0.0,'F','España','Denia','Alicante',false,'marisolop@hotmail.com','10/10/1995','08/07/2016','08/08/2017', null);
-
-insert into "Keyband".estado_pulsera values('activa');
-insert into "Keyband".estado_pulsera values('inactiva');
-
-insert into "Keyband".pulsera values('1', '7380','inactiva');
-insert into "Keyband".pulsera values('2', '7380','activa');
-
-insert into "Keyband".permiso values('1','permiso de prueba');
-insert into "Keyband".permiso values('2','permiso de prueba');
-insert into "Keyband".permiso values('3','permiso de prueba');
-
-insert into "Keyband".usuario_rol values('7380','prueba');
-insert into "Keyband".usuario_rol values('7380','Monitor');
-
+/*ROL*/
+insert into "Keyband".rol values('Cliente',false);
+/*USUARIO*/
+insert into "Keyband".usuario values('48764260M','blabla123','Alberto','García Garabal','m','España','Alicante','Alicante','Cliente',false,'alberto95-rm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
+insert into "Keyband".usuario values('73874534M','blabla123','Pepe','García Garabal','m','España','Alicante','Alicante','Empleado',false,'pepeeeeerm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
+/*CATEGORIA PRODUCTO*/
+insert into "Keyband".categoria_producto values('Alimentacion', true);
+insert into "Keyband".categoria_producto values('Masajes', false);
+insert into "Keyband".categoria_producto values('Deporte', false);
+insert into "Keyband".categoria_producto values('Otros servicios', false);
+insert into "Keyband".categoria_producto values('Excursiones', false);
+/*PRODUCTO*/
+insert into "Keyband".producto values('1','Coca-cola','Refresco con cafeina',2.3,21,'Tomando una coca-cola refrescante en Altea Hills',20,'Alimentacion',null,null,null);
+insert into "Keyband".producto values('2','Masaje de pies','Relajante masaje de pies de los mejores profesionales',5.5,21,'Masajico de pies en Altea Hills',null,'Masajes',null,null,null);
+insert into "Keyband".producto values('3','Fanta naranja','Refresco sabor naranja, con gas',2.0,21,'Tomando una fanta de naranja refrescante en Altea Hills',20,'Alimentacion',null,null,null);
+insert into "Keyband".producto values('4','Excursión a Roma','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones',null,'roma.jpg','roma.jpg');
+/*TICKET*/
+insert into "Keyband".ticket values('1','48764260M','2016-04-10','1');
+/*LINEA TICKET*/
+insert into "Keyband".linea_ticket values('1','1','1',2, 4.6);
+insert into "Keyband".linea_ticket values('2','1','3',3, 6);
+insert into "Keyband".linea_ticket values('3','1','4',1, 20);
+/*TPV*//***/
+insert into "Keyband".tpv values('1','tpv barra','tpv de la barra principal del hotel');
 insert into "Keyband".rol_permiso values('5077','1');

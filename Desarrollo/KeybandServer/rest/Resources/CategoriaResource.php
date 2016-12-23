@@ -37,7 +37,8 @@ class CategoriaResource{
 				$order = SupportResource::extractOrder($params);
 				$pagination = SupportResource::extractPagination($params);
 				$where = SupportResource::extractWhere($params);
-				CategoriaService::getCategorias($where,$order,$pagination);
+				if(CategoriaResource::ValidGet($where))
+					CategoriaService::getCategorias($where,$order,$pagination);
 				break;
 			case '2':   //categoria/id
 				CategoriaService::getCategoriaById($_GET['resource2']);
@@ -53,7 +54,8 @@ class CategoriaResource{
 		$objArr = (array)$obj;
 		switch ($type) {
 			case '1':   // insertar nueva categoria
-				$dataArray = CategoriaService::insertCategoria($objArr);
+				if(CategoriaResource::ValidPut($objArr))
+					$dataArray = CategoriaService::insertCategoria($objArr);
 				break;
 			default:
 				header('HTTP/1.1 405 Method Not Allowed');
@@ -67,7 +69,8 @@ class CategoriaResource{
 	
 		switch ($type) {
 			case '2':   //categoria/id
-				$dataArray = CategoriaService::updateCategoria($objArr,$_GET['resource2']);
+				if(CategoriaResource::ValidPost($objArr))
+					$dataArray = CategoriaService::updateCategoria($objArr,$_GET['resource2']);
 				break;
 			case '5':   //recurso/id
 				if($_GET['resource2']=="pulsera"){  //usuario/pulsera/id
@@ -93,6 +96,97 @@ class CategoriaResource{
 				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
+	}
+	public static function ValidGet($where){
+		if(count($where)>2){	//2 son todos los campos, reducir el numero si hay columnas que no sirven para buscar
+			SupportResource::echoError("mas filtros que columnas");
+			return false;
+		}
+		// TODO modificar la variable array cuando se modifiquen las columnas en la bbdd, si hay algun par�metro por el que no se busca eliminarlo, aunque esto ultimo es secundario
+		$array = array("id","comestible");
+		if($where!=null){
+			foreach($where as $key => $key_value) {
+				if(!in_array($key, $array)){
+					SupportResource::echoError("Hay filtros que no existen");
+					return false;
+				}else if($key=="comestible" && !SupportResource::isBool($key_value)){			
+						SupportResource::echoError("filtro de tipo no soportado");
+						return false;
+				}
+			}
+		}
+		return true;
+	}
+	public static function ValidPost($objArr){
+		if(count($objArr)>2){	//2 son todos los campos
+			SupportResource::echoError("campos de mas");
+			return false;
+		}
+		// TODO modificar la variable array cuando se modifiquen las columnas en la bbdd
+		$array = array("id","comestible");
+		if($objArr!=null){
+			foreach($objArr as $key => $key_value) {
+				if(!in_array($key, $array)){
+					SupportResource::echoError("Hay campos que no existen");
+					return false;
+				}
+			}
+		}
+		if(CategoriaResource::ContentObjArray($objArr))
+			return true;
+			else
+				return false;
+	}
+	public static function ValidPut($objArr){
+		$arrayKeys= array_keys($objArr);
+		if(count($arrayKeys)!=2){
+			SupportResource::echoError("campos de mas o falta algun not null");
+			return false;
+		}
+		$arrayNotNull=array("id","comestible");
+		$arraycol = array("id","comestible");
+		if($objArr!=null){
+			foreach($objArr as $key => $key_value) {
+				if(!in_array($key, $arraycol)){
+					SupportResource::echoError("Hay campos que no existen");
+					return false;
+				}
+			}
+		}
+		/*en este caso este bucle sobraria porque arraycol y arraynotnull valen lo mismo, lo dejo para no liar*/
+		for ($i = 0; $i < count($arrayNotNull); $i++) {
+			if(!in_array($arrayNotNull[$i],$arrayKeys)){
+				SupportResource::echoError("Falta algun parametro requerido");
+				return false;
+			}
+	
+		}
+		if(EstanciaResource::ContentObjArray($objArr))
+			return true;
+		else
+			return false;
+	}
+	public static function ContentObjArray($objArr){
+		$return=true;
+		foreach($objArr as $key => $key_value){
+			switch ($key){	//tantos case como columnas. Mirad el script actualizado o $array de ValidGet
+				case 'id':
+					if($key_value==null){//lo que hay dentro del if es el caso de que haya algo mal
+						SupportResource::echoError("formato id no soportado");
+						$return=false;
+						break 2;
+					}
+					break;
+				case 'comestible':
+					if(!SupportResource::isBool($key_value)){
+						SupportResource::echoError("formato comestible incorrecto");
+						$return=false;
+						break 2;
+					}
+					break;
+			}
+		}
+		return $return;
 	}
 }
 

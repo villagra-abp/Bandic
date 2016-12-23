@@ -10,11 +10,11 @@ class PulseraDAO {
 			try {
 				$conection = openConection();
 				$sql = "SELECT * FROM estado_pulsera";
-				$result = pg_query($conection, $sql);
+				$result = @pg_query($conection, $sql);
 				if (!$result) {//Resultado erroneo
-
-					header('HTTP/1.1 500 Resultado erroneo');
-					echo "Ocurrio un error.\n";
+					header('HTTP/1.1 200 Error con la base de datos');
+					return error_get_last();
+						
 				}else{//Resultado correcto
 					$count = pg_numrows($result);
 					for($i=0; $i<$count; $i++) {
@@ -23,7 +23,7 @@ class PulseraDAO {
 					}
 				}
 					
-				pg_close($conection);
+				@pg_close($conection);
 			}catch (Exception $e) {//TODO Exception generica maaaal
 				echo "Excepcion";
 				//throw new Exception ($e->getMessage());

@@ -22,10 +22,8 @@ class UsuarioDAO {
 				$sql = $sql.MasterDAO::constructPagination($pagination);
 			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
-
-				var_dump(http_response_code(500));
-				return "Ocurri� un error en la consulta:".error_get_last();
-
+				header('HTTP/1.1 200 Error con la base de datos');
+				return error_get_last();
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
