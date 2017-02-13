@@ -120,5 +120,11 @@ class SupportResource {
 			return true;
 		}
 	}
+	public function Autorizathed($id_permiso,$user){
+		if(PermisoService::Autorizathed($id_permiso,$user))
+			return true;
+			else
+				SupportResource::echoError("no tienes permiso para hacer esto");
+	}
 }//end class
 ?>

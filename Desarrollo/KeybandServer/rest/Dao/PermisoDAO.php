@@ -34,5 +34,27 @@ class PermisoDAO {
 		}
 		return $dataArray;
 	}
+	public static function getAutorizathed($id_permiso, $user){
+		$valid = false;
+		try {
+			$conection = openConection();
+			$sql = "select * from permisos_rol as pr, usuario_rol as ur where pr.id_permiso='".$id_permiso."' and pr.id_rol=ur.id_rol and ur.dni='".$user."';";
+			$result = @pg_query($conection, $sql);
+	
+			if (!$result) {
+				header('HTTP/1.1 200 Error con la base de datos');
+				return false;
+			}else{
+				$count = pg_numrows($result);
+				if($count!=0)
+					$valid = true;
+			}
+	
+			@pg_close($conection);
+		}catch (Exception $e) {//TODO Exception generica maaaal
+			echo "Excepcion";
+		}
+		return $valid;
+	}
 }
 ?>

@@ -53,6 +53,9 @@ class PermisoService {
 		$dataArray = MasterDAO::delete('permiso',$primaries);
 		echo json_encode($dataArray);
 	}
+	public static function Autorizathed($id_permiso,$user){
+		return PermisoDao::getAutorizathed($id_permiso,$user);
+	}
 
 
 }
