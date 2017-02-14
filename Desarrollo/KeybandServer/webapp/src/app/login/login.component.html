@@ -1,0 +1,26 @@
+<p>
+  login works!
+</p>
+
+
+<div class="container">
+  <h1 class="welcome text-center">Welcome to <br> Ice Code</h1>
+      <div class="card card-container">
+      <h2 class='login_title text-center'>Login</h2>
+      <hr>
+
+          <form class="form-signin" #loginForm="ngForm" (ngSubmit)="doLogin($event, dni.value, password.value)">
+              <span id="reauth-email" class="reauth-email"></span>
+              <p class="input_title">Email</p>
+              <input type="text" id="dni" class="login_box" #dni placeholder="0000000X"  required autofocus>
+              <p class="input_title">Contraseña</p>
+              <input type="password" id="password" class="login_box"  #password placeholder="******" required>
+              <div id="remember" class="checkbox">
+                  <label>
+                     
+                  </label>
+              </div>
+              <button class="btn btn-lg btn-primary" type="submit">Login</button>
+          </form><!-- /form -->
+      </div><!-- /card-container -->
+  </div>

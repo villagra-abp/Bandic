@@ -1,0 +1,36 @@
+<p>
+  cliente works!
+</p>
+<div class="panel-body">
+		
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>				
+						<th class="text-center column80">Acciones</th>
+						<th class="text-center">DNI</th>
+						<th class="text-center">Nombre</th>
+						<th class="text-center">Apellidos</th>
+						<th class="text-center">Email</th>
+						<th class="text-center">Empleado</th>
+						<th class="text-center">Localidad</th>
+						<th class="text-center">Provincia</th>
+						<th class="text-center">Pais</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let usuario of usuarios | keys">
+						<td></td>
+						<td>{{usuario.value.dni}}</td>
+						<td>{{usuario.value.nombre}}</td>
+						<td>{{usuario.value.apellidos}}</td>
+						<td>{{usuario.value.email}}</td>
+						<td>{{usuario.value.empleado}}</td>
+						<td>{{usuario.value.localidad}}</td>
+						<td>{{usuario.value.provincia}}</td>
+						<td>{{usuario.value.pais}}</td>
+					</tr>
+				</tbody>
+			</table> 
+		</div>
+	</div>
