@@ -42,7 +42,6 @@ class UsuarioResource{
 					UsuarioService::getUsuarios($where,$order,$pagination);
 				break;
 			case '2':   //usuario/id
-				if(UsuarioResource::ValidGet($where))
 					UsuarioService::getUsuarioById($_GET['resource2']);
 				break;
 			case '5':   //usuario/recurso/id
