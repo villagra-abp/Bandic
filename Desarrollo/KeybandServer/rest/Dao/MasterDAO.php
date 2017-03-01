@@ -3,7 +3,6 @@ include_once "./conection.php";
 include_once "./Resources/SupportResource.php";
 
 class MasterDAO {
-	
 	public static function delete($table,$primaries) {
 		/*EJEMPLO
 		 * $table = "usuario"
@@ -229,6 +228,7 @@ class MasterDAO {
 				$sql = $sql.MasterDAO::constructOrderBy($order);
 			if($pagination)
 				$sql = $sql.MasterDAO::constructPagination($pagination);
+			//echo $sql;
 			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
 				header('HTTP/1.1 200 Ocurrio un error en la consulta');
@@ -324,10 +324,13 @@ class MasterDAO {
 					$sql = $sql.$key." is null ";
 					else {
 						if(!SupportResource::isTable($key_value)){
-							$sql = $sql.$key."='".$key_value."' ";
+							if(!SupportResource::isBool($key_value) && !is_numeric($key_value))
+								$sql = $sql.$key." LIKE '%".$key_value."%' ";
+							else 
+								$sql = $sql.$key." = '".$key_value."' ";
 						}
 						else {
-							$sql = $sql.$key."=".$key_value." ";
+							$sql = $sql.$key." = ".$key_value." ";
 						}
 					}
 			}else{
@@ -335,10 +338,13 @@ class MasterDAO {
 					$sql = $sql."AND".$key." is null";
 					else {
 						if(!SupportResource::isTable($key_value)){
-							$sql = $sql."AND ".$key."='".$key_value."' ";
+							if(!SupportResource::isBool($key_value) && !is_numeric($key_value))
+								$sql = $sql."AND ".$key." LIKE '%".$key_value."%' ";
+							else
+								$sql = $sql."AND ".$key." = '".$key_value."' ";
 						}
 						else {
-							$sql = $sql."AND ".$key."=".$key_value." ";
+							$sql = $sql."AND ".$key." = ".$key_value." ";
 						}
 					}
 			}

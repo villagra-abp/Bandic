@@ -48,6 +48,7 @@ class ProductoResource{
 			case '4':
 				if($_GET['resource2'] == "reservable") {
 					$params = SupportResource::getParams(2);
+					
 					$order = SupportResource::extractOrder($params);
 					$pagination = SupportResource::extractPagination($params);
 					$where = SupportResource::extractWhere($params);

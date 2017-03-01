@@ -1,3 +1,129 @@
-<p>
-  producto works!
-</p>
+<app-buscador-producto></app-buscador-producto>
+<div class="panel-body">
+        
+        <div onload="getProductos()" class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead class = "color">
+                    <tr>
+                        <th class="text-center">Acciones</th>
+                        <th class="text-center">Id</th>                
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Categoria</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center">Empleado</th>
+                        <th class="text-center">Reservable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let producto of productos | keys">
+                        <td>
+                            <button ng-click="" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                            <a href="#" data-toggle="modal" data-target="#editar">
+                                <button (click)="editEstancia(producto.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Detalle">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </button>
+                            </a>
+                        </td>
+                        <td>{{producto.value.id}}</td>
+                        <td>{{producto.value.nombre}}</td>
+                        <td>{{producto.value.categoria_producto}}</td>
+                        <td>{{producto.value.precio}}</td>
+                        <td>pepe</td>
+                        <td>{{producto.value.Reservable}}</td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+    <div class="modal fade" id="editar" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Editar producto</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="crearProducto($event, id.value, descripcion.value, categoria.value)">
+                        <fieldset>
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="user">Nombre del producto</label>  
+                          <div class="col-md-6">
+                              <input class="form-control focusedInput" value="" type="text" #nombre placeholder="Introduzca nombre" required autofocus>
+                            <!--<span class="error" id="errorusu">Nombre no disponible.</span>-->
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="nombre">Descripcion</label>  
+                          <div class="col-md-6">
+                          <textarea class="form-control focusedInput" value="" #descripcion placeholder="Introduzca descripcion" required=""></textarea>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="nombre">Categoria</label>  
+                          <div class="col-md-6">
+                          <input class="form-control focusedInput" value="" type="text" #categoria placeholder="Introduzca categoria" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Precio</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput" value="" type="number" #precio placeholder="Introduzca precio" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Iva</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput" value="" type="text" #precio placeholder="Introduzca precio" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Tweet</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput" value="" type="text" #precio placeholder="Introduzca precio" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Cantidad disponible</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput" value="" type="number" #precio placeholder="Introduzca precio" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Imagen de producto</label>
+                          <label class="focusedInput col-md-6">
+                             Explorador de archivos&hellip; <input type="file" class="form-control focusedInput" style="display: none;">
+                          </label>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Imagen para redes sociales</label>
+                          <label class="focusedInput col-md-6">
+                            Explorador de archivos&hellip; <input type="file" class="form-control focusedInput" style="display: none;">
+                          </label>
+                        </div>
+
+                       <!-- Button -->
+                        <div class="form-group">
+                          <label class="col-md-8 control-label"></label>
+                          <div class="col-md-4">
+                            <br>
+                            <button type="submit" class="focusedInput">Confirmar</button>
+                          </div>
+                        </div>
+
+                       </fieldset>
+                        </form>        
+                    </div>
+                  </div>            
+                </div>
+              </div>

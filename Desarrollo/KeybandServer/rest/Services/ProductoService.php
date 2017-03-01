@@ -30,7 +30,7 @@ class ProductoService {
 	public static function getProductosReservables($where,$order,$pagination) {
 		$where["categoria_producto.comestible"] = 'false';
 		$where["categoria_producto.id"] = "producto.categoria_producto";
-		$dataArray = MasterDAO::getAll(["producto", "categoria_producto"],["producto.id","producto.nombre","producto.descripcion","producto.precio","producto.cantidad_disponible","producto.categoria_producto"],$where,$order,$pagination);
+		$dataArray = ProductoDAO::getProductosReservables(["producto", "categoria_producto"],["producto.id","producto.nombre","producto.descripcion","producto.precio","producto.cantidad_disponible","producto.categoria_producto"],$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 

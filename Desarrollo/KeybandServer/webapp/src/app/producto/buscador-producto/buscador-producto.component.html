@@ -1,3 +1,114 @@
-<p>
-  buscador-producto works!
-</p>
+<div class="container buscadorProducto">
+  <form (ngSubmit)="onChange($event, id.value, nombre.value, categoria.value, empleado.value, reservable.checked)" class="form-inline formulario">
+    <div class="form-group">
+      <input placeholder="ID" class="form-control" name="id" #id class="focusedInput focusedInputMenu id" type="text">
+      <input placeholder="Nombre" name="nombre" #nombre class="form-control" class="focusedInput focusedInputMenu" type="text">
+      <select class="focusedInput" name="categoria" #categoria>
+        <option selected="selected">Todas</option>
+        <option *ngFor="let categoria of categorias | keys" [selected]="categoria.value.id == 'Todas'">{{categoria.value.id}}</option>
+      </select>
+      <input placeholder="Empleado" name="empleado" #empleado class="form-control" class="focusedInput focusedInputMenu" type="text">
+      <div class="checkbox">
+        <label><input type="checkbox" id="reservable" #reservable value="pepe" name="reservable">Reservable</label>
+      </div>
+    </div>
+    <button type="submit" class="focusedInput focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">
+             Buscar
+    </button>
+     <a href="#" data-toggle="modal" data-target="#registro">
+         <button (click)="editEstancia(producto.value.id)" class="focusedInput focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">
+             Crear producto
+         </button>
+    </a>
+  </form>
+</div>
+<div class="modal fade" id="registro" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Crear producto</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="crearProducto($event, id.value, descripcion.value, categoria.value)">
+                        <fieldset>
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="user">Nombre del producto</label>  
+                          <div class="col-md-6">
+                              <input class="form-control focusedInput" value="" type="text" #nombre2 placeholder="Introduzca nombre" required autofocus>
+                            <!--<span class="error" id="errorusu">Nombre no disponible.</span>-->
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="nombre">Descripcion</label>  
+                          <div class="col-md-6">
+                          <textarea class="form-control focusedInput" value="" #descripcion placeholder="Introduzca descripcion" required=""></textarea>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="nombre">Categoria</label>  
+                          <div class="col-md-6">
+                          <input class="form-control focusedInput" value="" type="text" #categoria2 placeholder="Introduzca categoria" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Precio</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput" value="" type="number" #precio placeholder="Introduzca precio" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Iva</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput" value="" type="text" #iva placeholder="Introduzca precio" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Tweet</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput" value="" type="text" #tweet placeholder="Introduzca precio" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Cantidad disponible</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput" value="" type="number" #precio placeholder="Introduzca precio" required="">
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Imagen de producto</label>
+                          <label class="focusedInput col-md-6">
+                             Explorador de archivos&hellip; <input type="file" class="form-control focusedInput" style="display: none;">
+                          </label>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Imagen para redes sociales</label>
+                          <label class="focusedInput col-md-6">
+                            Explorador de archivos&hellip; <input type="file" class="form-control focusedInput" style="display: none;">
+                          </label>
+                        </div>
+
+                       <!-- Button -->
+                        <div class="form-group">
+                          <label class="col-md-8 control-label"></label>
+                          <div class="col-md-4">
+                            <br>
+                            <button type="submit" class="focusedInput">Confirmar</button>
+                          </div>
+                        </div>
+
+                       </fieldset>
+                        </form>        
+                    </div>
+                  </div>            
+                </div>
+              </div>

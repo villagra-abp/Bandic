@@ -13,7 +13,6 @@ require_once "Resources/PromocionResource.php";
 require_once "Resources/TpvResource.php";
 
 class API {    
-
     public function rest(){
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Headers:Origin, X-Requested-With, Content-Type, Accept");
