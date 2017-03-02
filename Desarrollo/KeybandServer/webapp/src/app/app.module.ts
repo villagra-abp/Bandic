@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 //importamos los componentes 
+import { ChartsModule } from 'ng2-charts';
 import { AppComponent } from './app.component';
 import { ProfileBarComponent } from './profile-bar/profile-bar.component';
 import { ClienteComponent } from './cliente/cliente.component';
@@ -34,6 +35,7 @@ import { OcupacionComponent } from './metricas/ocupacion/ocupacion.component';
 import { ContabilidadComponent } from './metricas/contabilidad/contabilidad.component';
 import { PromocionComponent } from './promocion/promocion.component';
 import { MapaComponent } from './mapa/mapa.component';
+import { BuscadorNotificacionComponent } from './notificacion/buscador-notificacion/buscador-notificacion.component';
 
 import {MainPipe} from './tools/pipe.module';
 
@@ -44,6 +46,7 @@ import {MainPipe} from './tools/pipe.module';
     ProfileBarComponent,
     ClienteComponent,
     MetricasComponent,
+    NotificacionComponent,
     EstanciaComponent,
     EmpleadoComponent,
     ProductoComponent,
@@ -66,8 +69,10 @@ import {MainPipe} from './tools/pipe.module';
     ContabilidadComponent,
     PromocionComponent,
     MapaComponent,
+    BuscadorNotificacionComponent
   ],
   imports: [
+    ChartsModule,
     BrowserModule,
     FormsModule,
     HttpModule,

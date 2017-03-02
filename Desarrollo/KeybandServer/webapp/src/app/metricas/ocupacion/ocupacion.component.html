@@ -1,3 +1,21 @@
-<p>
-  ocupacion works!
-</p>
+
+<div>
+  <h1> Ocupación de una estancia </h1>
+  <br>
+  <form class="otra" #loginForm="ngForm" (ngSubmit)="getOcupacion(id.value)">
+    <input id="ocupacion" name="ocupacion" type="text" #id placeholder="Introduzca estancia" class="prueba" required="" autofocus>
+    <button type="submit">Buscar</button>
+  </form>
+<h1> Resultados </h1>
+  <div style="display: block">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+ <!-- <button (click)="randomize()">Modificar</button>-->
+</div>

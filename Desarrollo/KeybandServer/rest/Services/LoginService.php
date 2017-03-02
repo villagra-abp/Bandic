@@ -17,8 +17,7 @@ class LoginService {
 		if(count($dataArray)!=0){
 			$token = TokenService::crearToken($datos);
 			$obj = ["token" => $token ];
-			
-			
+		
 	
 			$dataArray2 = MasterDAO::update("usuario",$obj,$datos);
 				

@@ -49,6 +49,7 @@ class MasterDAO {
 	}
 	
 	public static function update($table,$obj,$primaries) {
+		echo $obj;
 		/*EJEMPLO
 		 $table = "usuario"
 		 $obj = ["dni":"dnifalso123","nombre":"UpdatePrueba","apellidos":camporandom,

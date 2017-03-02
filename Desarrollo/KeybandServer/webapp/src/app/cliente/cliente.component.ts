@@ -6,7 +6,7 @@ import { MainPipe } from '../tools/pipe.module';
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
   styleUrls: ['./cliente.component.css'],
- providers:[ClienteService]
+  providers:[ClienteService]
  
 })
 export class ClienteComponent implements OnInit {

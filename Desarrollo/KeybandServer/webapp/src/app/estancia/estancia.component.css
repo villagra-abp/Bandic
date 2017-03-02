@@ -1,0 +1,8 @@
+.color{
+    color: white;
+    background: #2a3f54;
+}
+
+.error{
+    visibility: hidden;
+}
