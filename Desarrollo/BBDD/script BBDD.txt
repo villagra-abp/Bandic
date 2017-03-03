@@ -206,14 +206,7 @@ insert into "Keyband".rol values('Limpieza',true);
 insert into "Keyband".rol values('Admin',true);
 insert into "Keyband".rol values('Recepcion',true);
 insert into "Keyband".rol values('Habitacion001',false);
-/*permiso_rol*/
-insert into "Keyband".permisos_rol values('Admin','03001');
-insert into "Keyband".permisos_rol values('Limpieza','03002');
-insert into "Keyband".permisos_rol values('Recepcion','02001');
-insert into "Keyband".permisos_rol values('Recepcion','02002');
-insert into "Keyband".permisos_rol values('Recepcion','02003');
-insert into "Keyband".permisos_rol values('Habitacion001','01001');
-/*PERMISO esto está actualizadooooooooooooooooooooooooooooooooooooooooooooooooo*/
+/*PERMISO*/
 insert into "Keyband".permisos values('01001','Habitación001');
 insert into "Keyband".permisos values('01002','Habitación002');
 insert into "Keyband".permisos values('01003','Habitación003');
@@ -228,6 +221,13 @@ insert into "Keyband".permisos values('02014','Borrar Productos');
 insert into "Keyband".permisos values('03001','Admin');
 insert into "Keyband".permisos values('03002','Acceso a todo');
 insert into "Keyband".permisos values('03003','TPV');
+/*permiso_rol*/
+insert into "Keyband".permisos_rol values('Admin','03001');
+insert into "Keyband".permisos_rol values('Limpieza','03002');
+insert into "Keyband".permisos_rol values('Recepcion','02001');
+insert into "Keyband".permisos_rol values('Recepcion','02002');
+insert into "Keyband".permisos_rol values('Recepcion','02003');
+insert into "Keyband".permisos_rol values('Habitacion001','01001');
 /*USUARIO*/
 insert into "Keyband".usuario values('48764260M','blabla123','Alberto','García Garabal','m','España','Alicante','Alicante',false,'alberto95-rm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
 insert into "Keyband".usuario values('73874534M','blabla123','Pepe','García Garabal','m','España','Alicante','Alicante',false,'pepeeeeerm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
@@ -264,16 +264,16 @@ insert into "Keyband".pulsera values('2','48764260M','perdida');
 insert into "Keyband".pulsera values('3',null,'sin asignar');
 insert into "Keyband".pulsera values('4',null,'sin asignar');
 /*ESTANCIA*/
-insert into "Keyband".estancia values('piscina',50,true,null);
-insert into "Keyband".estancia values('pista de padel',4,true,null);
-insert into "Keyband".estancia values('habitacion001',1,false,null);
-insert into "Keyband".estancia values('habitacion002',1,false,null);
-insert into "Keyband".estancia values('habitacion003',2,false,null);
+insert into "Keyband".estancia values('Piscina',50,true,null);
+insert into "Keyband".estancia values('Pista de padel',4,true,null);
+insert into "Keyband".estancia values('Habitacion001',1,false,null);
+insert into "Keyband".estancia values('Habitacion002',1,false,null);
+insert into "Keyband".estancia values('Habitacion003',2,false,null);
 /*FECHA ACCESO*/
 insert into "Keyband".fecha_acceso values('1995-10-12 13:00:00');
 insert into "Keyband".fecha_acceso values('1998-02-12 17:00:00');
 insert into "Keyband".fecha_acceso values('2002-10-12 13:00:00');
 /*ACCESO ESTANCIA*/
-insert into "Keyband".acceso_estancia values('piscina','1','1995-10-12 13:00:00',null);
-insert into "Keyband".acceso_estancia values('piscina','1','1998-02-12 17:00:00','2000-05-05 14:00:00');
-insert into "Keyband".acceso_estancia values('habitacion001','2','1998-02-12 17:00:00','2000-05-05 14:00:00');
+insert into "Keyband".acceso_estancia values('Piscina','1','1995-10-12 13:00:00',null);
+insert into "Keyband".acceso_estancia values('Piscina','1','1998-02-12 17:00:00','2000-05-05 14:00:00');
+insert into "Keyband".acceso_estancia values('Habitacion001','2','1998-02-12 17:00:00','2000-05-05 14:00:00');
