@@ -168,9 +168,9 @@ WITH (
 	OIDS=false
 );
 
-CREATE TABLE "Keyband".Permisos (
+CREATE TABLE "Keyband".Permiso (
 	id varchar(5) NOT NULL,
-	descricpion varchar(500) NOT NULL,
+	descripcion varchar(500) NOT NULL,
 	PRIMARY KEY (id)
 )
 WITH (
@@ -181,7 +181,7 @@ CREATE TABLE "Keyband".Permisos_rol (
 	rol varchar(100) NOT NULL,
 	permiso varchar(5) NOT NULL,
 	FOREIGN KEY (rol) REFERENCES "Keyband".Rol(id),
-	FOREIGN KEY (permiso) REFERENCES "Keyband".Permisos(id),
+	FOREIGN KEY (permiso) REFERENCES "Keyband".Permiso(id),
 	PRIMARY KEY (rol, permiso)
 )
 WITH (
@@ -207,20 +207,20 @@ insert into "Keyband".rol values('Admin',true);
 insert into "Keyband".rol values('Recepcion',true);
 insert into "Keyband".rol values('Habitacion001',false);
 /*PERMISO*/
-insert into "Keyband".permisos values('01001','Habitación001');
-insert into "Keyband".permisos values('01002','Habitación002');
-insert into "Keyband".permisos values('01003','Habitación003');
-insert into "Keyband".permisos values('02001','Crear Usuarios');
-insert into "Keyband".permisos values('02002','Listar Usuarios');
-insert into "Keyband".permisos values('02003','Actualizar Usuarios');
-insert into "Keyband".permisos values('02004','Borrar Usuarios');
-insert into "Keyband".permisos values('02011','Crear Productos');
-insert into "Keyband".permisos values('02012','Listar Productos');
-insert into "Keyband".permisos values('02013','Actualizar Productos');
-insert into "Keyband".permisos values('02014','Borrar Productos');
-insert into "Keyband".permisos values('03001','Admin');
-insert into "Keyband".permisos values('03002','Acceso a todo');
-insert into "Keyband".permisos values('03003','TPV');
+insert into "Keyband".permiso values('01001','Habitación001');
+insert into "Keyband".permiso values('01002','Habitación002');
+insert into "Keyband".permiso values('01003','Habitación003');
+insert into "Keyband".permiso values('02001','Crear Usuarios');
+insert into "Keyband".permiso values('02002','Listar Usuarios');
+insert into "Keyband".permiso values('02003','Actualizar Usuarios');
+insert into "Keyband".permiso values('02004','Borrar Usuarios');
+insert into "Keyband".permiso values('02011','Crear Productos');
+insert into "Keyband".permiso values('02012','Listar Productos');
+insert into "Keyband".permiso values('02013','Actualizar Productos');
+insert into "Keyband".permiso values('02014','Borrar Productos');
+insert into "Keyband".permiso values('03001','Admin');
+insert into "Keyband".permiso values('03002','Acceso a todo');
+insert into "Keyband".permiso values('03003','TPV');
 /*permiso_rol*/
 insert into "Keyband".permisos_rol values('Admin','03001');
 insert into "Keyband".permisos_rol values('Limpieza','03002');
