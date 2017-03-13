@@ -19,8 +19,8 @@ CREATE TABLE "Keyband".Usuario (
 	empleado boolean not null,
 	email varchar(100) not null unique,
 	fecha_nacimiento date not null,
-	fecha_entrada timestamp,
-	fecha_salida timestamp,
+	fecha_entrada date,
+	fecha_salida date,
 	saldo numeric(6,2),
 	token varchar(500) null,
 	PRIMARY KEY (dni)
