@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once "Resources/UsuarioResource.php"; 
 require_once "Resources/CategoriaResource.php";
 require_once "Resources/PulseraResource.php";
