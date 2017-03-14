@@ -14,6 +14,7 @@ import { EstanciaComponent } from './estancia/estancia.component';
 import { EmpleadoComponent } from './empleado/empleado.component';
 import { ProductoComponent } from './producto/producto.component';
 import { NotificacionComponent } from './notificacion/notificacion.component';
+import { BuscadorNotificacionComponent} from './notificacion/buscador-notificacion/buscador-notificacion.component'
 import { RolComponent } from './rol/rol.component';
 import { CategoriaProductoComponent } from './categoria-producto/categoria-producto.component';
 import { PulseraComponent } from './pulsera/pulsera.component';
@@ -36,6 +37,8 @@ import { PromocionComponent } from './promocion/promocion.component';
 import { MapaComponent } from './mapa/mapa.component';
 
 import {MainPipe} from './tools/pipe.module';
+import { NewRolComponent } from './rol/new-rol/new-rol.component';
+import { EditRolComponent } from './rol/edit-rol/edit-rol.component';
 
 
 @NgModule({
@@ -52,6 +55,7 @@ import {MainPipe} from './tools/pipe.module';
     PulseraComponent,
     HabitacionComponent,
     LoginComponent,
+    NotificacionComponent,
     BuscadorCategoriaComponent,
     BuscadorClienteComponent,
     BuscadorEmpleadoComponent,
@@ -60,12 +64,15 @@ import {MainPipe} from './tools/pipe.module';
     BuscadorProductoComponent,
     BuscadorPulseraComponent,
     BuscadorRolComponent,
+    BuscadorNotificacionComponent,
     InicioComponent,
     MenuComponent,
     OcupacionComponent,
     ContabilidadComponent,
     PromocionComponent,
     MapaComponent,
+    NewRolComponent,
+    EditRolComponent,
   ],
   imports: [
     BrowserModule,

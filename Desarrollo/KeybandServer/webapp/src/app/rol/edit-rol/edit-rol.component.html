@@ -1,0 +1,89 @@
+<div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Editar rol</h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form class="form-horizontal form-label-left"  name="contact_form" role="form"  #NewRolForm="ngForm" (ngSubmit)="editRol()">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombre</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" id="user" name="user" class="form-control" value="{{rol.id}}" #id placeholder="Introduzca identificador" [(ngModel)]="rol.id" required disabled>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                         <div class="checkbox">
+                            <label>
+                             
+                               <input id="nombre" name="nombre" type="checkbox" #empleado [(ngModel)]="rol.empleado">Empleado
+                            </label>
+                          </div>
+                      </div>
+                      <div class="form-group"  *ngIf="initialized">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">Permisos de acceso
+                          <br>
+                          <small class="text-navy">Controlan el acceso a las diferentes estancias</small>
+                        </label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <div class="container col-md-9 col-sm-9 col-xs-12">
+                            <div *ngFor="let Permiso of permisos01 | keys">
+
+                              <label><input type="checkbox" ngControl="permisos01" [checked]=Permiso.value.checked value={{Permiso.value.value}} (change)="updateP01(Permiso,$event)">{{Permiso.value.name}}</label>
+                              
+                            </div>
+                        </div>  
+                        </div>
+                      </div>
+                      <div class="form-group"  *ngIf="initialized">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">Permisos de gestión
+                          <br>
+                          <small class="text-navy">Permiten manipular los elementos del sistema</small>
+                        </label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <div class="container col-md-9 col-sm-9 col-xs-12">
+                            <div *ngFor="let Permiso of permisos02 | keys">
+
+                              <label><input type="checkbox" ngControl="permisos02" [checked]=Permiso.value.checked value={{Permiso.value.value}} (change)="updateP02(Permiso,$event)">{{Permiso.value.name}}</label>
+                              
+                            </div>
+                        </div>
+                        </div>
+                      </div>
+                      <div class="form-group"  *ngIf="initialized">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">Permisos de funcionalidad
+                          <br>
+                          <small class="text-navy">Permiten al empleado realizar diversas acciones</small>
+                        </label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <div class="container col-md-9 col-sm-9 col-xs-12">
+                            <div *ngFor="let Permiso of permisos03 | keys">
+
+                              <label><input type="checkbox" ngControl="permisos03" [checked]=Permiso.value.checked value={{Permiso.value.value}} (change)="updateP03(Permiso,$event)">{{Permiso.value.name}}</label>
+                              
+                            </div>
+                        </div>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+                       <div class="form-group">
+                          <label class="col-md-8 control-label"></label>
+                          <div class="col-md-4">   
+                             <button type="submit" class="btn btn-primary">Editar Rol</button>
+                          </div>
+                        </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>

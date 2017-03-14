@@ -8,72 +8,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Gentelella Alela! | </title>
-
+    
     <!-- Bootstrap -->
-    <link href="./vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="./vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="./vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
-    <link href="./vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="vendors/iCheck/skins/flat/green.css" rel="stylesheet">
 	
     <!-- bootstrap-progressbar -->
-    <link href="./vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <link href="vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- JQVMap -->
-    <link href="./vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <link href="vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
-    <link href="./vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="./build/css/custom.min.css" rel="stylesheet">
+    <link href="build/css/custom.min.css" rel="stylesheet">
+
+   <script type='text/javascript' src='build/js/gl-matrix-min.js'></script>
+<script type='text/javascript' src='build/js/utils.js'></script>
+<script type='text/javascript' src='build/js/K3D.js'></script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+attribute vec3 aVertexPosition;
+attribute vec3 aVertexNormal;
+ 
+uniform mat4 uMVMatrix; 
+uniform mat4 uPMatrix; 
+uniform mat4 uNMatrix;
+ 
+uniform vec4 uAmbient;
+uniform float uShininess;   //shininness
+uniform vec3 uLightDirection;  //light direction
+ 
+uniform vec4 u_Color;
+ 
+varying vec4 vFinalColor;
+ 
+void main(void) {
+ 
+    //Transformed vertex position
+    vec4 vertex = uMVMatrix * vec4(aVertexPosition, 1.0);
+    
+    //Transformed normal position
+    vec3 N = vec3(uNMatrix * vec4(aVertexNormal, 1.0));
+    
+    //Normalize light to calculate lambertTerm
+    vec3 L = normalize(uLightDirection); 
+    
+    //Lambert's cosine law
+    float lambertTerm = dot(N,-L);
+    
+    //Ambient Term
+    vec4 Ia = u_Color*uAmbient;
+    
+    //Diffuse Term
+    vec4 Id = vec4(0.0,0.0,0.0,1.0);
+    
+    //Specular Term
+    vec4 Is = vec4(0.0,0.0,0.0,1.0);
+    
+    if(lambertTerm > 0.0) //only if lambertTerm is positive
+    {
+        Id = u_Color * lambertTerm; //add diffuse term
+        
+        vec3 eyeVec = -vec3(vertex.xyz);
+        vec3 E = normalize(eyeVec);
+        vec3 R = reflect(L, N);
+        float specular = pow(max(dot(R, E), 0.0), uShininess );
+        
+        Is = u_Color * specular; //add specular term
+    }
+    
+    
+    //Final color
+    vFinalColor = Ia + Id + Is;
+    vFinalColor.a = 1.0;
+ 
+    //Transformed vertex position
+    gl_Position = uPMatrix * vertex;
+}
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec4  vFinalColor;
+
+void main(void)  {
+ gl_FragColor = vFinalColor;
+}
+</script>
+
   </head>
 
   <body class="nav-md">
-    <base href="/">
+    <base href="./">
     <app-root></app-root>
     
   </body>
     <!-- jQuery -->
-    <script src="./vendors/jquery/dist/jquery.min.js"></script>
+    <script src="vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="./vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
-    <script src="./vendors/fastclick/lib/fastclick.js"></script>
+    <!-- <script src="vendors/fastclick/lib/fastclick.js"></script> -->
     <!-- NProgress -->
-    <script src="./vendors/nprogress/nprogress.js"></script>
+    <script src="vendors/nprogress/nprogress.js"></script>
     <!-- Chart.js -->
-    <script src="./vendors/Chart.js/dist/Chart.min.js"></script>
+    <script src="vendors/Chart.js/dist/Chart.min.js"></script>
     <!-- gauge.js -->
-    <script src="./vendors/gauge.js/dist/gauge.min.js"></script>
+    <script src="vendors/gauge.js/dist/gauge.min.js"></script>
     <!-- bootstrap-progressbar -->
-    <script src="./vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <!-- iCheck -->
-    <script src="./vendors/iCheck/icheck.min.js"></script>
+    <script src="vendors/iCheck/icheck.min.js"></script>
     <!-- Skycons -->
-    <script src="./vendors/skycons/skycons.js"></script>
+    <script src="vendors/skycons/skycons.js"></script>
     <!-- Flot -->
-    <script src="./vendors/Flot/jquery.flot.js"></script>
-    <script src="./vendors/Flot/jquery.flot.pie.js"></script>
-    <script src="./vendors/Flot/jquery.flot.time.js"></script>
-    <script src="./vendors/Flot/jquery.flot.stack.js"></script>
-    <script src="./vendors/Flot/jquery.flot.resize.js"></script>
+    <script src="vendors/Flot/jquery.flot.js"></script>
+    <script src="vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="vendors/Flot/jquery.flot.time.js"></script>
+    <script src="vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="vendors/Flot/jquery.flot.resize.js"></script>
     <!-- Flot plugins -->
-    <script src="./vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-    <script src="./vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-    <script src="./vendors/flot.curvedlines/curvedLines.js"></script>
+    <script src="vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="vendors/flot.curvedlines/curvedLines.js"></script>
     <!-- DateJS -->
-    <script src="./vendors/DateJS/build/date.js"></script>
+    <script src="vendors/DateJS/build/date.js"></script>
     <!-- JQVMap -->
-    <script src="./vendors/jqvmap/dist/jquery.vmap.js"></script>
-    <script src="./vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="./vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <script src="vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
     <!-- bootstrap-daterangepicker -->
-    <script src="./vendors/moment/min/moment.min.js"></script>
-    <script src="./vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="vendors/moment/min/moment.min.js"></script>
+    <script src="vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="./build/js/custom.min.js"></script>
+    <script src="build/js/custom.min.js"></script>
 	
-  
+        <script id='code-js' data-main="build/js/main" src="http://requirejs.org/docs/release/1.0.8/comments/require.js"></script>
+
 </html>

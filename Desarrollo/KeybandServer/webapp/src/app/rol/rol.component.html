@@ -1,3 +1,35 @@
-<p>
-  rol works!
-</p>
+<div class="panel-body">
+		
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover">
+				<thead class = "color">
+					<tr>
+						<th class="text-center">Acciones</th>				
+						<th class="text-center">Nombre</th>
+						<th class="text-center">Empleado</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let Rol of roles | keys">
+						<td>
+              <a href="#" data-toggle="modal" data-target="#borrar">
+							<button (click)="rellenarBorrar(habitacion.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+										<span class="glyphicon glyphicon-remove"></span>
+							</button>
+              </a>
+							<a href="#" data-toggle="modal" data-target="#registro">
+								<button (click)="getRol(Rol.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Detalle">
+									<span class="glyphicon glyphicon-edit"></span>
+								</button>
+							</a>
+						</td>
+						<td>{{Rol.value.id}}</td>
+						<td>{{Rol.value.empleado}}</td>
+					</tr>
+				</tbody>
+			</table> 
+		</div>
+	</div>
+<button type="button" class="btn btn-primary" (click)="redirect()">Crear Rol</button>
+
+<!--<a [routerLink]="['/curso', curso.id]">-->
