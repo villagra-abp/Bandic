@@ -50,7 +50,7 @@ class Share{
 		echo "<html>
 				<head>
 					<title>Prueba de PHP</title>
-					<meta http-equiv='refresh' content='10;url=".$url."'>
+					<meta http-equiv='refresh' content='0;url=".$url."'>
 				</head>
 				<body>
 					<img src='".$row['imagen_redes']."' />
