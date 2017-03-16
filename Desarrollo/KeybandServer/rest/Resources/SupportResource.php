@@ -57,7 +57,7 @@ class SupportResource {
 		echo json_encode($dataArray);
 	}
 	public function isBool($string){
-		if($string!="true" && $string!="false" && $string!="t" && $string!="f"){
+		if($string!="true" && $string!="false" && $string!="t" && $string!="f" && $string!=false && $string!=true ){
 			return false;
 		}
 		return true;

@@ -40,7 +40,7 @@ class RolService {
 					"id" => $obj['id']
 			];
 			if(SupportService::IdValido('rol',$primariesaux,"Ya hay una rol con ese id")){
-				$dataArray = MasterDAO::update('rol',$obj,$primaries);
+				$dataArray = RolDAO::EditRol('rol',$obj,$primaries);
 				echo json_encode($dataArray);
 			}
 		}else{
