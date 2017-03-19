@@ -3,25 +3,27 @@ define(function (require) {
 
     var TEntidad = require('clases/TEntidad');
 
-    function TLuz(color, int) { //constructor de la clase
+    function TLuz(color, matriz) { //constructor de la clase
         if (!(this instanceof TLuz)) {
             throw new TypeError("nodo constructor cannot be called as a function.");
         }
        
         //TEntidad.call(this); //llamamos al constructor padre
         this.color = color;
-        this.numero = int;
+        this.position = matriz;
     }
 
     TLuz.prototype = {
         constructor: TLuz,
-
+        getPosition: function(){
+            return this.position;
+        },
         beginDraw: function () {
-            console.log("beginDraw TLuz");
+            //console.log("beginDraw TLuz");
         },
 
         endDraw: function () {
-            console.log("endraw TLuz");
+           // console.log("endraw TLuz");
         },
 
     };  

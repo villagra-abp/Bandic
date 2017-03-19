@@ -3,7 +3,7 @@ define(function (require) {
 
     var TEntidad = require('clases/TEntidad');
 
-    function TCamara(esPerspectiva, zoom, int) { //constructor de la clase
+    function TCamara(esPerspectiva, zoom, matriz) { //constructor de la clase
         if (!(this instanceof TCamara)) {
             throw new TypeError("nodo constructor cannot be called as a function.");
         }
@@ -11,18 +11,20 @@ define(function (require) {
         //TEntidad.call(this); //llamamos al constructor padre
         this.esPerspectiva = esPerspectiva;
         this.zoom = zoom;
-        this.position = int;
+        this.position = matriz;
+        this.padre;
     }
 
     TCamara.prototype ={
         constructor: TCamara,
-
-        beginDraw: function () {
-            console.log("beginDraw TCamara");           
+        getPosition: function(){
+            return this.position;
         },
-
+        beginDraw: function () {
+            //console.log("beginDraw TCamara");           
+        },
         endDraw: function () {
-            console.log("endDraw TCamara");
+            //console.log("endDraw TCamara");
         },
 
     };  
