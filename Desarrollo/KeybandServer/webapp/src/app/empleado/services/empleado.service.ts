@@ -51,7 +51,8 @@ getEmpleado(id){
                             .subscribe(response=>{
                            
                                 console.log(response.json());
-                                this.postPulsera(pulsera, dni, estado);
+                                if (pulsera!="")
+                                    this.postPulsera(pulsera, dni, estado);
                              
                             },
                             error => 

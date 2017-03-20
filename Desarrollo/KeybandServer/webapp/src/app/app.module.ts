@@ -39,6 +39,8 @@ import { MapaComponent } from './mapa/mapa.component';
 import {MainPipe} from './tools/pipe.module';
 import { WysiwygComponent } from './wysiwyg/wysiwyg.component';
 import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
+import { NewRolComponent } from './rol/new-rol/new-rol.component';
+import { EditRolComponent } from './rol/edit-rol/edit-rol.component';
 
 
 
@@ -75,6 +77,8 @@ import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
     PromocionComponent,
     MapaComponent,
     WysiwygComponent,
+    NewRolComponent,
+    EditRolComponent,
   
   
   ],
