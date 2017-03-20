@@ -134,7 +134,7 @@ class API {
     public function isResource($resource){//añadir al array por cada nuevo recurso que se cree
         // TODO comprobar diferencias $array = array("rol","usuario","producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket","carrito");
     	$array = array("usuario","password","passwordrestore","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo",
-        		"accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura","rol", "promocion", "reservable", "tpv");
+        		"accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura","rol", "promocion", "reservable", "tpv", "detalles");
         $longitud = count($array);
         for($i=0; $i<$longitud; $i++){
             if($resource==$array[$i])

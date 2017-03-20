@@ -1,5 +1,6 @@
 <?php
 require_once "./Dao/MasterDAO.php";
+require_once "./Dao/TicketDAO.php";
 require_once "SupportService.php";
 /***********************************************Ticket Service****************************************/
 
@@ -44,6 +45,17 @@ class TicketService {
 			///////////Get lineas de ticket, por ticket//////////////////////
 			$dataArray2 = MasterDAO::getById('linea_ticket',null,$primaries2);
 			echo json_encode($dataArray2);
+		}
+	}
+	
+	public static function getDetalles($id) {
+		if($id == ""){
+			header('HTTP/1.1 200 No ha introducido ID');
+		}
+		else {
+			$dataArray = TicketDAO::getDetalle($id);
+			echo json_encode($dataArray);
+			///////////Get lineas de ticket, por ticket//////////////////////
 		}
 	}
 	

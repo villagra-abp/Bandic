@@ -49,6 +49,8 @@ class TicketResource{
 				$dataArray = TicketService::getTicketById($_GET['resource2']);
 				break;
 			case '5':
+				if($_GET['resource2'] == "detalles")
+					$dataArray = TicketService::getDetalles($_GET['resource3']);
 				if($_GET['resource2'] == "factura")
 					$dataArray = TicketService::getFactura($_GET['resource3']);
 				if($_GET['resource2'] == "lineafactura")
