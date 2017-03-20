@@ -9,7 +9,11 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        ".htaccess",
+        "vendors",
+        "images",
+        "build"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -20,7 +24,11 @@
       "styles": [
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [  "../node_modules/tinymce/tinymce.js",
+  "../node_modules/tinymce/themes/modern/theme.js",
+  "../node_modules/tinymce/plugins/link/plugin.js",
+  "../node_modules/tinymce/plugins/paste/plugin.js",
+  "../node_modules/tinymce/plugins/table/plugin.js"],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",

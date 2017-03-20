@@ -105,6 +105,7 @@ class ProductoResource{
 					$where['asignar_producto.usuario'] = $_GET['resource3'];
 					$dataArray = ProductoService::getReservas($_GET['resource3'],$where,$order,$pagination);
 				}
+				break;
 			default:
 				header('HTTP/1.1 405 Method Not Allowed');
 				break;
