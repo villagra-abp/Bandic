@@ -11,6 +11,7 @@ require_once "Resources/LineaTicketResource.php";
 require_once "Resources/PermisoResource.php";
 require_once "Resources/PromocionResource.php";
 require_once "Resources/TpvResource.php";
+require_once "ShareOnFb.php";
 
 class API {    
 
@@ -28,6 +29,7 @@ class API {
         tipo 6: /recurso/recurso/id/id
         tipo 7: /recurso/recurso/recurso
         tipo 8: /recurso/recurso/recurso/id
+        tipo 9: fb/nombe_hotel/nombre_producto
         */
         $type = $this->typeURI();
         $method = $_SERVER['REQUEST_METHOD'];
@@ -87,6 +89,10 @@ class API {
             case 'tpv':
             	TpvResource::methodTpv($method,$type);
             	break;
+            case 'fb':
+            	header('Content-Type: text/html; charset=utf-8');
+            	Share::methodShare($method,$type);
+            	break;
             default:
             	header('HTTP/1.1 404 Not Found');
                 break;
@@ -117,6 +123,8 @@ class API {
                     }
                 }
             }else{	//hasta aqui es recurso/id
+            	if($_GET['resource'] == "fb" && isset($_GET['resource2']) && isset($_GET['resource3']))
+            		return 9;
                 if(!isset($_GET['resource3'])){
                     return 2;
                 }else{
