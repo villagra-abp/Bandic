@@ -13,6 +13,8 @@ import { EstanciaComponent }   from '../estancia/estancia.component';
 import { OcupacionComponent }   from '../metricas/ocupacion/ocupacion.component';
 import { ContabilidadComponent }   from '../metricas/contabilidad/contabilidad.component';
 import { RolComponent }   from '../rol/rol.component';
+import { NewRolComponent }   from '../rol/new-rol/new-rol.component';
+import { EditRolComponent }   from '../rol/edit-rol/edit-rol.component';
 import { PulseraComponent }   from '../pulsera/pulsera.component';
 import { PromocionComponent }   from '../promocion/promocion.component';
 import { MapaComponent }   from '../mapa/mapa.component';
@@ -34,6 +36,8 @@ const routes: Routes = [
   { path: 'contabilidad',     component: ContabilidadComponent },
   { path: 'mapa',     component: MapaComponent },
   { path: 'rol',     component: RolComponent },
+  { path: 'newRol',     component: NewRolComponent },
+  { path: 'editRol',     component: EditRolComponent },
   { path: 'pulsera',     component: PulseraComponent },
   { path: 'promocion',     component: PromocionComponent },
   { path: 'login',     component: LoginComponent }

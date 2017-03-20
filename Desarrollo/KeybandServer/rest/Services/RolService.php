@@ -25,7 +25,7 @@ class RolService {
 				"id" => $obj['id']
 		];
 		if(SupportService::IdValido('rol',$primaries,"Ya hay un rol con ese id")){
-			$dataArray = MasterDAO::insert('rol',$obj);
+			$dataArray = RolDAO::PutRol($obj);
 			echo json_encode($dataArray);
 		}
 		
@@ -40,11 +40,11 @@ class RolService {
 					"id" => $obj['id']
 			];
 			if(SupportService::IdValido('rol',$primariesaux,"Ya hay una rol con ese id")){
-				$dataArray = MasterDAO::update('rol',$obj,$primaries);
+				$dataArray = RolDAO::EditRol('rol',$obj,$primaries);
 				echo json_encode($dataArray);
 			}
 		}else{
-			$dataArray = MasterDAO::update('rol',$obj,$primaries);
+			$dataArray = RolDAO::EditRol($obj);
 			echo json_encode($dataArray);
 		};
 	}
@@ -52,16 +52,14 @@ class RolService {
 		$primaries = [
 				"id" => $id
 		];
-		$dataArray = MasterDAO::delete('rol',$primaries);
+		$dataArray = RolDAO::DeleteRol($id);
 		echo json_encode($dataArray);
 	}
 	
-	public static function getPermisoByRol($where , $order , $pagination) {
-		$columnas = ['*'];
-		$table = ['rol_permiso','rol'];
+	public static function getPermisoByRol($id) {
+
 		//$table = ['rol_permiso as ro','rol as r', 'permiso as p'];
-	
-		$dataArray = MasterDAO::getAll($table , $columnas , $where , $order , $pagination);
+		$dataArray = RolDAO::getPermisoByRol($id);
 		echo json_encode($dataArray);
 	}
 	
