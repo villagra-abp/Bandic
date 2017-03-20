@@ -10,10 +10,10 @@ class RolResource{
 			case 'GET'://consulta
 				RolResource::getRol($type);
 				break;
-			case 'POST'://inserta
+			case 'POST'://editar
 				RolResource::postRol($type);
 				break;
-			case 'PUT'://actualiza
+			case 'PUT'://insertar
 				RolResource::putRol($type);
 				break;
 			case 'DELETE'://elimina
@@ -46,18 +46,11 @@ class RolResource{
 			case '5':
 
 				if($_GET['resource2'] == "permiso"){
-					$params = SupportResource::getParams(3);
-					$order = SupportResource::extractOrder($params);
-					$pagination = SupportResource::extractPagination($params);
-					$where =  SupportResource::extractWhere($params);
+					RolService::getPermisoByRol($_GET['resource3']);
 
-					$where['rol.id'] = $_GET['resource3'];
-					$where['rol_permiso.rol'] = "rol.id";
-					//$where['ro.permiso'] = "p.id";
-					RolService::getPermisoByRol($where,$order,$pagination);
 				}
 				break;
-				
+
 			default:
 				header('HTTP/1.1 405 Method Not Allowed');
 				break;
@@ -70,8 +63,8 @@ class RolResource{
 		switch ($type) {
 			case '2':   //usuario/id
 				if(RolResource::ValidPost($objArr))
-				$dataArray = RolService::updateRol($objArr,$_GET['resource2']);
-				break;
+					$dataArray = RolService::updateRol($objArr,$_GET['resource2']);
+					break;
 			default:
 				header('HTTP/1.1 405 Method Not Allowed');
 
@@ -79,7 +72,7 @@ class RolResource{
 		}
 
 	}
-	
+
 	public static function putRol($type){
 		$obj = json_decode( file_get_contents('php://input'));
 		$objArr = (array)$obj;
@@ -87,16 +80,16 @@ class RolResource{
 			case '1':
 				if(RolResource::ValidPut($objArr))
 					$dataArray = RolService::insertRol($objArr);
-				break;
-				
+					break;
+
 			case '5':
 				if(SupportResource::ValidResource($_GET['resource2']) && $_GET['resource2'] == "permiso") {
-					if(RolResource::ValidPut2($objArr))
+					if(RolResource::ValidPut($objArr))
 						$dataArray = RolService::insertPermisoRol($objArr);
 				}
 				break;
 			default:
-				header('HTTP/1.1 405 Method Not Allowedgggg');
+				header('HTTP/1.1 405 Method Not Allowed');
 				break;
 		}
 	}
@@ -105,7 +98,7 @@ class RolResource{
 			case '2':   //usuario/id
 				$dataArray = RolService::deleteRol($_GET['resource2']);
 				break;
-				
+
 			case '6':
 				if($_GET['resource2'] == "permiso") {
 					$dataArray = RolService::deletePermisoRol($_GET['resource3'] , $_GET['resource4']);
@@ -137,12 +130,12 @@ class RolResource{
 		return true;
 	}
 	public static function ValidPost($objArr){
-		if(count($objArr)>2){	//2 son todos los campos
+		if(count($objArr)>4){	//2 son todos los campos
 			SupportResource::echoError("campos de mas");
 			return false;
 		}
 		// TODO modificar la variable array cuando se modifiquen las columnas en la bbdd
-		$array = array("id","empleado");
+		$array = array("id","empleado","permisosnuevos", "permisoseliminados");
 		if($objArr!=null){
 			foreach($objArr as $key => $key_value) {
 				if(!in_array($key, $array)){
@@ -158,12 +151,12 @@ class RolResource{
 	}
 	public static function ValidPut($objArr){
 		$arrayKeys= array_keys($objArr);
-		if(count($arrayKeys)!=2){
+		if(count($arrayKeys)!=3){
 			SupportResource::echoError("campos de mas o falta algun not null");
 			return false;
 		}
-		$arrayNotNull=array("id","empleado");
-		$arraycol =array("id","empleado");
+		$arrayNotNull=array("id","empleado", "permisos");
+		$arraycol =array("id","empleado", "permisos");
 		if($objArr!=null){
 			foreach($objArr as $key => $key_value) {
 				if(!in_array($key, $arraycol)){
@@ -206,7 +199,7 @@ class RolResource{
 				SupportResource::echoError("Falta algun parametro requerido");
 				return false;
 			}
-	
+
 		}
 		if(RolResource::ContentObjArray($objArr))
 			return true;
@@ -239,7 +232,7 @@ class RolResource{
 					}
 					break;
 				case 'empleado':
-					
+
 					if(!SupportResource::isBool($key_value)){
 						SupportResource::echoError("empleado tiene que ser true o false");
 						$return=false;
