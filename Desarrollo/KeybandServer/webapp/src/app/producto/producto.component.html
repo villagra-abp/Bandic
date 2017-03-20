@@ -1,27 +1,33 @@
-<app-buscador-producto></app-buscador-producto>
 <div class="panel-body">
-        
-        <div onload="getProductos()" class="table-responsive">
+        <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover">
                 <thead class = "color">
                     <tr>
                         <th class="text-center">Acciones</th>
-                        <th class="text-center">Id</th>                
-                        <th class="text-center">Nombre</th>
+                        <th class="text-center order">
+                          Id
+                        </th>                
+                        <th class="text-center order">
+                          Nombre
+                        </th>
                         <th class="text-center">Categoria</th>
-                        <th class="text-center">Precio</th>
-                        <th class="text-center">Empleado</th>
+                        <th class="text-center order">
+                          Precio
+                        </th>
+                        <th class="text-center">Empleados</th>
                         <th class="text-center">Reservable</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let producto of productos | keys">
                         <td>
-                            <button ng-click="" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                            </button>
+                           <a href="#" data-toggle="modal" data-target="#delete">
+                              <button (click)="getProducto(producto.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+                                          <span class="glyphicon glyphicon-remove"></span>
+                              </button>
+                            </a>
                             <a href="#" data-toggle="modal" data-target="#editar">
-                                <button (click)="editEstancia(producto.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Detalle">
+                                <button (click)="getProducto(producto.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Detalle">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </button>
                             </a>
@@ -30,13 +36,23 @@
                         <td>{{producto.value.nombre}}</td>
                         <td>{{producto.value.categoria_producto}}</td>
                         <td>{{producto.value.precio}}</td>
-                        <td>pepe</td>
+                        <td>
+                          <a *ngIf="producto.value.Reservable=='Si'" href="#" data-toggle="modal" data-target="#asignar">
+                              <button (click)="getEmpleadosAsignados(producto.value.id, producto.value.nombre)" class="btn btn-default btn-xs confirmation-modal" title="Detalle">
+                              Ver asignados
+                              </button>
+                          </a>
+                          <span *ngIf="producto.value.Reservable=='No'">-</span>
+                        </td>
                         <td>{{producto.value.Reservable}}</td>
                     </tr>
                 </tbody>
             </table> 
         </div>
     </div>
+
+    <!--MODAL EDITAR PRODUCTO-->
+
     <div class="modal fade" id="editar" role="dialog">
                 <div class="modal-dialog">
                   <!-- Modal content-->
@@ -46,69 +62,82 @@
                       <h4 class="modal-title">Editar producto</h4>
                     </div>
                     <div class="modal-body">
-                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="crearProducto($event, id.value, descripcion.value, categoria.value)">
+                        <form *ngIf="productoEdit != undefined" name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="editarProducto($event, id.value, nombre.value, descripcion.value, categoria.value, precio.value, iva.value, cantidad.value, tweet.value, estancia.value, imagen.value, imagenRRSS.value)">
                         <fieldset>
+                          <div class="form-group">
+                          <label class="col-md-4 control-label" for="user">ID del producto</label>  
+                          <div class="col-md-6">
+                              <input class="form-control focusedInput" name="id" [(ngModel)]="productoEdit[0].id" value="" type="text" #id placeholder="Introduzca ID" required autofocus>
+                          </div>
+                        </div>
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="user">Nombre del producto</label>  
                           <div class="col-md-6">
-                              <input class="form-control focusedInput" value="" type="text" #nombre placeholder="Introduzca nombre" required autofocus>
-                            <!--<span class="error" id="errorusu">Nombre no disponible.</span>-->
+                              <input name="nombre" [(ngModel)]="productoEdit[0].nombre" class="form-control focusedInput" value="" type="text" #nombre placeholder="Introduzca nombre" required autofocus>
                           </div>
                         </div>
-
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="nombre">Descripcion</label>  
                           <div class="col-md-6">
-                          <textarea class="form-control focusedInput" value="" #descripcion placeholder="Introduzca descripcion" required=""></textarea>
+                          <input name="descripcion" class="form-control focusedInput" [(ngModel)]="productoEdit[0].descripcion" value="" #descripcion placeholder="Introduzca descripcion" required>
                           </div>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="nombre">Categoria</label>  
                           <div class="col-md-6">
-                          <input class="form-control focusedInput" value="" type="text" #categoria placeholder="Introduzca categoria" required="">
+                            <select class="focusedInput" [(ngModel)]="productoEdit[0].categoria_producto" name="categoria" #categoria>
+                              <option *ngFor="let categoria of categorias | keys" [ngValue]="categoria.value.id" [selected]="categoria.value.id == productoEdit[0].categoria_producto">{{categoria.value.id}}</option>
+                            </select>
                           </div>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="contra">Precio</label>
                           <div class="col-md-6">
-                            <input class="form-control focusedInput" value="" type="number" #precio placeholder="Introduzca precio" required="">
+                            <input class="form-control focusedInput" name="precio" [(ngModel)]="productoEdit[0].precio" value="" type="number" #precio placeholder="Introduzca precio" required="">
                           </div>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="contra">Iva</label>
                           <div class="col-md-6">
-                            <input class="form-control focusedInput" value="" type="text" #precio placeholder="Introduzca precio" required="">
+                            <input class="form-control focusedInput" name="iva" [(ngModel)]="productoEdit[0].iva" value="" type="text" #iva placeholder="Introduzca precio" required="">
                           </div>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="contra">Tweet</label>
                           <div class="col-md-6">
-                            <input class="form-control focusedInput" value="" type="text" #precio placeholder="Introduzca precio" required="">
+                            <input class="form-control focusedInput" name="tweet" [(ngModel)]="productoEdit[0].tweet" value="" type="text" #tweet placeholder="Introduzca precio" required="">
                           </div>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="contra">Cantidad disponible</label>
                           <div class="col-md-6">
-                            <input class="form-control focusedInput" value="" type="number" #precio placeholder="Introduzca precio" required="">
+                            <input class="form-control focusedInput" name="cantidad" [(ngModel)]="productoEdit[0].cantidad_disponible" value="" type="number" #cantidad placeholder="Introduzca cantidad" required="">
+                          </div>
+                        </div>
+
+                       <div class="form-group">
+                          <label class="col-md-4 control-label" for="contra">Estancia</label>
+                          <div class="col-md-6">
+                            <input class="form-control focusedInput2" name="estancia" [(ngModel)]="productoEdit[0].estancia" value="" type="text" #estancia placeholder="Introduzca estancia" required="">
                           </div>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="contra">Imagen de producto</label>
                           <label class="focusedInput col-md-6">
-                             Explorador de archivos&hellip; <input type="file" class="form-control focusedInput" style="display: none;">
+                             Explorador de archivos&hellip; <input type="file" name="imagen" #imagen (change)="fileChange($event, 'n')" accept="image/x-png,image/gif,image/jpeg" class="form-control focusedInput" style="display: none;">
                           </label>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="contra">Imagen para redes sociales</label>
                           <label class="focusedInput col-md-6">
-                            Explorador de archivos&hellip; <input type="file" class="form-control focusedInput" style="display: none;">
+                            Explorador de archivos&hellip; <input type="file" name="imagenRRSS" #imagenRRSS (change)="fileChange($event, 's')" accept="image/x-png,image/gif,image/jpeg" class="form-control focusedInput" style="display: none;">
                           </label>
                         </div>
 
@@ -127,3 +156,102 @@
                   </div>            
                 </div>
               </div>
+                  <!--MODAL DELETE PRODUCTO-->
+          <div class="modal fade" id="delete" role="dialog">
+                 <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Eliminar producto</h4>
+                      </div>
+                      <div *ngIf="productoEdit != undefined" class="modal-body">
+                        <h5>El producto {{productoEdit[0].id}} se va a eliminar.</h5>
+                        <div class="form-group">
+                            <button type="submit" data-dismiss="modal" aria-label="Close" (click)="eliminarProducto(productoEdit[0].id);" class="focusedInput focusedInputMenu btn btn-default btn-xs">Confirmar</button>
+                            <button type="submit" data-dismiss="modal" aria-label="Close" class="focusedInput focusedInputMenu btn btn-default btn-xs">Volver</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+               </div>
+            
+                  <!--MODAL ASIGNAR EMPLEADO-->
+
+          <div class="modal fade" id="asignar" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Empleados asignados {{nombreProductoAsignado}}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="table-responsive">
+                        <table *ngIf="empleados_asignados != undefined && empleados_asignados.length > 0" class="table table-striped table-bordered table-hover">
+                            <thead class = "color">
+                                <tr>
+                                    <th class="text-center">Acciones</th>
+                                    <th class="text-center">DNI</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Apellidos</th>                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let empleado of empleados_asignados | keys">
+                                    <td>
+                                        <a href="#" data-toggle="modal" data-target="#delete_asignar">
+                                            <button (click)="setEmpleadoDelete(empleado.value.dni, empleado.value.nombre, empleado.value.apellidos);" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>{{empleado.value.dni}}</td>
+                                    <td>{{empleado.value.nombre}}</td>
+                                    <td>{{empleado.value.apellidos}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h5 *ngIf="empleados_asignados == undefined || empleados_asignados.length == 0">Este producto no tiene ningun empleado asignado</h5>          
+                    </div>
+                    <form *ngIf="empleados_asignados != undefined && empleados_asignados.length > 0" name="contact_form" role="form" class="form-inline formulario" #loginForm="ngForm" (ngSubmit)="asignarProducto(empleado.value)">
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="nombre">Asignar empleado</label>  
+                          <div class="col-md-6">
+                            <select #empleado class="focusedInput" name="categoria" #empleado>
+                              <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
+                              <option *ngFor="let empleado of empleados | keys" [ngValue]="empleado.value.dni" [selected]="empleado.value.id == 'Seleccionar'">{{empleado.value.dni}}, {{empleado.value.nombre}} {{empleado.value.apellidos}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="focusedInput focusedInputMenu btn btn-default btn-xs">Asignar</button>
+                            <button data-dismiss="modal" aria-label="Close" class="focusedInput focusedInputMenu btn btn-default btn-xs">Volver</button>
+                        </div>
+                    </form>       
+                    </div>
+                  </div>            
+                </div>
+              </div>
+
+              <!--MODAL DELETE ASIGNAR EMPLEADO-->
+
+               <div class="modal fade" id="delete_asignar" role="dialog">
+                 <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Desasignar producto</h4>
+                      </div>
+                      <div class="modal-body">
+                        <h5>El empleado {{empleado_delete}} ya no se hará cargo del producto.</h5>
+                        <div class="form-group">
+                            <button type="submit" data-dismiss="modal" aria-label="Close" (click)="desasignarProducto(empleado_delete_dni);" class="focusedInput focusedInputMenu btn btn-default btn-xs">Confirmar</button>
+                            <button type="submit" data-dismiss="modal" aria-label="Close" class="focusedInput focusedInputMenu btn btn-default btn-xs">Volver</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+               </div>
+
+
+

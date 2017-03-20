@@ -128,7 +128,7 @@ class MasterDAO {
         	    "sexo":"F","pais":"Espa\u00f1a","localidad":"San Vicente",
         	    "provincia":"Alicante","rol":"Cliente","estancia":null,
         	    "empleado":"f","email":"juliana@gmail.com","fecha_nacimiento":"2002-12-10"];
-       	Este objeto te debe venir as� del FRONT supuestamente
+       	Este objeto te debe venir asï¿½ del FRONT supuestamente
 		 */
 		$dataArray = array();
 		if(!$obj || !$table){
@@ -174,7 +174,7 @@ class MasterDAO {
 					$i++;
 				}
 				$sql = $sql.$keys.") VALUES (".$values.")";
-
+				echo $sql;
 				$result = @pg_query($conection, $sql);
 
 				if (!$result) {//Resultado erroneo
@@ -228,12 +228,11 @@ class MasterDAO {
 				$sql = $sql.MasterDAO::constructOrderBy($order);
 			if($pagination)
 				$sql = $sql.MasterDAO::constructPagination($pagination);
-			//echo $sql;
 			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
 				header('HTTP/1.1 200 Ocurrio un error en la consulta');
 				return error_get_last();
-			}else{//Resultado correcto
+			}else {//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
 					$row = pg_fetch_assoc ($result);
@@ -277,6 +276,7 @@ class MasterDAO {
 			$conection = openConection();
 			$sql = MasterDAO::constructSelectFrom($table, $columns);
 			$sql = $sql.MasterDAO::constructWhere($primaries);
+			echo $sql;
 			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
 				header('HTTP/1.1 200 Error con la base de datos');
@@ -302,7 +302,7 @@ class MasterDAO {
 	public function constructPagination($pagination){
 		//recibe un array asociativo $pagination = ["initrow"=>"0","pageSize"=>"15"]
 		//LIMIT 15 OFFSET 0 
-		$limit = $pagination["initrow"] + $pagination["pagesize"];
+		$limit = $pagination["pagesize"];
 		$sql = " LIMIT ".$limit." OFFSET ".$pagination["initrow"];
 		
 		return $sql;

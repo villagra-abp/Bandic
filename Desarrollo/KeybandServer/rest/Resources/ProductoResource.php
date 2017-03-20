@@ -5,7 +5,6 @@ require_once "./Services/ProductoService.php";
 class ProductoResource{
 
 	public static function methodProducto($method,$type){
-		
 		switch ($method) {
 			case 'GET'://consulta
 				ProductoResource::getProducto($type);
@@ -27,7 +26,7 @@ class ProductoResource{
 				break;
 		}
 	}
-	/*todas estas filtran por argumentos, ir añadiendo if o switch conforme vayan saliendo peticiones*/
+	/*todas estas filtran por argumentos, ir aÃ±adiendo if o switch conforme vayan saliendo peticiones*/
 	public static function getProducto($type){
 		$obj = json_decode( file_get_contents('php://input'));
 		$objArr = (array)$obj;
@@ -35,7 +34,7 @@ class ProductoResource{
 			case '1':
 				$params = SupportResource::getParams(1);
 				
-				//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
+				//Extraigo los parï¿½metros de order,filtros y de paginaciï¿½n que me interesan
 				$order = SupportResource::extractOrder($params);
 				$pagination = SupportResource::extractPagination($params);
 				$where = SupportResource::extractWhere($params);
@@ -58,7 +57,7 @@ class ProductoResource{
 				if($_GET['resource2'] == "categoria") {
 					$params = SupportResource::getParams(2);
 					
-					//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
+					//Extraigo los parï¿½metros de order,filtros y de paginaciï¿½n que me interesan
 					$order = SupportResource::extractOrder($params);
 					$pagination = SupportResource::extractPagination($params);
 					$where = SupportResource::extractWhere($params);
@@ -68,7 +67,7 @@ class ProductoResource{
 				if($_GET['resource2'] == "tpv") {
 					$params = SupportResource::getParams(2);
 						
-					//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
+					//Extraigo los parï¿½metros de order,filtros y de paginaciï¿½n que me interesan
 					$order = SupportResource::extractOrder($params);
 					$pagination = SupportResource::extractPagination($params);
 					$where = SupportResource::extractWhere($params);
@@ -80,7 +79,7 @@ class ProductoResource{
 			case '5':
 				$params = SupportResource::getParams(3);
 					
-				//Extraigo los par�metros de order,filtros y de paginaci�n que me interesan
+				//Extraigo los parï¿½metros de order,filtros y de paginaciï¿½n que me interesan
 				$order = SupportResource::extractOrder($params);
 				$pagination = SupportResource::extractPagination($params);
 				$where = SupportResource::extractWhere($params);
@@ -106,6 +105,7 @@ class ProductoResource{
 					$where['asignar_producto.usuario'] = $_GET['resource3'];
 					$dataArray = ProductoService::getReservas($_GET['resource3'],$where,$order,$pagination);
 				}
+				break;
 			default:
 				header('HTTP/1.1 405 Method Not Allowed');
 				break;
@@ -176,7 +176,16 @@ class ProductoResource{
 				if($_GET['resource2'] == "categoria") {
 					$dataArray = CategoriaService::deleteCategoria($_GET['resource3']);
 				}
+				if($_GET['resource2'] == "empleado") {
+					$dataArray = ProductoService::desasignarProductos($_GET['resource3']);
+				}
 				break;
+			case '6'://producto/empleado/dniempleado/idproducto
+				if($_GET['resource2'] == "empleado") {
+					$dataArray = ProductoService::desasignarProducto($_GET['resource3'], $_GET['resource4']);
+				}
+				break;
+				
 			default:
 				header('HTTP/1.1 405 Method Not Allowed');
 				break;
@@ -187,7 +196,7 @@ class ProductoResource{
 			SupportResource::echoError("mas filtros que columnas");
 			return false;
 		}
-		// TODO modificar la variable array cuando se modifiquen las columnas en la bbdd, si hay algun par�metro por el que no se busca eliminarlo, aunque esto ultimo es secundario
+		// TODO modificar la variable array cuando se modifiquen las columnas en la bbdd, si hay algun parï¿½metro por el que no se busca eliminarlo, aunque esto ultimo es secundario
 		$array = array("id","nombre", "descripcion", "precio", "iva", "tweet","cantidad_disponible","categoria_producto","estancia","imagen","imagen_redes");
 		if($where!=null){
 			foreach($where as $key => $key_value) {

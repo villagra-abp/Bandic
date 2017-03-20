@@ -17,7 +17,6 @@ class EstanciaDAO {
 			//$set = 'SET search_path = "Keyband"';
 			//SELECT * FROM "Keyband".usuario where nombre="Manuel" AND sexo='M' ORDER BY nombre ASC LIMIT 15 OFFSET 0
 			$sql = "SELECT COUNT (*) FROM acceso_estancia WHERE hora_salida is null AND estancia ='".$id."'";
-			//echo $sql;
 			$result = @pg_query($conection, $sql);
 			
 			if (!$result) {//Resultado erroneo

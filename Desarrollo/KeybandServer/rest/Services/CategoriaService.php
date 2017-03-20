@@ -25,7 +25,10 @@ class CategoriaService {
 	}
 	
 	public static function insertCategoria($obj) {
-		if(SupportService::IdValido('categoria_producto',$obj['id'],"Ya hay una categoria con ese nombre")){
+		$primaries = [
+				"id" => $obj['id'],
+		];
+		if(SupportService::IdValido('categoria_producto',$primaries,"Ya hay una categoria con ese nombre")){
 			$dataArray = MasterDAO::insert('categoria_producto',$obj);
 			echo json_encode($dataArray);
 		}
