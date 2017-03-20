@@ -47,7 +47,15 @@ define(function (require) {
         },
 
         beginDraw: function () {
+               var mat1aux = mat4.create(pila[pila.length-1]);
+            var mat2aux = mat4.create(MatView);
+            var mvMatrix = mat4.multiply(mat2aux,mat1aux);
              try{
+             
+                 gl.uniformMatrix4fv(prg.uMVMatrix, false, mvMatrix);
+
+                 var normalMatrix = mat4.transpose(mat4.inverse(mvMatrix));
+                  gl.uniformMatrix4fv(prg.uNMatrix, false, normalMatrix);
                 /*esto está ahora en initprogram, porque creo que solo es necesario hacerlo una vez*/
                 /*gl.enableVertexAttribArray(prg.aVertexPosition);
                 gl.enableVertexAttribArray(prg.aVertexTexCoord);

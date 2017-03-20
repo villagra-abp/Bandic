@@ -109,8 +109,11 @@ define(function (require) {
             
             mat4.perspective(45, c_width / c_height, 0.1, 10000.0, pMatrix);
             let position = this.getmatCamara();
-            mat4.identity(mvMatrix);        //mvMatrix se traslada con la camara
-            mat4.translate(mvMatrix, [position[3], position[7], position[11]]); //Sets the camera to a reasonable distance to view the part
+            var MatCam = this.getmatCamara();
+            MatView = mat4.inverse(MatCam);
+            
+            //mat4.identity(mvMatrix);        //mvMatrix se traslada con la camara
+           // mat4.translate(mvMatrix, [position[3], position[7], position[11]]); //Sets the camera to a reasonable distance to view the part
            // mat4.multiply(mvMatrix,position);
            let posLigth = this.getMatLuz();
            gl.uniform3fv(prg.u_PosLuz,  [posLigth[3], posLigth[7], posLigth[11]]);
@@ -130,27 +133,29 @@ define(function (require) {
             
         },
         initBuffers: function(){
-            /*var vertices = [1.5, 0, 0, 
-            -1.5, 1, 0, 
-            -1.5, 0.809017, 0.587785,
-            -1.5, 0.309017, 0.951057, 
-            -1.5, -0.309017, 0.951057, 
-            -1.5, -0.809017, 0.587785,
-            -1.5, -1, 0, 
-            -1.5, -0.809017, -0.587785,
-            -1.5, -0.309017, -0.951057, 
-            -1.5, 0.309017, -0.951057, 
-            -1.5, 0.809017, -0.587785];
-           var indices =  [0, 1, 2,
-            0, 2, 3,
-            0, 3, 4,
-            0, 4, 5,
-            0, 5, 6,
-            0, 6, 7,
-            0, 7, 8,
-            0, 8, 9,
-            0, 9, 10,
-            0, 10, 1];*/
+            
+             /*var vertices =[1.5, 0, 0, 
+                -1.5, 1, 0, 
+                -1.5, 0.809017,	0.587785,
+                -1.5, 0.309017,	0.951057, 
+                -1.5, -0.309017, 0.951057, 
+                -1.5, -0.809017, 0.587785,
+                -1.5, -1, 0, 
+                -1.5, -0.809017, -0.587785,
+                -1.5, -0.309017, -0.951057, 
+                -1.5, 0.309017,	-0.951057, 
+                -1.5, 0.809017,	-0.587785];
+
+                var indices = [0, 1, 2,
+                0, 2, 3,
+                0, 3, 4,
+                0, 4, 5,
+                0, 5, 6,
+                0, 6, 7,
+                0, 7, 8,
+                0, 8, 9,
+                0, 9, 10,
+                0, 10, 1];*/
             var vertices = recursos[0].vertices;
             console.log(vertices);
             var indices = recursos[0].indices;
