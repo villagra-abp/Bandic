@@ -176,6 +176,14 @@ class ProductoResource{
 				if($_GET['resource2'] == "categoria") {
 					$dataArray = CategoriaService::deleteCategoria($_GET['resource3']);
 				}
+				if($_GET['resource2'] == "empleado") {
+					$dataArray = ProductoService::desasignarProductos($_GET['resource3']);
+				}
+				break;
+			case '6'://producto/empleado/dniempleado/idproducto
+				if($_GET['resource2'] == "empleado") {
+					$dataArray = ProductoService::desasignarProducto($_GET['resource3'], $_GET['resource4']);
+				}
 				break;
 			default:
 				header('HTTP/1.1 405 Method Not Allowed');

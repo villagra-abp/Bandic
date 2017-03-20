@@ -1,0 +1,118 @@
+.id {
+    width: 7%;
+}
+
+.nombre {
+    width: 15%;
+}
+
+.form-group {
+    width: 70%;
+}
+ 
+.focusedInput {
+    padding: 7px 8px;
+    margin: 8px 0;
+    margin-left: 1em;
+    margin-bottom: 2em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#reservable {
+    margin-left: 1em;
+}
+
+.focusedButton {
+    padding: 7px 8px;
+    margin: 8px 0;
+    margin-bottom: 2.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.focusedInputCheckbox {
+    padding: 7px 8px;
+    margin-left: 3em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.control-label {
+    margin-top: 1em;
+}
+
+.focusedInput2 {
+    padding: 7px 8px;
+    margin: 8px 0;
+    margin-right: .3em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.focusedInput:hover {
+    background-color: #EDEDED; 
+}
+
+.focusedInput:focus {
+    border-color: #73879C;
+}
+
+.focusedInputMenu {
+    display: inline;
+}
+
+@font-face {
+    font-family: 'icomoon';
+    src: url('fonts/icomoon.eot');
+}
+@font-face {
+    font-family: 'icomoon';
+    src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBrAAAAC8AAAAYGNtYXAWz9NjAAABHAAAAExnYXNwAAAAEAAAAWgAAAAIZ2x5ZtcdXCgAAAFwAAAA5GhlYWQFjUXXAAACVAAAADZoaGVhB6oDxgAAAowAAAAkaG10eAYAAAAAAAKwAAAAFGxvY2EAKACGAAACxAAAAAxtYXhwAAgAOwAAAtAAAAAgbmFtZVcZpu4AAALwAAABRXBvc3QAAwAAAAAEOAAAACAAAwQAAZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADphgPA/8AAQAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEADgAAAAKAAgAAgACAAEAIOmG//3//wAAAAAAIOmG//3//wAB/+MWfgADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAgAA/9gD6APAACMAOAAAJScuAQc+ATU0LgIjIg4CFRQeAjMyNjcGFh8BHgE3NiYnJSIuAjU0PgIzMh4CFRQOAiMD4PITJxArMTxpi1BQi2k8PGmLUEeAMgEQEc4bSxsaBB79oDVdRigoRl01NV1GKChGXTVZzhEQATKAR1CLaTw8aYtQUItpPDErECcT8h4EGhtLG+coRl01NV1GKChGXTU1XUYoAAAAAQAAAAEAAG8vzepfDzz1AAsEAAAAAADRQwChAAAAANFDAKEAAP/YA+gDwAAAAAgAAgAAAAAAAAABAAADwP/AAAAEAAAAAAAD6AABAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAKABQAHgByAAEAAAAFADkAAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAOAK4AAQAAAAAAAQAOAAAAAQAAAAAAAgAOAEcAAQAAAAAAAwAOACQAAQAAAAAABAAOAFUAAQAAAAAABQAWAA4AAQAAAAAABgAHADIAAQAAAAAACgA0AGMAAwABBAkAAQAOAAAAAwABBAkAAgAOAEcAAwABBAkAAwAOACQAAwABBAkABAAOAFUAAwABBAkABQAWAA4AAwABBAkABgAOADkAAwABBAkACgA0AGMAaQBjAG8AbQBvAG8AbgBWAGUAcgBzAGkAbwBuACAAMQAuADAAaQBjAG8AbQBvAG8Abmljb21vb24AaQBjAG8AbQBvAG8AbgBSAGUAZwB1AGwAYQByAGkAYwBvAG0AbwBvAG4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+.icon {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-search:before {
+    content: "\e986";
+    margin-right: 0.5em;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination button.arrows {
+    background-color: #ddd;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.pagination button.arrows.active {
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination button.arrows:hover:not(.active) {
+    background-color: #73879C;
+    border-radius: 5px;
+}

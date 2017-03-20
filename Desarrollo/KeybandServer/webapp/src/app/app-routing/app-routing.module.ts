@@ -3,6 +3,7 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 //Importamos todos los components que se redireccionen
 import { AppComponent } from '../app.component';
+import { BuscadorProductoComponent }   from '../producto/buscador-producto/buscador-producto.component';
 import { ProductoComponent }   from '../producto/producto.component';
 import { InicioComponent }   from '../inicio/inicio.component';
 import { EmpleadoComponent }   from '../empleado/empleado.component';
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'empleado',     component: EmpleadoComponent },
   { path: 'categoria',     component: CategoriaProductoComponent },
   { path: 'producto',     component: ProductoComponent },
+  { path: 'producto',     component: BuscadorProductoComponent },
   { path: 'habitacion',     component: HabitacionComponent },
   { path: 'estancia',     component: EstanciaComponent },
   { path: 'ocupacion',     component: OcupacionComponent },
