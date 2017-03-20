@@ -53,11 +53,11 @@ app.controller("myCtrl", function($scope,$http,$location) {
     $scope.login = function(){
             var enviar = {"dni":$scope.dni,"password":$scope.password};  
             $http.post("../rest/login",enviar).success(function(response,headers){     
-            	console.log(response);  
+            //	console.log(response);  
               //$scope.respuesta = response; 
-            	sessionStorage["usertoken"] = response[0].token;
+            	/*sessionStorage["usertoken"] = response[0].token;
             	cambiarToken(sessionStorage["usertoken"]);
-                console.log(sessionStorage["usertoken"]); 
+                console.log(sessionStorage["usertoken"]); */
             });
             
     }

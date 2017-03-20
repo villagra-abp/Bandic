@@ -40,7 +40,7 @@ app.controller("UsuarioController", function($scope,$http) {
         	    "sexo":$scope.sexo,"pais":$scope.pais,"localidad":$scope.localidad,
         	    "provincia":$scope.provincia,"rol":$scope.rol,"estancia":$scope.estancia,
         	    "empleado":$scope.empleado,"email":$scope.email,"fecha_nacimiento":$scope.fecha, "fecha_entrada":"11-12-2000", "fecha_salida":"11-12-2000"};
-
+        	    
         $http.post("../rest/usuario/"+$scope.dni,enviar).then(function(response){
     	    	$scope.listarUsuarios();
 
