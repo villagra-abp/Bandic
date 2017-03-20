@@ -13,7 +13,7 @@
 					<tr *ngFor="let Rol of roles | keys">
 						<td>
               <a href="#" data-toggle="modal" data-target="#borrar">
-							<button (click)="rellenarBorrar(habitacion.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+							<button (click)="rellenarBorrar(Rol.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
 										<span class="glyphicon glyphicon-remove"></span>
 							</button>
               </a>
@@ -32,4 +32,33 @@
 	</div>
 <button type="button" class="btn btn-primary" (click)="redirect()">Crear Rol</button>
 
-<!--<a [routerLink]="['/curso', curso.id]">-->
+	<!-- Modal BORRAR -->
+              <div class="modal fade" id="borrar" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Borrar estancia</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
+                        <fieldset>
+                          <div class="modal-body">
+                            <p>¿Estás seguro de que quieres borrar {{rol}} de la base de datos?</p>
+                          </div>
+                        <!-- Button -->
+                        <div class="form-group">
+                          <label class="col-md-8 control-label"></label>
+                          <div class="modal-footer">
+                            <br>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" (click)="borrarRol(borrar.id)" data-dismiss="modal">Aceptar</button>
+                          </div>
+                        </div>
+                        </fieldset>
+                        </form>        
+                    </div>
+                  </div>            
+                </div>
+              </div>

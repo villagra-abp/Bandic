@@ -105,6 +105,38 @@ class RolDAO {
 		}
 		return $dataArray;
 	}
+	public static function DeleteRol($rol){
+		$dataArray = array();
+		/*if($rol == "undefined" || $permisos == "undefined"){
+		 header('HTTP/1.1 200 Los parametros no son correctos');
+		 $dataArray['message'] = "Los parametros en PermisoDAO no son correctos";
+		 return $dataArray;
+			}*/
+		try {
+			$string = "DELETE FROM permisos_rol Where rol='".$rol."'";
+			
+			$conection = openConection();
+			
+				$sql = "DELETE FROM rol where id='".$rol."'";
+				$result = @pg_query($conection, $string);
+	
+				if (!$result) {
+					header('HTTP/1.1 200 Error con la base de datos');
+					return error_get_last();
+				}else{
+					$result = @pg_query($conection, $sql);
+					if (!$result) {
+						header('HTTP/1.1 200 Error con la base de datos');
+						return error_get_last();
+					}
+				}
+	
+				@pg_close($conection);
+		}catch (Exception $e) {//TODO Exception generica maaaal
+			echo "Excepcion";
+		}
+		return $dataArray;
+	}
 	public static function getPermisoByRol($id){
 		$dataArray = array();
 		try {

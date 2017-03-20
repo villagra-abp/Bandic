@@ -52,13 +52,13 @@ define(function (require) {
         0, 0, 0, 1
     ]));
     var luz1 = motor.crearLuz("azul",new Float32Array([
-        1, 0, 0, 1,
+        1, 0, 0, 100,
         0, 1, 0, 0,
         0, 0, 1 ,10,
         0, 0, 0, 1
     ]) );
     var luz2 = motor.crearLuz("roja");
-    malla1 = motor.crearMalla("putas.obj");
+    malla1 = motor.crearMalla("hotel.obj");
     var malla2 = motor.crearMalla("malla2");
 
     nEscena = motor.crearNodo(null,null,null);

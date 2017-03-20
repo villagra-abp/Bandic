@@ -52,7 +52,7 @@ class RolService {
 		$primaries = [
 				"id" => $id
 		];
-		$dataArray = MasterDAO::delete('rol',$primaries);
+		$dataArray = RolDAO::DeleteRol($id);
 		echo json_encode($dataArray);
 	}
 	
