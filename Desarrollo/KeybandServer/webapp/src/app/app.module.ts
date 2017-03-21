@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 //importamos los componentes 
+import { ChartsModule } from 'ng2-charts';
 import { AppComponent } from './app.component';
 import { ProfileBarComponent } from './profile-bar/profile-bar.component';
 import { ClienteComponent } from './cliente/cliente.component';
@@ -83,6 +84,7 @@ import { EditRolComponent } from './rol/edit-rol/edit-rol.component';
   
   ],
   imports: [
+    ChartsModule,
     BrowserModule,
     FormsModule,
     HttpModule,

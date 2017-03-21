@@ -30,7 +30,6 @@ const routes: Routes = [
   { path: 'inicio',     component: InicioComponent },
   { path: 'empleado',     component: EmpleadoComponent },
   { path: 'categoria',     component: CategoriaProductoComponent },
-  { path: 'producto',     component: ProductoComponent },
   { path: 'producto',     component: BuscadorProductoComponent },
   { path: 'habitacion',     component: HabitacionComponent },
   { path: 'estancia',     component: EstanciaComponent },

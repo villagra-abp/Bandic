@@ -5,7 +5,7 @@ require_once "SupportService.php";
 /***********************************************USUARIO Service****************************************/
 class EstanciaService {
 	public static function getEstancias ($where,$order,$pagination) {
-		$dataArray = MasterDAO::getAll('estancia',['id'],$where,$order,$pagination);
+		$dataArray = MasterDAO::getAll('estancia',['id','descripcion'],$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	

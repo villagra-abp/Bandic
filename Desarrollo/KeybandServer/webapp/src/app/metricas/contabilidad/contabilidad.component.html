@@ -1,3 +1,19 @@
-<p>
-  contabilidad works!
-</p>
+<h1> Resultados económicos </h1>
+  <form class="otra" #loginForm="ngForm" (ngSubmit)="getDatos(tpv.value)">
+
+      <select class="focusedInput" name="tpv" #tpv>
+        <option selected="selected">-</option>
+        <option *ngFor="let tpv of tpvs| keys" [selected]="tpv.value.id == '1'">{{tpv.value.id}}</option>
+      </select>
+      <button type="submit" disabled>Buscar</button>
+  </form>
+
+<h1> Resultados </h1>
+<div style="display: block">
+  <canvas baseChart
+              [data]="doughnutChartData"
+              [labels]="doughnutChartLabels"
+              [chartType]="doughnutChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+</div>
