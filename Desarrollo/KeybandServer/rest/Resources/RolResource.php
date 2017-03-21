@@ -233,7 +233,7 @@ class RolResource{
 					break;
 				case 'empleado':
 
-					if(!SupportResource::isBool($key_value)){
+					if(!SupportResource::isBoolRol($key_value)){
 						SupportResource::echoError("empleado tiene que ser true o false");
 						$return=false;
 						break 2;

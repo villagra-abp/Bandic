@@ -44,4 +44,8 @@ urlBase: string = 'http://localhost/Keyband/Desarrollo/KeybandServer/rest/'
         return this.http.delete("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/" + id)
                         .map(response => response.json())          
       }
+       getEstancia(estancia) {
+      return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia/"+estancia)
+                            .map(response => response.json())
+   }
 }

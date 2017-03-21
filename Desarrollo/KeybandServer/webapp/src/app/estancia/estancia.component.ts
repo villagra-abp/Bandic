@@ -134,6 +134,7 @@ disabled: boolean = false;
             this.estanciaService.completeEstancia(id)
                 .subscribe(
                         response =>{
+                                console.log(response);
                                 if(response[0] == null){
                                         document.getElementById("user").style.borderColor = 'blue';
                                         document.getElementById("errorusu").style.visibility = "hidden";
