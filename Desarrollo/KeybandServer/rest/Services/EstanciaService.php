@@ -17,7 +17,7 @@ class EstanciaService {
 			$primaries = [
 					"id" => $id,
 			];
-			$dataArray = MasterDAO::getById('estancia',null,$primaries);
+			$dataArray = EstanciaDAO::getById('estancia',null,$primaries);
 			echo json_encode($dataArray);
 		}
 	}

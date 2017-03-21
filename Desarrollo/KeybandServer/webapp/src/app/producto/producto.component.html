@@ -62,7 +62,7 @@
                       <h4 class="modal-title">Editar producto</h4>
                     </div>
                     <div class="modal-body">
-                        <form *ngIf="productoEdit != undefined" name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="editarProducto($event, id.value, nombre.value, descripcion.value, categoria.value, precio.value, iva.value, cantidad.value, tweet.value, estancia.value, imagen.value, imagenRRSS.value)">
+                        <form *ngIf="productoEdit != undefined" name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
                         <fieldset>
                           <div class="form-group">
                           <label class="col-md-4 control-label" for="user">ID del producto</label>  
@@ -146,7 +146,7 @@
                           <label class="col-md-8 control-label"></label>
                           <div class="col-md-4">
                             <br>
-                            <button type="submit" class="focusedInput">Confirmar</button>
+                            <button data-dismiss="modal" (click)="editarProducto($event, id.value, nombre.value, descripcion.value, categoria.value, precio.value, iva.value, cantidad.value, tweet.value, estancia.value, imagen.value, imagenRRSS.value)" class="focusedInput">Confirmar</button>
                           </div>
                         </div>
 
@@ -213,7 +213,7 @@
                         </table>
                         <h5 *ngIf="empleados_asignados == undefined || empleados_asignados.length == 0">Este producto no tiene ningun empleado asignado</h5>          
                     </div>
-                    <form *ngIf="empleados_asignados != undefined && empleados_asignados.length > 0" name="contact_form" role="form" class="form-inline formulario" #loginForm="ngForm" (ngSubmit)="asignarProducto(empleado.value)">
+                    <form name="contact_form" role="form" class="form-inline formulario" #loginForm="ngForm" (ngSubmit)="asignarProducto(empleado.value)">
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="nombre">Asignar empleado</label>  
                           <div class="col-md-6">

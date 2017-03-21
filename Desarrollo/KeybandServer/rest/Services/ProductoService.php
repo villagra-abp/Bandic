@@ -168,12 +168,23 @@ class ProductoService {
 	}
 	
 	public static function desasignarProductos($id) {
-		$primaries = [
-				"usuario" => "",
-				"producto" => $id
-		];
-		$dataArray = MasterDAO::delete('asignar_producto',$primaries);
-		echo json_encode($dataArray);
+		$where["asignar_producto.producto"] = $id;
+		$dataArray = MasterDAO::getAll('asignar_producto',null,$where,null,null);
+		//echo json_encode($dataArray);
+		//print_r($dataArray);
+		foreach($dataArray as $key => $key_value) {
+			foreach($key_value as $key => $key_value2) {
+					if($key == "usuario") {
+						$primaries = [
+								"usuario" => $key_value2,
+								"producto" => $id
+						];
+						$dataArray = MasterDAO::delete('asignar_producto',$primaries);
+						echo json_encode($dataArray);
+					}
+				}
+			}
+		
 	}
 	
 	public static function deleteProducto($id) {

@@ -30,7 +30,6 @@ export class ProductoService {
    }
 
    eliminarProducto(id) {
-     this.desasignarProductos(id);
      return this.http.delete("http://localhost/keyband/Desarrollo/KeybandServer/rest/producto/"+id)
                             .map(response => response.json())
    }
@@ -46,9 +45,9 @@ export class ProductoService {
                           .map(response => response.json())
    }
 
-   desasignarProductos(producto) { //cuando elimino un producto se eliminan todas las relaciones de asignar producto con ese producto
+   desasignarProductos(producto) {
      return this.http.delete("http://localhost/keyband/Desarrollo/KeybandServer/rest/producto/empleado/"+producto)
-                          .map(response => response.json())
+                         
    }
 
    getProductos(){

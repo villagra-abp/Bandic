@@ -84,7 +84,7 @@
                       <h4 class="modal-title">Crear producto</h4>
                     </div>
                     <div class="modal-body">
-                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="crearProducto($event, id2.value, nombre2.value, descripcion.value, categoria2.value, precio.value, iva.value, tweet.value, cantidad.value, estancia.value, imagen.value, imagenRRSS.value, empleado.value)">
+                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
                         <fieldset>
                           <div class="form-group">
                           <label class="col-md-4 control-label" for="user">ID del producto</label>  
@@ -147,7 +147,7 @@
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="contra">Estancia</label>
                           <div class="col-md-6">
-                            <input class="form-control focusedInput2" value="" type="text" #estancia placeholder="Introduzca estancia" required="">
+                            <input [(ngModel)]="variable" name="estancia" id="estancia" (ngModelChange)="estanciaValida($event)" class="form-control focusedInput2" value="" type="text" #estancia placeholder="Introduzca estancia" required="">
                           </div>
                         </div>
 
@@ -180,7 +180,7 @@
                           <label class="col-md-8 control-label"></label>
                           <div class="col-md-4">
                             <br>
-                            <button type="submit" class="focusedInput2">Confirmar</button>
+                            <button id="confirmar" data-dismiss="modal" (click)="crearProducto($event, id2.value, nombre2.value, descripcion.value, categoria2.value, precio.value, iva.value, tweet.value, cantidad.value, estancia.value, imagen.value, imagenRRSS.value, empleado.value)" class="focusedInput2">Confirmar</button>
                           </div>
                         </div>
 

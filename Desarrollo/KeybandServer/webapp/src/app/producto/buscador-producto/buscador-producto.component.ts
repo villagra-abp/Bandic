@@ -1,5 +1,6 @@
 import { Component, OnInit, NgModule, Injectable } from '@angular/core';
 import { ProductoService } from '../services/producto.service';
+import { EstanciaService } from '../../estancia/services/estancia.service';
 import { FileUploadService } from '../services/fileupload.service';
 import { ProductoComponent } from '../producto.component'
 import { FormBuilder, Validators } from '@angular/forms';
@@ -14,7 +15,7 @@ import { Headers, RequestOptions, Http } from '@angular/http';
   selector: 'app-buscador-producto',
   templateUrl: './buscador-producto.component.html',
   styleUrls: ['./buscador-producto.component.css'],
-  providers:[FileUploadService, ProductoService, FormBuilder, Validators]
+  providers:[FileUploadService, ProductoService, EstanciaService, FormBuilder, Validators]
 })
 
 export class BuscadorProductoComponent implements OnInit {
@@ -41,10 +42,20 @@ export class BuscadorProductoComponent implements OnInit {
   public reservable;
   public init_row;
   public campo;
+  public empleados;
 
-  constructor(public productoService: ProductoService, public fileuploadService: FileUploadService) {
+  constructor(public estanciaService: EstanciaService, public productoService: ProductoService, public fileuploadService: FileUploadService) {
     
     this.productos_reservables = [];
+    this.productoService.getEmpleados()
+        .subscribe(
+            response => {
+                this.empleados = response;
+            },
+            error => {
+
+            }
+        );
     this.productoService.getCategorias()
         .subscribe(
             response => {
@@ -71,6 +82,23 @@ export class BuscadorProductoComponent implements OnInit {
         );
   }
 
+getProductos() { //Se llama para recargar los productos cuando se crea uno nuevo
+  this.productoService.getProductos() //inicialmente hacer getProductos para ver cuantos hay y guardarme el numero de filas
+        .subscribe(
+            response => {
+                if(this.init_row == undefined)
+                  this.init_row = 0;
+                this.setRows(response.length);
+                this.setPages(this.productos);
+                this.filterProductos(this.selectedId, this.selectedNombre, this.selectedCategoria, this.selectedReservable, 0);
+                ProductoComponent.prototype.setFilters(undefined, undefined, undefined, undefined, 0);
+            },
+            error => {
+
+            }
+        );
+}
+
 getCategorias() {
       this.productoService.getCategorias()
         .subscribe(
@@ -81,6 +109,28 @@ getCategorias() {
 
             }
         );
+}
+
+estanciaValida(estancia) {
+  this.estanciaService.getEstancia(estancia)
+    .subscribe(
+      response => {
+        console.log(response);
+        if(response.length == 0) {
+          console.log("no existe joder");
+          document.getElementById("estancia").style.borderColor = "red";
+          document.getElementById("confirmar").setAttribute("disabled", "disabled");
+        }
+        if(response.length > 0) {
+          console.log("existeeee");
+          document.getElementById("estancia").style.borderColor = "#73879C";
+          document.getElementById("confirmar").removeAttribute("disabled");
+        }
+      },
+      error => {
+
+      }
+    )
 }
 
 filterProductos(id, nombre, categoria, reservable, initrow) { //Solo se llama desde el constructor, resultado por defecto de todos los productos
@@ -144,6 +194,7 @@ crearProducto(event, id, nombre, descripcion, categoria2, precio, iva, tweet, ca
                 this.uploadFile(this.fileEventRRSS, this.idProducto, this.fileTypeRRSS);
               this.filterProductos(undefined, undefined, undefined, undefined, 0);
               this.asignarProducto(id, empleado_id[0]);
+              this.getProductos();
           },
           error => {
              console.log(error);

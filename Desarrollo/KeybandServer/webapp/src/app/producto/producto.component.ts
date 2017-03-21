@@ -78,18 +78,6 @@ export class ProductoComponent implements OnInit {
     this.filter_init_row = init_row;
   }
 
-  getProductos() {
-    this.productoService.getProductos()
-        .subscribe(
-            response => {
-                this.setProductos(response);
-            },
-            error => {
-
-            }
-        );
-  }
-
 getEmpleadosAsignados(id, nombre) {
   this.idProductoAsignado = id;
   this.nombreProductoAsignado = nombre
@@ -165,7 +153,7 @@ editarProducto(event, id, nombre, descripcion, categoria, precio, iva, cantidad,
                 this.uploadFile(this.fileEvent, this.idProducto, this.fileType, method);
             if(this.fileEventRRSS != undefined && this.fileTypeRRSS != undefined)
                 this.uploadFile(this.fileEventRRSS, this.idProducto, this.fileTypeRRSS, method);
-              this.getProductos();
+              location.reload();
       },
       error => {
         console.log(error);
@@ -175,12 +163,22 @@ editarProducto(event, id, nombre, descripcion, categoria, precio, iva, cantidad,
 
 eliminarProducto(id) {
   let method = "delete";
+  this.productoService.desasignarProductos(id)
+  .subscribe(
+    response => {
+      console.log(response);
+    },
+    error => {
+      console.log(error);
+    }
+  )
   this.productoService.eliminarProducto(id)
     .subscribe(
       response => {
         console.log(response);
         this.uploadFile(this.fileEvent, id, 'n', method);
         this.uploadFile(this.fileEventRRSS, id, 's', method);
+        location.reload();
       },
       error => {
         console.log(error);

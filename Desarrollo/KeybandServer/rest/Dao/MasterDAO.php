@@ -174,7 +174,6 @@ class MasterDAO {
 					$i++;
 				}
 				$sql = $sql.$keys.") VALUES (".$values.")";
-				echo $sql;
 				$result = @pg_query($conection, $sql);
 
 				if (!$result) {//Resultado erroneo
@@ -276,7 +275,6 @@ class MasterDAO {
 			$conection = openConection();
 			$sql = MasterDAO::constructSelectFrom($table, $columns);
 			$sql = $sql.MasterDAO::constructWhere($primaries);
-			echo $sql;
 			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
 				header('HTTP/1.1 200 Error con la base de datos');
@@ -352,6 +350,7 @@ class MasterDAO {
 		}
 		return $sql;
 	}
+	
 	public function constructSelectFrom($table,$columns){
 		if($columns){
 			$sql = 'SELECT ';
