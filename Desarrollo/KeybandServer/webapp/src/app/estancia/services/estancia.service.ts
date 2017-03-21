@@ -33,7 +33,7 @@ urlBase: string = 'http://localhost/Keyband/Desarrollo/KeybandServer/rest/'
         return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/" + id)
                         .map(response => response.json())          
       }
-
+      
       editEstancia(id, capacidad, descripcion){
         let publica = true;   
         let enviar = JSON.stringify({id, capacidad, publica, descripcion});

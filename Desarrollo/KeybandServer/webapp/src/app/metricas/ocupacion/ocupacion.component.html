@@ -1,21 +1,35 @@
-
-<div>
-  <h1> Ocupación de una estancia </h1>
-  <br>
+<h1> Ocupación de una estancia </h1>
   <form class="otra" #loginForm="ngForm" (ngSubmit)="getOcupacion(id.value)">
     <input id="ocupacion" name="ocupacion" type="text" #id placeholder="Introduzca estancia" class="prueba" required="" autofocus>
     <button type="submit">Buscar</button>
   </form>
-<h1> Resultados </h1>
-  <div style="display: block">
-    <canvas baseChart
-            [datasets]="barChartData"
-            [labels]="barChartLabels"
-            [options]="barChartOptions"
-            [legend]="barChartLegend"
-            [chartType]="barChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
-  </div>
- <!-- <button (click)="randomize()">Modificar</button>-->
+
+<div class="clearfix">
+<div class="col-md-9 col-sm-9 col-xs-12">
+  <h1> Resultados </h1>
+    <div style="display: block">
+      <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+ 
+  <!-- <button (click)="randomize()">Modificar</button>-->
+    </div>
 </div>
+<div class="col-md-3 col-sm-3 col-xs-12">
+  <br>
+  <br>
+  <div class='ocultar' id='ocultar'>
+  <h2> En este momento hay <strong>{{acceso}}</strong> personas en la estancia <strong>{{estancia}}</strong>. 
+  <br>
+  Hay ocupado un <strong>{{porcentaje}}</strong> % de la capacidad total (<strong>{{capacidad}}</strong> personas).</h2>
+  </div>
+</div>
+</div>
+
+<p> Actualmente, existen en el establecimiento {{numero}} estancias públicas. Para más información, pulsar en el apartado Estancias -> Públicas </p>
+ 

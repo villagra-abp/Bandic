@@ -13,9 +13,11 @@ export class EstanciaComponent implements OnInit {
  public estancias;
  public palabra = {id:"",capacidad:"",descripcion:""};
  public borrar = {id:""};
+
  crear: boolean = false;
  edit: boolean = false;
-
+disabled: boolean = false;
+ 
   constructor(private estanciaService: EstanciaService) { 
         this.estanciaService.getEstancias()
             .subscribe(
@@ -30,19 +32,18 @@ export class EstanciaComponent implements OnInit {
     }
 
     rellenarEstancia(id) {
-        //document.getElementById("errorusu").style.visibility = "hidden";
-        event.preventDefault();
         if(id!=''){
                 this.estanciaService.completeEstancia(id).subscribe(response=>{
                 this.palabra = { id: response[0].id,capacidad:response[0].capacidad, descripcion:response[0].descripcion };
-                this.edit = true;
-                this.crear = false;
                 document.getElementById("user").setAttribute("disabled","disabled");
+                this.edit = true;
+                this.crear = false;       
                  });
         }
         else{   
                 this.crear = true;
                 this.edit = false;
+                this.disabled = false;
                 this.palabra = {id:"",capacidad:"",descripcion:""};
                 document.getElementById("user").removeAttribute("disabled");
         }
@@ -74,6 +75,7 @@ export class EstanciaComponent implements OnInit {
       this.estanciaService.putEstancia(id, capacidad, descripcion).subscribe(
             response => {
                    //console.log(response.json());
+                     this.palabra = {id:"",capacidad:"",descripcion:""};
                      this.getEstancias();
                   },
             error => {
@@ -135,11 +137,13 @@ export class EstanciaComponent implements OnInit {
                                 if(response[0] == null){
                                         document.getElementById("user").style.borderColor = 'blue';
                                         document.getElementById("errorusu").style.visibility = "hidden";
-                                }
+                                        document.getElementById("bcrear").removeAttribute("disabled");
+                                 }
                                 else{
                                       
                                         document.getElementById("user").style.borderColor= 'red';
                                         document.getElementById("errorusu").style.visibility = "visible";
+                                        document.getElementById("bcrear").setAttribute("disabled","disabled");
                                 }
                         }
                 );
@@ -148,4 +152,3 @@ export class EstanciaComponent implements OnInit {
   ngOnInit() {
   }
 }
-

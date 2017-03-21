@@ -12,11 +12,28 @@ import { MetricasService } from '../services/metricas.service';
 export class OcupacionComponent implements OnInit {
 
  public datos1 =[0,0,0,0,0,0,0,0,0,0,0,0];
- public datos2 =[];
+ public datos2 =[0,0,0,0,0,0,0,0,0,0,0,0];
  public year1 = ['2016'];
  public year2 = ['2017'];
+ public acceso;
+ public estancia;
+ public porcentaje;
+ public capacidad;
 
-  constructor(private metricasService: MetricasService) {}
+ public numero;
+
+  constructor(private metricasService: MetricasService) {
+     this.metricasService.getNumero()
+            .subscribe(
+            response => {
+                        this.numero = response.length;
+                        //console.log(this.estancias);
+                },
+                error => {
+                        alert("Error en la petición");
+                }
+            );  
+  }
 
   ngOnInit() {
   }
@@ -34,28 +51,65 @@ export class OcupacionComponent implements OnInit {
  
  //AQUI HAGO EL GET DE ACCESOS Y PARCHEO LAS FECHAS PARA DIVIDIR
 
-   public getOcupacion(id) {
-    var numero = ['01','02','03','04','05','06','07','08','09','10','11','12'];
-    console.log(id);
-    this.metricasService.getOcupacion(id).subscribe(
-          response => {
-            console.log(response[0].hora_salida);
-                 	for(var i = 0; i < response.length; i++){
-                  var fecha = response[i].hora_salida;
-                  var split = fecha.split("-");   
-                    
-                    for(var j=0; j<numero.length;j++){
-                          if(split[1]==numero[j]){                       
-                            this.datos1[j] = this.datos1[j] + 1;
-                            this.barChartData = this.datos1;
+ public getOcupacion(id) {
+      var numero = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+      console.log(id);
+      this.metricasService.getOcupacion(id).subscribe(
+            response => {
+              console.log(response[0].hora_salida);
+                for(var i = 0; i < response.length; i++){
+                    var fecha = response[i].hora_salida;
+                    var split = fecha.split("-");  
+                    console.log(split); 
+                      
+                      for(var j=0; j<numero.length;j++){
+                          if(split[1]==numero[j]){  
+                              if(split[0]=='2016'){                     
+                                  this.datos1[j] = this.datos1[j] + 1;
+                                  this.barChartData = this.datos1;
+                              }
+                              else if(split[0]=='2017'){
+                                this.datos2[j] = this.datos2[j] + 1;
+                                this.barChartData = this.datos2;
+                              }
                           }
-                        }
+                      }
                     }
-          },
-          error => {
+                    this.completarOcupacion(id);
+            },
+            error => {
+                    alert("Error en la petición");
+            }
+        );
+  }
+
+  public completarOcupacion(id){
+   this.metricasService.getDetalles(id).subscribe(
+                response =>{
+                      this.acceso = response[0].count;
+                      this.completarDetalles(id);
+                },
+                error =>{
                   alert("Error en la petición");
-          }
-      );
+                }
+        );
+  }
+
+  public completarDetalles(id){
+    this.metricasService.getEstancia(id).subscribe(
+      response => {
+                this.capacidad = response[0].capacidad;
+                let percen = ((this.acceso*100)/this.capacidad);
+                this.porcentaje = percen.toFixed(2);
+                this.estancia = response[0].id;
+                document.getElementById("ocultar").style.visibility = "visible";
+
+
+      },
+      error => {
+         alert("Error en la petición");
+      }
+    )
   }
 
   //OTRA FUNCION PARA SACAR EL AÑO

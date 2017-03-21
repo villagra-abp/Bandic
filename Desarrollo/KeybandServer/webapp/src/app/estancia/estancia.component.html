@@ -1,10 +1,8 @@
-
-<div class="btn-group" role="group" aria-label="...">
+<div class="boton" role="group" aria-label="...">
     <a href="#" data-toggle="modal" data-target="#registro"><button (click)="rellenarEstancia('')"> Nueva estancia</button></a>
 </div>
 
 <app-buscador-estancia></app-buscador-estancia>
-
 		<!-- Modal REGISTRO-->
               <div class="modal fade" id="registro" role="dialog">
                 <div class="modal-dialog">
@@ -15,13 +13,13 @@
                       <h4 class="modal-title">Estancias públicas</h4>
                     </div>
                     <div class="modal-body">
-                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="chooseOption(id.value, capacidad.value, descripcion.value)">
+                        <form name="contact_form" role="form" class="form-horizontal">
                         <fieldset>
                         <!-- Identificador input-->
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="user">Identificador estancia</label>  
                           <div class="col-md-6">
-                          	<input id="user" name="user" value="" type="text" #id placeholder="Introduzca identificador" [ngModel]="identificador" (ngModelChange)="comprobarId($event, 'identificador')" class="form-control input-md" required="" autofocus>
+                          	<input id="user" name="user" value="{{palabra.id}}" type="text" #id placeholder="Introduzca identificador" [ngModel]="identificador" (ngModelChange)="comprobarId($event, 'identificador')" class="form-control input-md" required="" autofocus>
                             <span class="error" id="errorusu">Nombre no disponible.</span>
                             <!--<span class="error" id="errorusu">Nombre no disponible.</span>-->
                           </div>
@@ -50,8 +48,8 @@
                           <label class="col-md-8 control-label"></label>
                           <div class="col-md-4">
                             <br>        
-                                <button type="submit" *ngIf="crear" class="btn btn-primary">Crear Estancia</button>
-                                <button type="submit" *ngIf="edit" class="btn btn-primary">Editar Estancia</button>
+                                <button id="bcrear" *ngIf="crear" class="btn btn-primary" (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Crear Estancia</button>       
+                                <button id="beditar" *ngIf="edit" class="btn btn-primary"  (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Editar Estancia</button>
                           </div>
                         </div>
                         </fieldset>
@@ -108,7 +106,7 @@
                         <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
                         <fieldset>
                           <div class="modal-body">
-                            <p>¿Estás seguro de que quieres borrar {{estancia}} de la base de datos?</p>
+                            <p>¿Estás seguro de que quieres borrar {{borrar.id}} de la base de datos?</p>
                           </div>
                         <!-- Button -->
                         <div class="form-group">

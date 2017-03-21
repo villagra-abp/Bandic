@@ -40,6 +40,7 @@ export class HabitacionComponent implements OnInit {
         this.habitacionService.putHabitacion(id, capacidad, descripcion).subscribe(
                 response => {
                         //console.log(response.json());
+                        this.palabra = {id:"",capacidad:"",descripcion:""};
                         this.recargar();
                 },
                 error => {
@@ -142,10 +143,12 @@ export class HabitacionComponent implements OnInit {
                                 if(response[0] == null){
                                         document.getElementById("user").style.borderColor = 'blue';
                                         document.getElementById("errorusu").style.visibility = "hidden";
+                                         document.getElementById("bcrear").removeAttribute("disabled");
                                 }
                                 else{
                                         document.getElementById("user").style.borderColor= 'red';
                                         document.getElementById("errorusu").style.visibility = "visible";
+                                        document.getElementById("bcrear").setAttribute("disabled","disabled");
                                 }
                         }
                 );

@@ -1,9 +1,8 @@
-<app-buscador-estancia></app-buscador-estancia>
-
-<div class="btn-group" role="group" aria-label="...">
+<div class="boton" role="group" aria-label="...">
     <a href="#" data-toggle="modal" data-target="#registro"> <button (click)="rellenarHabitacion('')"> Nueva habitación</button></a>
 </div>
 
+<app-buscador-estancia></app-buscador-estancia>
 		<!-- Modal REGISTRO-->
               <div class="modal fade" id="registro" role="dialog">
                 <div class="modal-dialog">
@@ -14,7 +13,7 @@
                       <h4 class="modal-title">Habitaciones</h4>
                     </div>
                     <div class="modal-body">
-                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="chooseOption(id.value, capacidad.value, descripcion.value)">
+                        <form name="contact_form" role="form" class="form-horizontal">
                         <fieldset>
                         <!-- Identificador input-->
                         <div class="form-group">
@@ -25,7 +24,7 @@
                             <!--<span class="error" id="errorusu">Nombre no disponible.</span>-->
                           </div>
                         </div>
-
+                         
                         <!-- Capacidad input-->
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="nombre">Capacidad</label>  
@@ -48,8 +47,8 @@
                           <label class="col-md-8 control-label"></label>
                           <div class="col-md-4">
                             <br>        
-                             <button type="submit" *ngIf="crear" class="btn btn-primary">Crear Habitación</button>
-                             <button type="submit" *ngIf="edit" class="btn btn-primary">Editar Habitación</button> 
+                             <button id="bcrear"  *ngIf="crear" class="btn btn-primary" (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Crear Habitación</button>
+                             <button id="beditar"  *ngIf="edit" class="btn btn-primary"  (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Editar Habitación</button> 
                           </div>
                         </div>
 
