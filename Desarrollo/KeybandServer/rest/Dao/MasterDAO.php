@@ -324,8 +324,9 @@ class MasterDAO {
 					$sql = $sql.$key." is null ";
 					else {
 						if(!SupportResource::isTable($key_value)){
-							if(!SupportResource::isBool($key_value) && !is_numeric($key_value))
+							if(!SupportResource::isBool($key_value) && !is_numeric($key_value)) {
 								$sql = $sql.$key." LIKE '%".$key_value."%' ";
+							}
 							else 
 								$sql = $sql.$key." = '".$key_value."' ";
 						}
