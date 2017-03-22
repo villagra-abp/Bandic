@@ -229,7 +229,7 @@ insert into "Keyband".permisos_rol values('Recepcion','02002');
 insert into "Keyband".permisos_rol values('Recepcion','02003');
 insert into "Keyband".permisos_rol values('Habitacion001','01001');
 /*USUARIO*/
-insert into "Keyband".usuario values('48764260M','blabla123','Alberto','García Garabal','m','España','Alicante','Alicante',false,'alberto95-rm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
+insert into "Keyband".usuario values('7380','7380','Alberto','García Garabal','m','España','Alicante','Alicante',false,'juanxo_sanxez@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
 insert into "Keyband".usuario values('73874534M','blabla123','Pepe','García Garabal','m','España','Alicante','Alicante',false,'pepeeeeerm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
 insert into "Keyband".usuario values('48764460M','blabla123','Alberto','García Garabal','m','España','Alicante','Alicante',true,'alberto95-rm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
 insert into "Keyband".usuario values('48674143W','blabla123','Pepe','García Garabal','m','España','Alicante','Alicante',true,'pepeeeeerm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
@@ -240,9 +240,9 @@ insert into "Keyband".categoria_producto values('Deporte', false);
 insert into "Keyband".categoria_producto values('Otros servicios', false);
 insert into "Keyband".categoria_producto values('Excursiones', false);
 /*PRODUCTO*/
-insert into "Keyband".producto values('1','Coca-cola','Refresco con cafeina',2.3,21,'Tomando una coca-cola refrescante en Altea Hills',20,'Alimentacion',null,null,null);
-insert into "Keyband".producto values('2','Masaje de pies','Relajante masaje de pies de los mejores profesionales',5.5,21,'Masajico de pies en Altea Hills',null,'Masajes',null,null,null);
-insert into "Keyband".producto values('3','Fanta naranja','Refresco sabor naranja, con gas',2.0,21,'Tomando una fanta de naranja refrescante en Altea Hills',null,'Alimentacion',null,null,null);
+insert into "Keyband".producto values('1','Coca-cola','Refresco con cafeina',2.3,21,'Tomando una coca-cola refrescante en Altea Hills',20,'Alimentacion',null,'coca-cola.jpeg','coca-cola.jpeg');
+insert into "Keyband".producto values('2','Masaje de pies','Relajante masaje de pies de los mejores profesionales',5.5,21,'Gran masaje de pies en Altea Hills',null,'Masajes',null,'masaje_pies.jpg','masaje_pies.jpg');
+insert into "Keyband".producto values('3','Fanta naranja','Refresco sabor naranja, con gas',2.0,21,'Tomando una fanta de naranja refrescante en Altea Hills',null,'Alimentacion',null,'fanta_naranja.jpg','fanta_naranja.jpg');
 insert into "Keyband".producto values('4','Excursión a Roma','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones',null,'roma.jpg','roma.jpg');
 insert into "Keyband".producto values('5','Excursión a París','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones','parking','roma.jpg','roma.jpg');
 insert into "Keyband".producto values('6','Excursión a Pisa','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones','recepcion','roma.jpg','roma.jpg');
@@ -252,7 +252,7 @@ insert into "Keyband".producto values('7','Excursión a Mallorca','Excursión al
 /*TPV*/
 insert into "Keyband".tpv values('1','tpv barra','tpv de la barra principal del hotel');
 /*TICKET*/
-insert into "Keyband".ticket values('1','48764260M','2016-04-10','1');
+insert into "Keyband".ticket values('1','7380','2016-04-10','1');
 /*LINEA TICKET*/
 insert into "Keyband".linea_ticket values('1','1','1',2, 4.6);
 insert into "Keyband".linea_ticket values('2','1','3',3, 6);
@@ -267,7 +267,7 @@ insert into "Keyband".estado_pulsera values('sin asignar');
 /*PULSERA*/
 insert into "Keyband".pulsera values('1','73874534M','perdida');
 insert into "Keyband".pulsera values('2','73874534M','activa');
-insert into "Keyband".pulsera values('3','48764260M','activa');
+insert into "Keyband".pulsera values('3','7380','activa');
 insert into "Keyband".pulsera values('4','48764460M','activa');
 insert into "Keyband".pulsera values('5','48674143W','perdida');
 insert into "Keyband".pulsera values('6','48674143W','perdida');
