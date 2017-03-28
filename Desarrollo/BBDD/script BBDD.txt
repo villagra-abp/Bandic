@@ -160,7 +160,7 @@ CREATE TABLE "Keyband".linea_ticket (
 	ticket varchar(100) not null,
 	producto varchar(100) not null,
 	cantidad numeric(10) not null,
-	precio numeric(10) not null,
+	precio numeric(6,2) not null,
 	FOREIGN KEY (ticket) REFERENCES "Keyband".ticket(id),
 	FOREIGN KEY (producto) REFERENCES "Keyband".producto(id)
 )
@@ -254,8 +254,8 @@ insert into "Keyband".tpv values('1','tpv barra','tpv de la barra principal del 
 /*TICKET*/
 insert into "Keyband".ticket values('1','7380','2016-04-10','1');
 /*LINEA TICKET*/
-insert into "Keyband".linea_ticket values('1','1','1',2, 4.6);
-insert into "Keyband".linea_ticket values('2','1','3',3, 6);
+insert into "Keyband".linea_ticket values('1','1','1',2, 2.3);
+insert into "Keyband".linea_ticket values('2','1','3',3, 2);
 insert into "Keyband".linea_ticket values('3','1','4',1, 20);
 /*PROMOCION*/
 insert into "Keyband".Promocion values('1','promocion001','this is a promocion', '2');
