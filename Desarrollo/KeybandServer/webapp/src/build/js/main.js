@@ -8,6 +8,7 @@ var pila = [];
 var matriz = mat4.identity();
 var recursos = [];
 var gestorRecursos;
+var MatView;
 
 define(function (require) {
    "use strict";
@@ -16,50 +17,48 @@ define(function (require) {
 
     //***********************************ENTIDADES******************************************//
     
-    motor = new TMotorTAG(nEscena); 
-    var transformRot = motor.crearTransform(new Float32Array([
-        1, 0, 0, -1.5,
-        0, 1, 0, -2,
-        0, 0, 1 ,-7.5,
-        0, 0, 0, 1
-    ]));
+    motor = new TMotorTAG(nEscena);
+    /*Rotación cámara*/
+    let mat1 = mat4.identity();
+    var transformRot = motor.crearTransform(mat1);
+    
 
-    var transformTra = motor.crearTransform(new Float32Array([
-        1, 0, 0, 1,
-        0, 1, 0, 2,
-        0, 0, 1 ,2,
-        0, 0, 0, 1
-    ]));
+    /*Translación cámara*/
+    let mat2 = mat4.identity();
+    mat4.translate(mat2, [0.0,0.0,9.0]);
+    var transformTra = motor.crearTransform(mat2);
+    
+    /*Translación Luz*/
+    let mat3 = mat4.identity();
+    var transformLuz = motor.crearTransform(mat3);
 
-    var transformLuz = motor.crearTransform(new Float32Array([
-        1, 0, 0, 4,
-        0, 1, 0, 4,
-        0, 0, 1 ,4,
-        0, 0, 0, 1
-    ]));
+    /*Rotación malla*/ 
+    let mat5 = mat4.identity();
+    //mat4.rotate(mat5,(3.1416/7),[0,0,1]);
+     mat4.rotate(mat5,(3.1416/4),[0,1,0]);
+     mat4.rotate(mat5,(3.1416/4),[0,0,1]);
+    var transformMallaRot = motor.crearTransform(mat5);
 
-    var transformMalla = motor.crearTransform(new Float32Array([
-        1, 0, 0, 7,
-        0, 1, 0, 7,
-        0, 0, 1 ,7,
-        0, 0, 0, 1
-    ]));
+    /*Translación malla*/ 
+    let mat6 = mat4.identity();
+    mat4.translate(mat6, [0.0,0.0,-3.0]);
+    var transformMalla = motor.crearTransform(mat6);
 
     camara = motor.crearCamara(true, 100, new Float32Array([
-        1, 0, 0, 1,
+        1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1 ,0,
         0, 0, 0, 1
     ]));
     var luz1 = motor.crearLuz("azul",new Float32Array([
-        1, 0, 0, 100,
+        1, 0, 0, 0,
         0, 1, 0, 0,
-        0, 0, 1 ,10,
+        0, 0, 1 ,0,
         0, 0, 0, 1
     ]) );
     var luz2 = motor.crearLuz("roja");
     malla1 = motor.crearMalla("hotel.obj");
-    var malla2 = motor.crearMalla("malla2");
+    //var malla2 = motor.crearMalla("malla2");
 
     nEscena = motor.crearNodo(null,null,null);
     gestorRecursos = motor.crearGestorrecursos();
@@ -89,9 +88,10 @@ define(function (require) {
    // nTrLuz.addHijo(nLuz2);
     
     /************RAMA MALLAS***********/
-
-    var nTrMalla = motor.crearNodo(transformMalla, null, nEscena);
-    nEscena.addHijo(nTrMalla);
+    var nTrMallaRot = motor.crearNodo(transformMallaRot, null, nEscena);
+    nEscena.addHijo(nTrMallaRot);
+    var nTrMalla = motor.crearNodo(transformMalla, null, nTrMallaRot);
+    nTrMallaRot.addHijo(nTrMalla);
     //MALLA 1
     var nMalla1 = motor.crearNodo(malla1, null, nTrMalla);
     nTrMalla.addHijo(nMalla1);
