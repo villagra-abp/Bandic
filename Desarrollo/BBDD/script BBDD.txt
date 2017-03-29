@@ -248,6 +248,7 @@ insert into "Keyband".producto values('5','Excursión a París','Excursión al c
 insert into "Keyband".producto values('6','Excursión a Pisa','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones','recepcion','roma.jpg','roma.jpg');
 insert into "Keyband".producto values('7','Excursión a Mallorca','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones','parking','roma.jpg','roma.jpg');
 
+
 /*TPV*/
 insert into "Keyband".tpv values('1','tpv barra','tpv de la barra principal del hotel');
 /*TICKET*/
