@@ -160,7 +160,7 @@ CREATE TABLE "Keyband".linea_ticket (
 	ticket varchar(100) not null,
 	producto varchar(100) not null,
 	cantidad numeric(10) not null,
-	precio numeric(10) not null,
+	precio numeric(6,2) not null,
 	FOREIGN KEY (ticket) REFERENCES "Keyband".ticket(id),
 	FOREIGN KEY (producto) REFERENCES "Keyband".producto(id)
 )
@@ -229,8 +229,10 @@ insert into "Keyband".permisos_rol values('Recepcion','02002');
 insert into "Keyband".permisos_rol values('Recepcion','02003');
 insert into "Keyband".permisos_rol values('Habitacion001','01001');
 /*USUARIO*/
-insert into "Keyband".usuario values('48764260M','blabla123','Alberto','García Garabal','m','España','Alicante','Alicante',false,'alberto95-rm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
+insert into "Keyband".usuario values('7380','7380','Alberto','García Garabal','m','España','Alicante','Alicante',false,'juanxo_sanxez@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
 insert into "Keyband".usuario values('73874534M','blabla123','Pepe','García Garabal','m','España','Alicante','Alicante',false,'pepeeeeerm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
+insert into "Keyband".usuario values('48764460M','blabla123','Alberto','García Garabal','m','España','Alicante','Alicante',true,'alberto95-rm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
+insert into "Keyband".usuario values('48674143W','blabla123','Pepe','García Garabal','m','España','Alicante','Alicante',true,'pepeeeeerm@hotmail.com','1995-04-10','2016-04-10','2016-08-10',null);
 /*CATEGORIA PRODUCTO*/
 insert into "Keyband".categoria_producto values('Alimentacion', true);
 insert into "Keyband".categoria_producto values('Masajes', false);
@@ -238,18 +240,21 @@ insert into "Keyband".categoria_producto values('Deporte', false);
 insert into "Keyband".categoria_producto values('Otros servicios', false);
 insert into "Keyband".categoria_producto values('Excursiones', false);
 /*PRODUCTO*/
-insert into "Keyband".producto values('1','Coca-cola','Refresco con cafeina',2.3,21,'Tomando una coca-cola refrescante en Altea Hills',20,'Alimentacion',null,null,null);
-insert into "Keyband".producto values('2','Masaje de pies','Relajante masaje de pies de los mejores profesionales',5.5,21,'Masajico de pies en Altea Hills',null,'Masajes',null,null,null);
-insert into "Keyband".producto values('3','Fanta naranja','Refresco sabor naranja, con gas',2.0,21,'Tomando una fanta de naranja refrescante en Altea Hills',null,'Alimentacion',null,null,null);
+insert into "Keyband".producto values('1','Coca-cola','Refresco con cafeina',2.3,21,'Tomando una coca-cola refrescante en Altea Hills',20,'Alimentacion',null,'coca-cola.jpeg','coca-cola.jpeg');
+insert into "Keyband".producto values('2','Masaje de pies','Relajante masaje de pies de los mejores profesionales',5.5,21,'Gran masaje de pies en Altea Hills',null,'Masajes',null,'masaje_pies.jpg','masaje_pies.jpg');
+insert into "Keyband".producto values('3','Fanta naranja','Refresco sabor naranja, con gas',2.0,21,'Tomando una fanta de naranja refrescante en Altea Hills',null,'Alimentacion',null,'fanta_naranja.jpg','fanta_naranja.jpg');
 insert into "Keyband".producto values('4','Excursión a Roma','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones',null,'roma.jpg','roma.jpg');
+insert into "Keyband".producto values('5','Excursión a París','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones','parking','roma.jpg','roma.jpg');
+insert into "Keyband".producto values('6','Excursión a Pisa','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones','recepcion','roma.jpg','roma.jpg');
+insert into "Keyband".producto values('7','Excursión a Mallorca','Excursión al casco antiguo de Roma',20.0,0,'Hoy nos vamos a Roma',null,'Excursiones','parking','roma.jpg','roma.jpg');
 
 /*TPV*/
 insert into "Keyband".tpv values('1','tpv barra','tpv de la barra principal del hotel');
 /*TICKET*/
-insert into "Keyband".ticket values('1','48764260M','2016-04-10','1');
+insert into "Keyband".ticket values('1','7380','2016-04-10','1');
 /*LINEA TICKET*/
-insert into "Keyband".linea_ticket values('1','1','1',2, 4.6);
-insert into "Keyband".linea_ticket values('2','1','3',3, 6);
+insert into "Keyband".linea_ticket values('1','1','1',2, 2.3);
+insert into "Keyband".linea_ticket values('2','1','3',3, 2);
 insert into "Keyband".linea_ticket values('3','1','4',1, 20);
 /*PROMOCION*/
 insert into "Keyband".Promocion values('1','promocion001','this is a promocion', '2');
@@ -259,16 +264,29 @@ insert into "Keyband".estado_pulsera values('activa');
 insert into "Keyband".estado_pulsera values('perdida');
 insert into "Keyband".estado_pulsera values('sin asignar');
 /*PULSERA*/
-insert into "Keyband".pulsera values('1','48764260M','activa');
-insert into "Keyband".pulsera values('2','48764260M','perdida');
-insert into "Keyband".pulsera values('3',null,'sin asignar');
-insert into "Keyband".pulsera values('4',null,'sin asignar');
+insert into "Keyband".pulsera values('1','73874534M','perdida');
+insert into "Keyband".pulsera values('2','73874534M','activa');
+insert into "Keyband".pulsera values('3','7380','activa');
+insert into "Keyband".pulsera values('4','48764460M','activa');
+insert into "Keyband".pulsera values('5','48674143W','perdida');
+insert into "Keyband".pulsera values('6','48674143W','perdida');
+insert into "Keyband".pulsera values('7','48674143W','perdida');
+insert into "Keyband".pulsera values('41','48674143W','activa');
+insert into "Keyband".pulsera values('411',null,'sin asignar');
+insert into "Keyband".pulsera values('4111',null,'sin asignar');
+insert into "Keyband".pulsera values('41111',null,'sin asignar');
+insert into "Keyband".pulsera values('4242',null,'sin asignar');
+insert into "Keyband".pulsera values('422',null,'sin asignar');
+insert into "Keyband".pulsera values('431',null,'sin asignar');
 /*ESTANCIA*/
 insert into "Keyband".estancia values('Piscina',50,true,null);
 insert into "Keyband".estancia values('Pista de padel',4,true,null);
 insert into "Keyband".estancia values('Habitacion001',1,false,null);
 insert into "Keyband".estancia values('Habitacion002',1,false,null);
 insert into "Keyband".estancia values('Habitacion003',2,false,null);
+insert into "Keyband".estancia values('parking',50,true);
+insert into "Keyband".estancia values('recepcion',500,true);
+
 /*FECHA ACCESO*/
 insert into "Keyband".fecha_acceso values('1995-10-12 13:00:00');
 insert into "Keyband".fecha_acceso values('1998-02-12 17:00:00');
@@ -277,3 +295,48 @@ insert into "Keyband".fecha_acceso values('2002-10-12 13:00:00');
 insert into "Keyband".acceso_estancia values('Piscina','1','1995-10-12 13:00:00',null);
 insert into "Keyband".acceso_estancia values('Piscina','1','1998-02-12 17:00:00','2000-05-05 14:00:00');
 insert into "Keyband".acceso_estancia values('Habitacion001','2','1998-02-12 17:00:00','2000-05-05 14:00:00');
+/*ASIGNAR/RESERVAR PRODUCTO*/
+insert into "Keyband".asignar_producto values ('48674143W', '4');
+insert into "Keyband".asignar_producto values ('48674143W', '5');
+insert into "Keyband".asignar_producto values ('48674143W', '6');
+insert into "Keyband".asignar_producto values ('48674143W', '7');
+insert into "Keyband".asignar_producto values ('73874534M', '4');
+insert into "Keyband".asignar_producto values ('73874534M', '5');
+insert into "Keyband".asignar_producto values ('73874534M', '6');
+insert into "Keyband".asignar_producto values ('73874534M', '7');
+insert into "Keyband".asignar_producto values ('48764260M', '4');
+insert into "Keyband".asignar_producto values ('48764260M', '5');
+insert into "Keyband".asignar_producto values ('48764260M', '6');
+
+/*ACCESOS PARA ESTADISTICAS*/
+
+insert into "Keyband".fecha_acceso values ('2016-01-10 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-03-10 14:00:00');
+
+
+insert into "Keyband".fecha_acceso values ('2016-01-01 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-01-04 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-01-06 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-01-07 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-01-08 14:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-01 14:00:00','2016-04-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-04 14:00:00','2016-04-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-06 14:00:00','2016-04-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-07 14:00:00','2016-04-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-08 14:00:00','2016-04-28 15:00:00');
+insert into "Keyband".fecha_acceso values ('2016-02-01 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-02-04 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-02-06 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-02-07 14:00:00');
+insert into "Keyband".fecha_acceso values ('2016-02-08 14:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-02-01 14:00:00','2016-02-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-02-04 14:00:00','2016-02-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-02-06 14:00:00','2016-02-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-02-07 14:00:00','2016-02-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-02-08 14:00:00','2016-02-28 15:00:00');
+
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-01 14:00:00','2016-02-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-04 14:00:00','2016-02-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-06 14:00:00','2016-01-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-07 14:00:00','2016-01-28 15:00:00');
+insert into "Keyband".acceso_estancia values ('Piscina','1','2016-01-08 14:00:00','2016-01-28 15:00:00');
