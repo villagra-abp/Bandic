@@ -45,25 +45,27 @@ getEmpleado(id){
                             .map(response => response.json())
                             
    }
-   putUsuario(dni, password, nombre, apellidos, email, empleado,fecha_nacimiento,sexo, localidad, provincia, pais, pulsera, estado, fecha_entrada, fecha_salida){
+   putUsuario(dni, password, nombre, apellidos, email, empleado,fecha_nacimiento,sexo, localidad, provincia, pais, pulsera, estado, fecha_entrada, fecha_salida, roles){
      let valor =JSON.stringify({dni, password, nombre, apellidos, email, empleado,fecha_nacimiento, sexo, localidad, provincia, pais, fecha_entrada, fecha_salida});
-       
-       return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario",valor)
+       let enviar=JSON.stringify({dni, roles});
+       console.log(enviar);
+      return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario",valor)
                             .subscribe(response=>{
-                           
+                           let enviar=JSON.stringify({dni, roles});
                                 console.log(response.json());
                                 alert(pulsera);
                                 if(pulsera!=""){
                                   this.postPulsera(pulsera, dni, estado);
                                 }
+                                
                             },
                             error => 
                                 alert(error.text())
                             );
         
    }
-   postUsuario(dni, password, nombre, apellidos, email, empleado,fecha_nacimiento, sexo, localidad, provincia, pais){
-       let valor =JSON.stringify({dni, nombre, apellidos, email, fecha_nacimiento, sexo, localidad, provincia, pais});
+   postUsuario(dni, password, nombre, apellidos, email, empleado,fecha_nacimiento, sexo, localidad, provincia, pais, fecha_entrada, fecha_salida){
+       let valor =JSON.stringify({dni, nombre, apellidos, email, fecha_nacimiento, sexo, localidad, provincia, pais, fecha_entrada, fecha_salida});
        console.log(valor);
        return this.http.post("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario/"+dni,valor)
                             .subscribe(response=>{
