@@ -28,11 +28,14 @@ class RolDAO {
 				header('HTTP/1.1 200 Error con la base de datos');
 				return error_get_last();
 			}else{
-				$result = @pg_query($conection, $string);
-				if (!$result) {
-					header('HTTP/1.1 200 Error con la base de datos');
-					return error_get_last();
+				if(count($rol['permisos'])>0){
+					$result = @pg_query($conection, $string);
+					if (!$result) {
+						header('HTTP/1.1 200 Error con la base de datos');
+						return error_get_last();
+					}
 				}
+				
 			}
 		
 			@pg_close($conection);
