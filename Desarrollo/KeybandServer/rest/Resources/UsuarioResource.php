@@ -193,7 +193,7 @@ class UsuarioResource{
 			return false;
 		}
 		//AQUI VALIDA LA KEY
-		$arrayNotNull=array("dni","password", "nombre", "apellidos", "sexo", "pais","empleado","email","fecha_nacimiento","fecha_entrada", "fecha_salida");
+		$arrayNotNull=array("dni","password", "nombre", "apellidos", "sexo", "pais","empleado","email","fecha_nacimiento");
 		$arraycol = array("dni","password", "nombre", "apellidos", "sexo", "pais","localidad","provincia","empleado","email","fecha_nacimiento","fecha_entrada", "fecha_salida", "token");
 		if($objArr!=null){
 			foreach($objArr as $key => $key_value) {

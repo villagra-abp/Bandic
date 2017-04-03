@@ -2,17 +2,16 @@ import { Component } from '@angular/core';
 import { ProfileBarComponent } from './profile-bar/profile-bar.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+/*
 @NgModule({
   declarations: [
-    ProfileBarComponent
+   // ProfileBarComponent
   ]
-})
-
+})*/
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: []
 })
 
 export class AppComponent {

@@ -18,7 +18,7 @@ class TokenService
 				'aud' => self::Aud(), //datos de la ip, servidor, host...
 				'data' => $data //datos recogidos del cliente
 		);
-
+			
 		return JWT::encode($token, self::$secret_key); //codificamos token con la informacion mas la clave secreta
 	}
 

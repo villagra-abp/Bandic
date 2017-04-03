@@ -105,6 +105,7 @@ class ProductoResource{
 					$where['asignar_producto.usuario'] = $_GET['resource3'];
 					$dataArray = ProductoService::getReservas($_GET['resource3'],$where,$order,$pagination);
 				}
+				break;
 			default:
 				header('HTTP/1.1 405 Method Not Allowed');
 				break;
@@ -174,6 +175,14 @@ class ProductoResource{
 			case '5': //producto/categoria/id
 				if($_GET['resource2'] == "categoria") {
 					$dataArray = CategoriaService::deleteCategoria($_GET['resource3']);
+				}
+				if($_GET['resource2'] == "empleado") {
+					$dataArray = ProductoService::desasignarProductos($_GET['resource3']);
+				}
+				break;
+			case '6'://producto/empleado/dniempleado/idproducto
+				if($_GET['resource2'] == "empleado") {
+					$dataArray = ProductoService::desasignarProducto($_GET['resource3'], $_GET['resource4']);
 				}
 				break;
 			default:

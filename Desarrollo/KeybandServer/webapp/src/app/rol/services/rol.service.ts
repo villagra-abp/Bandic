@@ -1,8 +1,59 @@
 import { Injectable } from '@angular/core';
 
+import {Http, Response, Headers} from "@angular/http";
+import "rxjs/add/operator/map";
+import {Observable} from "rxjs/Observable";
+
 @Injectable()
 export class RolService {
 
-  constructor() { }
+  constructor(private http: Http) { }
 
+  getPermisos(){
+     return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/permiso")
+                            .map(response => response.json())
+  }
+  
+  getRoles(){
+     return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol")
+                            .map(response => response.json())
+  }
+    getRolesC(){
+     return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol?empleado=false")
+                            .map(response => response.json())
+  }
+    getRolesE(){
+     return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol?empleado=true")
+                            .map(response => response.json())
+  }
+  getRol(id){
+     return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol/" + id)
+                            .map(response => response.json())
+  }
+  getPermisoByRol(id){
+    console.log(id);
+     return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol/permiso/" + id)
+                            .map(response => response.json())
+  }
+  deleteRol(id){
+    return this.http.delete("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol/" + id)
+                    .map(response => response.json())          
+  }
+   putRol(id, empleado, permisos): Observable<Response>{
+        let enviar = JSON.stringify({id, empleado, permisos});
+        console.log("ENVIAR A CREARRRRRRRRR");
+        console.log(enviar);
+        return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol", enviar)
+                        .map(response => response.json())                           
+      }
+
+    editRol(id, empleado, permisosnuevos, permisoseliminados){
+      
+      let enviar = JSON.stringify({id, empleado, permisosnuevos, permisoseliminados});
+      console.log("ENVIAR A EDITARRRRRRRRRRRRRRRrr");
+      console.log(enviar);
+      return this.http.post("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol/" + id, enviar)
+                      .map(response => response.json())          
+    }
 }
+

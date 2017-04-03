@@ -39,8 +39,9 @@ hr{
 .login_title{
     font-family: "myriad-pro",sans-serif;
     font-style: normal;
-    font-weight: 100;
-    color:rgba(164, 164, 164, 0.44);
+    font-weight: 160;
+   /*color:rgba(164, 164, 164, 0.44);*/
+    color: lightskyblue;
 }
 
 .card-container.card {

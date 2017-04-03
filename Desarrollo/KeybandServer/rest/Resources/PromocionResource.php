@@ -94,12 +94,12 @@ class PromocionResource{
 		}
 	}
 	public static function ValidGet($where){
-		if(count($where)>3){	//11 son todos los campos, reducir el numero si hay columnas que no sirven para buscar
+		if(count($where)>4){	//11 son todos los campos, reducir el numero si hay columnas que no sirven para buscar
 			SupportResource::echoError("mas filtros que columnas");
 			return false;
 		}
 		// TODO modificar la variable array cuando se modifiquen las columnas en la bbdd, si hay algun par�metro por el que no se busca eliminarlo, aunque esto ultimo es secundario
-		$array = array("id","titulo", "descripcion");
+		$array = array("id","titulo", "descripcion", "producto");
 		if($where!=null){
 			foreach($where as $key => $key_value) {
 				if(!in_array($key, $array)){
@@ -111,12 +111,12 @@ class PromocionResource{
 		return true;
 	}
 	public static function ValidPost($objArr){
-		if(count($objArr)>3){	//4 son todos los campos
+		if(count($objArr)>4){	//4 son todos los campos
 			SupportResource::echoError("campos de mas");
 			return false;
 		}
 		// TODO modificar la variable array cuando se modifiquen las columnas en la bbdd
-		$array = array("id","titulo", "descripcion");
+		$array = array("id","titulo", "descripcion", "producto");
 		if($objArr!=null){
 			foreach($objArr as $key => $key_value) {
 				if(!in_array($key, $array)){
@@ -132,12 +132,12 @@ class PromocionResource{
 	}
 	public static function ValidPut($objArr){
 		$arrayKeys= array_keys($objArr);
-		if(count($arrayKeys)!=3){
+		if(count($arrayKeys)!=4){
 			SupportResource::echoError("campos de mas o falta algun not null");
 			return false;
 		}
 		$arrayNotNull=array("id","titulo", "descripcion");
-		$arraycol =array("id","titulo", "descripcion");
+		$arraycol =array("id","titulo", "descripcion", "producto");
 		if($objArr!=null){
 			foreach($objArr as $key => $key_value) {
 				if(!in_array($key, $arraycol)){

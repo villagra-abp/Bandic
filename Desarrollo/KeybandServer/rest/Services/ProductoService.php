@@ -30,15 +30,15 @@ class ProductoService {
 	public static function getProductosReservables($where,$order,$pagination) {
 		$where["categoria_producto.comestible"] = 'false';
 		$where["categoria_producto.id"] = "producto.categoria_producto";
-		$dataArray = MasterDAO::getAll(["producto", "categoria_producto"],["producto.id","producto.nombre","producto.descripcion","producto.precio","producto.cantidad_disponible","producto.categoria_producto"],$where,$order,$pagination);
+		$dataArray = ProductoDAO::getProductosReservables(["producto", "categoria_producto"],["producto.id","producto.nombre","producto.descripcion","producto.precio","producto.cantidad_disponible","producto.categoria_producto"],$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 
 	//empleado asignado a un producto
 	public static function getEmpleadoDeProducto($where,$order,$pagination) {
 		$where["asignar_producto.usuario"] = "usuario.dni";
-		$where["usuario.empleado"] = 'true';
-		$dataArray = MasterDao::getAll(["asignar_producto", "usuario"],["usuario.dni", "usuario.nombre", "usuario.apellidos", "usuario.sexo", "usuario.pais", "usuario.localidad", "usuario.email"],$where,$order,$pagination);
+		$where["usuario.empleado"] = 't';
+		$dataArray = MasterDAO::getAll(["asignar_producto", "usuario"],["*"],$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	//productos asignados a un empleado
@@ -104,7 +104,7 @@ class ProductoService {
 			$primaries3 = [
 					"dni" => $obj['usuario']
 			];
-			if(SupportService::IdValido('asignar_producto',$primaries,"Ese producto ya est� asignado a ese cliente") &&
+			if(SupportService::IdValido('asignar_producto',$primaries,"Ese producto ya estï¿½ asignado a ese cliente") &&
 					SupportService::FkValido('producto',$primaries2,"El producto debe existir") &&
 					SupportService::FkValido('usuario',$primaries3,"El usuario debe existir")) {
 				$dataArray = MasterDAO::insert('asignar_producto',$obj);
@@ -119,7 +119,17 @@ class ProductoService {
 	
 	public static function reservarProducto($obj) {
 		if(!ProductoService::isEmpleado($obj)) {
-			if(SupportService::IdValido('asignar_producto',$primaries,"Ese producto ya est� asignado a ese cliente") &&
+			$primaries = [
+					"usuario" => $obj['usuario'],
+					"producto" => $obj['producto']
+			];
+			$primaries2 = [
+					"id" => $obj['producto']
+			];
+			$primaries3 = [
+					"dni" => $obj['usuario']
+			];
+			if(SupportService::IdValido('asignar_producto',$primaries,"Ese producto ya estï¿½ asignado a ese cliente") &&
 				SupportService::FkValido('producto',$primaries2,"El producto debe existir") &&
 				SupportService::FkValido('usuario',$primaries3,"El usuario debe existir")) {
 				$dataArray = MasterDAO::insert('asignar_producto',$obj);
@@ -137,7 +147,6 @@ class ProductoService {
 				"dni" => $obj['usuario'],
 		];
 		$dataArray = MasterDAO::getById('usuario',null,$primaries);
-		//echo $dataArray[0]['empleado'];
 		if($dataArray[0]['empleado'] == "t")
 			return true;
 		else 		
@@ -158,6 +167,35 @@ class ProductoService {
 			$dataArray = MasterDAO::update('producto',$obj,$primaries);
 			echo json_encode($dataArray);
 		}
+	}
+	
+	public static function desasignarProducto($dni, $id) {
+		$primaries = [
+				"usuario" => $dni,
+				"producto" => $id
+		];
+		$dataArray = MasterDAO::delete('asignar_producto',$primaries);
+		echo json_encode($dataArray);
+	}
+	
+	public static function desasignarProductos($id) {
+		$where["asignar_producto.producto"] = $id;
+		$dataArray = MasterDAO::getAll('asignar_producto',null,$where,null,null);
+		//echo json_encode($dataArray);
+		//print_r($dataArray);
+		foreach($dataArray as $key => $key_value) {
+			foreach($key_value as $key => $key_value2) {
+					if($key == "usuario") {
+						$primaries = [
+								"usuario" => $key_value2,
+								"producto" => $id
+						];
+						$dataArray = MasterDAO::delete('asignar_producto',$primaries);
+						echo json_encode($dataArray);
+					}
+				}
+			}
+		
 	}
 	
 	public static function deleteProducto($id) {

@@ -1,0 +1,28 @@
+.checkbox {
+    margin-right: 15px;
+}
+
+.focusedInput {
+    padding: 7px 10px;
+    margin: 8px 0;
+    margin-right: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.focusedInput:hover{
+    background-color: #EDEDED; 
+}
+
+.focusedInput:focus {
+    border-color: #73879C;
+}
+
+.focusedInputMenu {
+    display: inline;
+}
+
+.buscadorProducto {
+    margin-bottom: 1em;
+}
