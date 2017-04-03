@@ -68,7 +68,7 @@ class UsuarioService {
 	}
 	
 	public static function insertRolUsuario($obj) {
-		$dataArray = MasterDAO::insert('usuario_rol', $obj);
+		$dataArray = UsuarioDAO::InsertUsuarioRol($obj);
 		echo json_encode($dataArray);
 	}
 	

@@ -113,7 +113,7 @@ class UsuarioResource{
 				if(UsuarioResource::ValidPut($objArr))
 					$dataArray = UsuarioService::insertUsuario($objArr);
 				break;
-			case '5':
+			case '4':
 				if($_GET['resource2'] == "rol") {
 					$dataArray = UsuarioService::insertRolUsuario($objArr);
 				}

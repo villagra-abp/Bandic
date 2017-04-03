@@ -83,5 +83,35 @@ class UsuarioDAO {
 		}
 		return $dataArray;
 	}
+	public static function InsertUsuarioRol($obj){
+		$dataArray = array();
+		/*if($rol == "undefined" || $permisos == "undefined"){
+		 header('HTTP/1.1 200 Los parametros no son correctos');
+		 $dataArray['message'] = "Los parametros en PermisoDAO no son correctos";
+		 return $dataArray;
+		 }*/
+		try {
+			$string = "INSERT INTO usuario_rol VALUES ";
+			for($i = 0; $i<count($obj['roles']); $i++){
+				if($i!=intval(count($obj['roles']))-1)
+					$string = $string."('".$obj['dni']."','".$obj['roles'][$i]."'),";
+					else
+						$string = $string."('".$obj['dni']."', '".$obj['roles'][$i]."')";
+			}
+			$conection = openConection();
+			
+				$result = @pg_query($conection, $string);
+		
+				if (!$result) {
+					header('HTTP/1.1 200 Error con la base de datos');
+					return error_get_last();
+				}
+		
+				@pg_close($conection);
+		}catch (Exception $e) {//TODO Exception generica maaaal
+			echo "Excepcion";
+		}
+		return $dataArray;
+	}
 }
 ?>
