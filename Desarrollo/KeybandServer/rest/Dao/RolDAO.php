@@ -8,7 +8,7 @@ class RolDAO {
 			header('HTTP/1.1 200 Los parametros no son correctos');
 			$dataArray['message'] = "Los parametros en PermisoDAO no son correctos";
 			return $dataArray;
-		}*/
+			}*/
 		try {
 			$string = "INSERT INTO permisos_rol VALUES ";
 			for($i = 0; $i<count($rol['permisos']); $i++){
@@ -21,23 +21,21 @@ class RolDAO {
 			$bool = "false";
 			if($rol['empleado']==1 || $rol['empleado'] == true)
 				$bool = "true";
-			$sql = "INSERT INTO rol values ('".$rol['id']."', '".$bool."')";
-			$result = @pg_query($conection, $sql);
-		
-			if (!$result) {
-				header('HTTP/1.1 200 Error con la base de datos');
-				return error_get_last();
-			}else{
-				if(count($rol['permisos'])>0){
+				$sql = "INSERT INTO rol values ('".$rol['id']."', '".$bool."')";
+				$result = @pg_query($conection, $sql);
+
+				if (!$result) {
+					header('HTTP/1.1 200 Error con la base de datos');
+					return error_get_last();
+				}else{
 					$result = @pg_query($conection, $string);
 					if (!$result) {
 						header('HTTP/1.1 200 Error con la base de datos');
 						return error_get_last();
 					}
 				}
-			}
-		
-			@pg_close($conection);
+
+				@pg_close($conection);
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			echo "Excepcion";
 		}
@@ -88,7 +86,7 @@ class RolDAO {
 									return error_get_last();
 								}
 							}
-							
+								
 						}
 					}
 					else if(count($rol['permisoseliminados'])!=0){
@@ -98,9 +96,9 @@ class RolDAO {
 							return error_get_last();
 						}
 					}
-					
+						
 				}
-	
+
 				@pg_close($conection);
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			echo "Excepcion";
@@ -116,24 +114,24 @@ class RolDAO {
 			}*/
 		try {
 			$string = "DELETE FROM permisos_rol Where rol='".$rol."'";
-			
+				
 			$conection = openConection();
-			
-				$sql = "DELETE FROM rol where id='".$rol."'";
-				$result = @pg_query($conection, $string);
-	
+				
+			$sql = "DELETE FROM rol where id='".$rol."'";
+			$result = @pg_query($conection, $string);
+
+			if (!$result) {
+				header('HTTP/1.1 200 Error con la base de datos');
+				return error_get_last();
+			}else{
+				$result = @pg_query($conection, $sql);
 				if (!$result) {
 					header('HTTP/1.1 200 Error con la base de datos');
 					return error_get_last();
-				}else{
-					$result = @pg_query($conection, $sql);
-					if (!$result) {
-						header('HTTP/1.1 200 Error con la base de datos');
-						return error_get_last();
-					}
 				}
-	
-				@pg_close($conection);
+			}
+
+			@pg_close($conection);
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			echo "Excepcion";
 		}
@@ -145,24 +143,24 @@ class RolDAO {
 			$string = "SELECT p.* from permiso as p, permisos_rol as pr where p.id=pr.permiso and pr.rol ='".$id."'";
 			$conection = openConection();
 			$result = @pg_query($conection, $string);
-		
-				if (!$result) {
-					header('HTTP/1.1 200 Error con la base de datos');
-					return error_get_last();
-				}else{
-					$count = pg_numrows($result);
-					for($i=0; $i<$count; $i++) {
-						$row = pg_fetch_assoc ($result);
-						$dataArray[] = $row;
-					}
+
+			if (!$result) {
+				header('HTTP/1.1 200 Error con la base de datos');
+				return error_get_last();
+			}else{
+				$count = pg_numrows($result);
+				for($i=0; $i<$count; $i++) {
+					$row = pg_fetch_assoc ($result);
+					$dataArray[] = $row;
 				}
-		
-				@pg_close($conection);
+			}
+
+			@pg_close($conection);
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			echo "Excepcion";
 		}
 		return $dataArray;
 	}
-	
+
 }
 ?>

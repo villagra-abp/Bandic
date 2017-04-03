@@ -23,7 +23,6 @@ export class RolService {
                             .map(response => response.json())
   }
   getPermisoByRol(id){
-    console.log(id);
      return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol/permiso/" + id)
                             .map(response => response.json())
   }
@@ -33,17 +32,13 @@ export class RolService {
   }
    putRol(id, empleado, permisos): Observable<Response>{
         let enviar = JSON.stringify({id, empleado, permisos});
-        console.log("ENVIAR A CREARRRRRRRRR");
         console.log(enviar);
         return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol", enviar)
                         .map(response => response.json())                           
       }
 
-    editRol(id, empleado, permisosnuevos, permisoseliminados){
-      
+    editRol(id, empleado, permisosnuevos, permisoseliminados){  
       let enviar = JSON.stringify({id, empleado, permisosnuevos, permisoseliminados});
-      console.log("ENVIAR A EDITARRRRRRRRRRRRRRRrr");
-      console.log(enviar);
       return this.http.post("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol/" + id, enviar)
                       .map(response => response.json())          
     }
