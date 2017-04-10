@@ -11,12 +11,22 @@ define(function (require) {
         //TEntidad.call(this); //llamamos al constructor padre
         this.color = color;
         this.position = matriz;
+        this.encendida= true;
     }
 
     TLuz.prototype = {
         constructor: TLuz,
         getPosition: function(){
             return this.position;
+        },
+        getEncendida: function(){
+            return this.encendida;
+        },
+        Apagar: function(){
+            this.encendida=true;
+        },
+        Encender: function(){
+            this.encendida=false;
         },
         beginDraw: function () {
             //console.log("beginDraw TLuz");

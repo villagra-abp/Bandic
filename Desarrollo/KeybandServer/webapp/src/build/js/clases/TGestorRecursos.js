@@ -9,6 +9,7 @@ define(function (require) {
         this.vertices = null;
         this.normales = null;
         this.indices = null;
+        this.textura = null;
     }
 
     TRecurso.prototype = { 
@@ -42,24 +43,57 @@ define(function (require) {
         SetIndices: function (indices) {
             this.indices = indices;
         },
+        GetTextura: function () {
+            return this.textura;
+        },
+
+        SetTextura: function (textura) {
+            this.textura = textura;
+        },
 
         cargarFichero: function (recurso) {
-            console.log(recurso);
             var cargar = ('build/models/'+ recurso.nombre)
             //var loaded;
             K3D.load(cargar, function(data) {
+                if(recurso.nombre.split(".")[1]=="obj"){
+                var m = K3D.parse.fromOBJ(data);    // CAMBIAR según formato !
+               
+                    var vertices=m.c_verts;
+                    var texturas = m.c_uvt;
+                    var indices=m.i_verts;
+                    var normals =m.c_norms;
+                    recurso.SetVertices(vertices);
+                    recurso.SetTextura(texturas);
+                    recurso.SetIndices(indices);
+                     recurso.SetNormales(utils.calculateNormals(vertices, indices));
+                     console.log("Cargado el fichero: "+cargar);
+                    console.log("Vértices:");
+                    console.log(vertices);
+                    console.log("índices:");
+                    console.log(indices);
+                    console.log("Textura:");
+                    console.log(texturas);
+            }else if(recurso.nombre.split(".")[1]=="3ds"){
                 var m = K3D.parse.from3DS(data);    // CAMBIAR según formato !
-                console.log(m);
                 var aux=0;
                 for(var x=0;x<m.edit.objects.length;x++){
                     var vertices=m.edit.objects[x].mesh.vertices;
                     recurso.SetVertices(m.edit.objects[x].mesh.vertices);
-
+                    var texturas = m.edit.objects[x].mesh.uvt;
+                    recurso.SetTextura(m.edit.objects[x].mesh.uvt);
                     var indices=m.edit.objects[x].mesh.indices;
                     recurso.SetIndices(m.edit.objects[x].mesh.indices);
                    // var normals = utils.calculateNormals(vertices, indices);
                     recurso.SetNormales(utils.calculateNormals(vertices, indices));
+                    console.log("Cargado el fichero: "+cargar);
+                    console.log("Vértices:");
+                    console.log(vertices);
+                    console.log("índices:");
+                    console.log(indices);
+                    console.log("Textura:");
+                    console.log(texturas);
                 }
+            }  
             })
         },
     };
@@ -69,8 +103,9 @@ define(function (require) {
             throw new TypeError("nodo constructor cannot be called as a function.");
         }
         //this.recursos = recursos; 
-        console.log("TGestorRecursos");
         //this.TRecurso = require('clases/TRecurso');
+         this.texturas = [];
+         this.recursos = [];
 
     }
 
@@ -80,10 +115,9 @@ define(function (require) {
     	constructor: TGestorRecursos, //Se referencia al constructor
        
         getRecurso: function(nombre){
-            console.log(nombre);
             var encontrado = false;
-            for (var i = 0; i <recursos.length && !encontrado; i++) {
-               if(recursos[i].GetNombre() == nombre){
+            for (var i = 0; i <this.recursos.length && !encontrado; i++) {
+               if(this.recursos[i].GetNombre() == nombre){
                     encontrado = true;
                }
                
@@ -91,9 +125,21 @@ define(function (require) {
             if(!encontrado){
                 var recurso = new TRecurso(nombre);
                 recurso.cargarFichero(recurso);
-                recursos.push(recurso);
-                console.log(recursos);
+                this.recursos.push(recurso);
             }
+        },
+        getRecursoById: function(int){
+            return this.recursos[int];
+        },
+        getNumRecursos: function(){
+            return this.recursos.length;
+        },
+        GetTextura: function (int) {
+            return this.texturas[int];
+        },
+
+        SetTextura: function (int,textura) {
+            this.texturas[int] = textura;
         }
     }
     return TGestorRecursos;
