@@ -18,6 +18,14 @@ export class RolService {
      return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol")
                             .map(response => response.json())
   }
+  getRolesC(){
+     return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol?empleado=false")
+                            .map(response => response.json())
+  }
+  getRolesE(){
+     return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol?empleado=true")
+                            .map(response => response.json())
+  }
   getRol(id){
      return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/rol/" + id)
                             .map(response => response.json())

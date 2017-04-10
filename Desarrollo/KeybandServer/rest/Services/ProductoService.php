@@ -118,6 +118,7 @@ class ProductoService {
 	}
 	
 	public static function reservarProducto($obj) {
+		print_r($obj);
 		if(!ProductoService::isEmpleado($obj)) {
 			$primaries = [
 					"usuario" => $obj['usuario'],
@@ -129,6 +130,7 @@ class ProductoService {
 			$primaries3 = [
 					"dni" => $obj['usuario']
 			];
+
 			if(SupportService::IdValido('asignar_producto',$primaries,"Ese producto ya estï¿½ asignado a ese cliente") &&
 				SupportService::FkValido('producto',$primaries2,"El producto debe existir") &&
 				SupportService::FkValido('usuario',$primaries3,"El usuario debe existir")) {

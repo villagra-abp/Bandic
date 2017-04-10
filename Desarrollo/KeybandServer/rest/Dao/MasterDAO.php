@@ -174,7 +174,9 @@ class MasterDAO {
 					}
 					$i++;
 				}
+				
 				$sql = $sql.$keys.") VALUES (".$values.")";
+				//echo $sql;
 
 				$result = @pg_query($conection, $sql);
 

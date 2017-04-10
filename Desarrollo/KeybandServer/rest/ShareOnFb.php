@@ -47,7 +47,7 @@ class Share{
 		}catch (Exception $e) {//TODO Exception generica maaaal
 			echo "Excepcion";
 		}
-		echo "<html>
+		echo /*"<html>
 				<head>
 					<title>Prueba de PHP</title>
 					<meta http-equiv='refresh' content='0;url=".$url."'>
@@ -55,6 +55,22 @@ class Share{
 				<body>
 					<img src='".$row['imagen_redes']."' />
 					<p>".$row['tweet']."</p>
+				</body>
+			</html>";*/
+		
+		 "<html>
+				<head>
+        <meta http-equiv='refresh' content='0;url=".$url."'>
+        <title>Keyband</title>
+
+        <!-- Facebook, Pinterest, Google Plus and others make use of open graph metadata -->
+        <meta property='og:title' content='Keyband'>
+        <meta property='og:description' content='".$row['tweet']."'>
+        <meta property='og:image' content='http://www.dateunmasaje.es/mediapool/119/1193578/resources/21646288.jpg'>
+        <meta property='og:type' content='article'>
+
+    </head>
+				<body>
 				</body>
 			</html>";
 	}

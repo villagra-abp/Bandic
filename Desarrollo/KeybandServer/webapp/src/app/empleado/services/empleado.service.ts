@@ -44,13 +44,15 @@ getEmpleado(id){
                             .map(response => response.json())
                             
    }
-   putUsuario(dni, password, nombre, apellidos, email, empleado,fecha_nacimiento,sexo, localidad, provincia, pais, pulsera, estado){
+   putUsuario(dni, password, nombre, apellidos, email, empleado,fecha_nacimiento,sexo, localidad, provincia, pais, pulsera, estado, roles){
      let valor =JSON.stringify({dni, password, nombre, apellidos, email, empleado,fecha_nacimiento, sexo, localidad, provincia, pais});
-       
+       let enviar=JSON.stringify({dni, roles});
        return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario",valor)
                             .subscribe(response=>{
-                           
+                           let enviar=JSON.stringify({dni, roles});
                                 console.log(response.json());
+                                if(roles!="")
+                                    this.putRol(enviar);
                                 if (pulsera!="")
                                     this.postPulsera(pulsera, dni, estado);
                              
@@ -74,7 +76,18 @@ getEmpleado(id){
                                 alert(error.text())
                             );
    }
-
+putRol(enviar){
+    return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario/rol",enviar)
+                            .subscribe(response=>{
+                           
+                                console.log(response.json());
+                                
+                               
+                            },
+                            error => 
+                                alert(error.text())
+                            );
+}
    postPulsera(id, usuario, estado_pulsera){
      let valor= JSON.stringify({id, usuario, estado_pulsera});
      console.log(valor);

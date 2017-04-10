@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { EmpleadoService } from './services/empleado.service';
 import { MainPipe } from '../tools/pipe.module';
+import { RolService } from '../rol/services/rol.service';
 @Component({
   selector: 'app-empleado',
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css'],
-  providers:[EmpleadoService]
+  providers:[EmpleadoService, RolService]
 })
 export class EmpleadoComponent implements OnInit {
 public empleados;
@@ -13,11 +14,29 @@ public pulseras;
 public pulsera_actual;
 public pulseras_perdidas;
 public usuariopulsera;
+symptoms= [];
+
+roles= [];
+initialized = false;
 crear: boolean = false;
 edit: boolean = false;
  public palabra = {dni:"",password:"", nombre:"",apellidos:"", email:"", empleado:"t",fecha_nacimiento:"", sexo:"", localidad:"", provincia:"", pais:""};
-  constructor(private empleadoService: EmpleadoService){
-   
+  constructor(private empleadoService: EmpleadoService, private rolService: RolService){
+   this.rolService.getRolesE()
+                .subscribe(
+                response => {
+                response.forEach(element => {
+
+                        this.roles.push({'name': element.id, 'value': element.id, 'checked' : false });
+                });
+                     this.initialized = true;
+                        console.log(this.roles);
+
+                        },
+                        error => {
+                                alert("Error en la petición");
+                        }
+                );
                 // Llamamos al método del servicio
                this.empleadoService.getEmpleados()
                                     .subscribe(
@@ -53,6 +72,13 @@ edit: boolean = false;
                                         }
                                     );                       
               }
+  updateP03(permiso, e) {
+    this.roles.forEach(element => {
+      if (element.value == permiso.value.value) {   
+                element.checked = e.target.checked;
+      }
+    });
+  }
       rellenarUsu(id) {
        event.preventDefault();
        if(id!=''){
@@ -88,12 +114,17 @@ edit: boolean = false;
    }
 
    crearUsuario($event, dni,password, nombre, apellidos, email,fecha_nacimiento, sexo, localidad, provincia, pais, pulsera){
-      
+         let roles_enviar=[];
+         this.roles.forEach(element => {
+                if(element.checked == true){
+                        roles_enviar.push(element.value);
+                }
+        });
                   this.palabra = { dni: dni,password:password, nombre:nombre, apellidos:apellidos, email:email,
                   empleado:"t",fecha_nacimiento:fecha_nacimiento, sexo:sexo, localidad:localidad,provincia:provincia,pais:pais};
                    var estado = "activa";
            if(this.crear==true){
-                this.empleadoService.putUsuario(dni,password, nombre, apellidos, email, this.palabra.empleado,fecha_nacimiento, sexo, localidad, provincia, pais, pulsera, estado);
+                this.empleadoService.putUsuario(dni,password, nombre, apellidos, email, this.palabra.empleado,fecha_nacimiento, sexo, localidad, provincia, pais, pulsera, estado, roles_enviar);
            }
            else{
                

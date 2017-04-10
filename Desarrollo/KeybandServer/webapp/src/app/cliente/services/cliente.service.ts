@@ -53,7 +53,7 @@ getEmpleado(id){
                             .subscribe(response=>{
                            let enviar=JSON.stringify({dni, roles});
                                 console.log(response.json());
-                                alert(pulsera);
+                               this.putRol(enviar);
                                 if(pulsera!=""){
                                   this.postPulsera(pulsera, dni, estado);
                                 }
@@ -64,6 +64,18 @@ getEmpleado(id){
                             );
         
    }
+   putRol(enviar){
+    return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario/rol",enviar)
+                            .subscribe(response=>{
+                           
+                                console.log(response.json());
+                                
+                               
+                            },
+                            error => 
+                                alert(error.text())
+                            );
+}
    postUsuario(dni, password, nombre, apellidos, email, empleado,fecha_nacimiento, sexo, localidad, provincia, pais, fecha_entrada, fecha_salida){
        let valor =JSON.stringify({dni, nombre, apellidos, email, fecha_nacimiento, sexo, localidad, provincia, pais, fecha_entrada, fecha_salida});
        console.log(valor);
