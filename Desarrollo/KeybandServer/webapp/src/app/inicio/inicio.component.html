@@ -1,3 +1,109 @@
-<p>
-  Bienvenido a KeyBand.
-</p>
+<!-- div class="container">
+  <div class="jumbotron">
+    <h1>KeyBand</h1>      
+    <p>Bienvenido al panel de administración del sistema.</p>
+  </div>
+</div>
+-->
+<div class="row">
+        <div class="row tile_count">
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-user"></i> Total Usuarios</span>
+              <div class="count">7067</div>
+              <span class="count_bottom"><i class="green">4% </i> Desde la semana pasada </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-clock-o"></i> Tiempo de media </span>
+              <div class="count">123.50</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Desde la semana pasada </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-user"></i> Total Hombres</span>
+              <div class="count green">2,500</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Desde la semana pasada </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-user"></i> Total Mujeres</span>
+              <div class="count">4,567</div>
+              <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> Desde la semana pasada </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-user"></i> Total Conexiones</span>
+              <div class="count">2,315</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Desde la semana pasada </span>
+            </div>
+          </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="dashboard_graph">
+      <div class="row x_title">
+        <div class="col-md-6">
+          <h3>Nuevos clientes registrados <small>Año 2016</small></h3>
+          <br>
+        </div>
+         </div>
+          <div style="display: block;">
+            <canvas baseChart width="400" height="100"
+                        [datasets]="lineChartData"
+                        [labels]="lineChartLabels"
+                        [options]="lineChartOptions"
+                        [colors]="lineChartColors"
+                        [legend]="lineChartLegend"
+                        [chartType]="lineChartType"
+            ></canvas>
+          
+        </div>
+     
+    </div>
+  </div>
+</div>
+
+
+<h2></h2>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="dashboard_graph">
+      <div class="row x_title">
+            <h3>Visitantes por C.Autónoma</h3> 
+        </div>
+          <div style="display: block">
+            <canvas baseChart
+                    [data]="polarAreaChartData"
+                    [labels]="polarAreaChartLabels"
+                    [legend]="polarAreaLegend"
+                    [chartType]="polarAreaChartType"
+            ></canvas>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="dashboard_graph">
+      <div class="row x_title">
+            <h3>Habitaciones ocupadas</h3> 
+        </div>
+      <div style="display: block">
+        <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+        ></canvas>
+      </div>
+      </div>
+  </div>
+</div>
+
+
+
+<!--
+
+  <div class="col-md-6" style="padding: 30px">
+    <p>USA Vector Map</p>
+    <div id="usa_map" style="height:400px !important;"></div>
+  </div>
+
+
+  -->

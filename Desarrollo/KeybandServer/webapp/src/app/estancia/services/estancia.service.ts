@@ -24,7 +24,6 @@ urlBase: string = 'http://localhost/Keyband/Desarrollo/KeybandServer/rest/'
         let publica = true;    
         let enviar = JSON.stringify({id, capacidad, publica, descripcion});
 
-        console.log(enviar);
         return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia", enviar)
                         .map(response => response.json())                           
       }
@@ -43,5 +42,27 @@ urlBase: string = 'http://localhost/Keyband/Desarrollo/KeybandServer/rest/'
       deleteEstancia(id){
         return this.http.delete("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/" + id)
                         .map(response => response.json())          
+      }
+
+      filterEstancias(id, capacidad){
+         var filter = "";
+        if(id != undefined) {
+            filter = "&&id="+id;
+        }
+        else {
+            filter = "&&id=";
+        }
+
+        if(capacidad != undefined) {
+            filter = filter + "&&capacidad="+capacidad;
+        }
+        else {
+            filter = filter +  "&&capacidad=";
+        }
+
+        console.log(filter);
+
+      return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia?publica=t"+filter)
+                      .map(response => response.json())
       }
 }

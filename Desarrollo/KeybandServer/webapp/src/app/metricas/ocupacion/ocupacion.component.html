@@ -1,8 +1,17 @@
 <h1> Ocupación de una estancia </h1>
-  <form class="otra" #loginForm="ngForm" (ngSubmit)="getOcupacion(id.value)">
+
+   <form class="otra" #loginForm="ngForm" (ngSubmit)="getOcupacion(id.value)">
+      <select class="focusedInput" name="id" #id>
+        <option selected="selected">Todas</option>
+        <option *ngFor="let estancia of estancias | keys">{{estancia.value.id}}</option>
+      </select>
+      <button type="submit"> Buscar </button>
+  </form>
+
+ <!--  <form class="otra" #loginForm="ngForm" (ngSubmit)="getOcupacion(id.value)">
     <input id="ocupacion" name="ocupacion" type="text" #id placeholder="Introduzca estancia" class="prueba" required="" autofocus>
     <button type="submit">Buscar</button>
-  </form>
+  </form> -->
 
 <div class="clearfix">
 <div class="col-md-9 col-sm-9 col-xs-12">
@@ -14,8 +23,7 @@
               [options]="barChartOptions"
               [legend]="barChartLegend"
               [chartType]="barChartType"
-              (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)"></canvas>
+               ></canvas>
  
   <!-- <button (click)="randomize()">Modificar</button>-->
     </div>

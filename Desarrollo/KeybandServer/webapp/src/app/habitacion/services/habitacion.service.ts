@@ -38,4 +38,26 @@ export class HabitacionService {
       return this.http.post("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/" + id, enviar)
                       .map(response => response.json())          
     }
+
+    filterEstancias(id, capacidad){
+         var filter = "";
+        if(id != undefined) {
+            filter = "&&id="+id;
+        }
+        else {
+            filter = "&&id=";
+        }
+
+        if(capacidad != undefined) {
+            filter = filter + "&&capacidad="+capacidad;
+        }
+        else {
+            filter = filter +  "&&capacidad=";
+        }
+
+        console.log(filter);
+
+      return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia?publica=f"+filter)
+                      .map(response => response.json())
+    }
 }

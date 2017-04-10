@@ -24,18 +24,10 @@ public tpvs;
    }
   
   // Doughnut
-  public doughnutChartLabels:string[] = ['TPV 1', 'TPV 2'];
-  public doughnutChartData:number[] = [1700, 1250];
+  public doughnutChartLabels:string[] = ['Barra Comedor', 'Barra Recepción','Barra Piscina'];
+  public doughnutChartData:number[] = [1700, 1250, 2300];
   public doughnutChartType:string = 'doughnut';
  
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
- 
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
   ngOnInit() {
   }
 
