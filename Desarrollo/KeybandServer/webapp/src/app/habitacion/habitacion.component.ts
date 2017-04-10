@@ -15,6 +15,9 @@ export class HabitacionComponent implements OnInit {
  public editar;
  public estancia;
 
+ public selectedId;
+ public selectedCapacidad;
+
  public palabra = {id:"",capacidad:"",descripcion:""};
  public borrar = {id:""};
 
@@ -158,5 +161,26 @@ export class HabitacionComponent implements OnInit {
 
   ngOnInit() {
   }
+
+      onChange(id, capacidad) { //cuando se pulsa en buscar
+        this.selectedId = id;
+        this.selectedCapacidad = capacidad;
+
+        this.habitacionService.filterEstancias(this.selectedId, this.selectedCapacidad)
+                .subscribe(
+                response => {
+                         this.habitaciones = response;
+                         this.setHabitaciones(this.habitaciones);    
+                },           
+                error => {
+                        console.log(error);
+                }
+        );
+    }
+
+      setHabitaciones(response){
+                     console.log(response);
+                     this.habitaciones = response;          
+    }
 
 }

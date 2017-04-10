@@ -1,4 +1,4 @@
-<h1> Resultados económicos </h1>
+<!--<h1> Resultados económicos </h1>
   <form class="otra" #loginForm="ngForm" (ngSubmit)="getDatos(tpv.value)">
 
       <select class="focusedInput" name="tpv" #tpv>
@@ -6,14 +6,13 @@
         <option *ngFor="let tpv of tpvs| keys" [selected]="tpv.value.id == '1'">{{tpv.value.id}}</option>
       </select>
       <button type="submit" disabled>Buscar</button>
-  </form>
+  </form>-->
 
-<h1> Resultados </h1>
+<h1> Resultados generales</h1>
 <div style="display: block">
   <canvas baseChart
               [data]="doughnutChartData"
               [labels]="doughnutChartLabels"
               [chartType]="doughnutChartType"
-              (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)"></canvas>
+  ></canvas>
 </div>

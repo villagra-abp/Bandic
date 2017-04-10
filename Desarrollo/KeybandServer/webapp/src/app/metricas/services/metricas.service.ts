@@ -10,6 +10,11 @@ export class MetricasService {
 
   constructor(private http: Http) { }
 
+      getAllAccesos(){
+      return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/accesoestancia")
+                            .map(response => response.json())          
+      }
+
       getOcupacion(id){
       return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/accesoestancia/" + id)
                             .map(response => response.json())          
@@ -30,6 +35,11 @@ export class MetricasService {
                             .map(response => response.json())    
       }
 
+      getEstancias(){
+      return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia?publica=t")
+                            .map(response => response.json())    
+      }
+
       getTPV(){
       return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/tpv")
                             .map(response => response.json())    
@@ -37,6 +47,11 @@ export class MetricasService {
 
       getResultados(id){
         return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/ticket/tpv/" + id)
+                            .map(response => response.json())  
+      }
+
+      getUsuarios(){
+        return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario")
                             .map(response => response.json())  
       }
 }

@@ -43,6 +43,11 @@ class EstanciaResource{
 				if(SupportResource::ValidResource($_GET['resource2']))
 					EstanciaService::getEstanciaById($_GET['resource2']);
 				break;
+				
+			case '4':   //estancia/accesoestancia
+				if(SupportResource::ValidResource($_GET['resource2']))
+					EstanciaService::getAccesos();
+				break;
 
 			case '5': //estancia/capacidad/id o /estancia/aforo/id o /estancia/accesoestancia/id
 				if($_GET['resource2']=='capacidad'){

@@ -13,10 +13,12 @@ export class EstanciaComponent implements OnInit {
  public estancias;
  public palabra = {id:"",capacidad:"",descripcion:""};
  public borrar = {id:""};
+ public selectedId;
+ public selectedCapacidad;
 
  crear: boolean = false;
  edit: boolean = false;
-disabled: boolean = false;
+ disabled: boolean = false;
  
   constructor(private estanciaService: EstanciaService) { 
         this.estanciaService.getEstancias()
@@ -29,6 +31,11 @@ disabled: boolean = false;
                         alert("Error en la petición");
                 }
             );        
+    }
+
+    setEstancias(response){
+                     console.log(response);
+                     this.estancias = response;          
     }
 
     rellenarEstancia(id) {
@@ -75,8 +82,8 @@ disabled: boolean = false;
       this.estanciaService.putEstancia(id, capacidad, descripcion).subscribe(
             response => {
                    //console.log(response.json());
-                     this.palabra = {id:"",capacidad:"",descripcion:""};
                      this.getEstancias();
+                   //this.rellenarEstancia('');
                   },
             error => {
                     alert("Error en la petición");
@@ -134,7 +141,6 @@ disabled: boolean = false;
             this.estanciaService.completeEstancia(id)
                 .subscribe(
                         response =>{
-                                console.log(response);
                                 if(response[0] == null){
                                         document.getElementById("user").style.borderColor = 'blue';
                                         document.getElementById("errorusu").style.visibility = "hidden";
@@ -148,6 +154,22 @@ disabled: boolean = false;
                                 }
                         }
                 );
+    }
+
+    onChange(id, capacidad) { //cuando se pulsa en buscar
+        this.selectedId = id;
+        this.selectedCapacidad = capacidad;
+
+        this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad)
+                .subscribe(
+                response => {
+                         this.estancias = response;
+                         this.setEstancias(this.estancias);    
+                },           
+                error => {
+                        console.log(error);
+                }
+        );
     }
 
   ngOnInit() {

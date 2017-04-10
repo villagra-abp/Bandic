@@ -1,9 +1,26 @@
-<div class="boton" role="group" aria-label="...">
-    <a href="#" data-toggle="modal" data-target="#registro"> <button (click)="rellenarHabitacion('')"> Nueva habitación</button></a>
+<div class="container">
+ <form class="form-inline" (ngSubmit)="onChange(identificador.value, capacidades.value)">
+   <div class="form-group">
+     <input class="form-control" size="23" #identificador class="focusedInput" type="text" placeholder="Búsqueda por identificador">
+     <input class="form-control" size="23" #capacidades class="focusedInput" type="text" placeholder="Búsqueda por capacidad">
+   </div>
+   
+   <!-- <button type="submit" class="buscar focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">   
+             <span class="glyphicon glyphicon-search"></span> Buscar
+    </button> -->
+
+    <div class="boton" role="group" aria-label="...">
+    <button type="submit">   
+             <span class="glyphicon glyphicon-search"></span> Buscar
+    </button> 
+  
+    <a href="#" data-toggle="modal" data-target="#registro"><button (click)="rellenarHabitacion('')"> Nueva habitación</button></a>
+    </div>
+
+ </form>
 </div>
 
-<app-buscador-estancia></app-buscador-estancia>
-		<!-- Modal REGISTRO-->
+<!-- Modal REGISTRO-->
               <div class="modal fade" id="registro" role="dialog">
                 <div class="modal-dialog">
                   <!-- Modal content-->

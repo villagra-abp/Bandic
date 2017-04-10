@@ -128,6 +128,40 @@ class EstanciaDAO {
 	
 		return $dataArray;
 	}
+
+	public static function getAllAccesos() {
+		$dataArray = array();
+	
+		try {
+			//Crear conexion
+			$conection = openConection();
+			//$set = 'SET search_path = "Keyband"';
+			//SELECT * FROM "Keyband".usuario where nombre="Manuel" AND sexo='M' ORDER BY nombre ASC LIMIT 15 OFFSET 0
+			$sql = "SELECT * FROM acceso_estancia";
+			//echo $sql;
+			$result = pg_query($conection, $sql);
+	
+			if (!$result) {//Resultado erroneo
+				header('HTTP/1.1 500 Resultado erroneo');
+				return "Ocurrio un error en la consulta:".error_get_last();
+	
+			}else{//Resultado correcto
+				$count = pg_numrows($result);
+				for($i=0; $i<$count; $i++) {
+					$row = pg_fetch_assoc ($result);
+					$dataArray[] = $row;
+				}
+			}
+	
+			pg_close($conection);
+		}catch (Exception $e) {//TODO Exception generica maaaal
+			echo "Excepcion";
+			//throw new Exception ($e->getMessage());
+		}
+	
+		return $dataArray;
+	}
+	
 	
 }
 ?>

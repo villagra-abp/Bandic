@@ -27,6 +27,11 @@ class EstanciaService {
 		echo json_encode($dataArray); 
 	}
 	
+	public static function getAccesos() {
+		$dataArray = EstanciaDAO::getAllAccesos();
+		echo json_encode($dataArray);
+	}
+	
 	public static function getAforoByMes ($id) {
 		$dataArray = EstanciaDAO::getAforoByMes($id);
 		echo json_encode($dataArray);
