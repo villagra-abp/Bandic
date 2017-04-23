@@ -1,0 +1,4 @@
+.error{
+       visibility: hidden;
+}
+.container { border:2px solid #ccc; width:600px; height: 100px; overflow-y: scroll; }

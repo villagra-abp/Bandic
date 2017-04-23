@@ -49,7 +49,6 @@ class MasterDAO {
 	}
 	
 	public static function update($table,$obj,$primaries) {
-		echo $obj;
 		/*EJEMPLO
 		 $table = "usuario"
 		 $obj = ["dni":"dnifalso123","nombre":"UpdatePrueba","apellidos":camporandom,
@@ -175,7 +174,9 @@ class MasterDAO {
 					}
 					$i++;
 				}
+				
 				$sql = $sql.$keys.") VALUES (".$values.")";
+				//echo $sql;
 
 				$result = @pg_query($conection, $sql);
 
@@ -303,7 +304,7 @@ class MasterDAO {
 	public function constructPagination($pagination){
 		//recibe un array asociativo $pagination = ["initrow"=>"0","pageSize"=>"15"]
 		//LIMIT 15 OFFSET 0 
-		$limit = $pagination["initrow"] + $pagination["pagesize"];
+		$limit = $pagination["pagesize"];
 		$sql = " LIMIT ".$limit." OFFSET ".$pagination["initrow"];
 		
 		return $sql;
@@ -325,10 +326,14 @@ class MasterDAO {
 					$sql = $sql.$key." is null ";
 					else {
 						if(!SupportResource::isTable($key_value)){
-							$sql = $sql.$key."='".$key_value."' ";
+							if(!SupportResource::isBool($key_value) && !is_numeric($key_value)) {
+								$sql = $sql.$key." LIKE '%".$key_value."%' ";
+							}
+							else 
+								$sql = $sql.$key." = '".$key_value."' ";
 						}
 						else {
-							$sql = $sql.$key."=".$key_value." ";
+							$sql = $sql.$key." = ".$key_value." ";
 						}
 					}
 			}else{
@@ -336,10 +341,13 @@ class MasterDAO {
 					$sql = $sql."AND".$key." is null";
 					else {
 						if(!SupportResource::isTable($key_value)){
-							$sql = $sql."AND ".$key."='".$key_value."' ";
+							if(!SupportResource::isBool($key_value) && !is_numeric($key_value))
+								$sql = $sql."AND ".$key." LIKE '%".$key_value."%' ";
+							else
+								$sql = $sql."AND ".$key." = '".$key_value."' ";
 						}
 						else {
-							$sql = $sql."AND ".$key."=".$key_value." ";
+							$sql = $sql."AND ".$key." = ".$key_value." ";
 						}
 					}
 			}

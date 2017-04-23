@@ -38,7 +38,6 @@ export class HabitacionService {
       return this.http.post("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/" + id, enviar)
                       .map(response => response.json())          
     }
-
     filterEstancias(id, capacidad){
          var filter = "";
         if(id != undefined) {
