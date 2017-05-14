@@ -7,7 +7,8 @@ var pila = [];
 var gestorRecursos;
 var MatView;
 var interactor;
-
+var transformRot;
+var transformTra;
 define(function (require) {
    "use strict";
     //************************************REQUIRES************************************//
@@ -22,13 +23,13 @@ define(function (require) {
     gestorRecursos = motor.crearGestorrecursos();
     /*Rotación cámara*/
     let mat1 = mat4.identity();
-    var transformRot = motor.crearTransform(mat1);
+    transformRot = motor.crearTransform(mat1);
     
 
     /*Translación cámara*/
     let mat2 = mat4.identity();
     mat4.translate(mat2, [0.0,0.0,9.0]);
-    var transformTra = motor.crearTransform(mat2);
+    transformTra = motor.crearTransform(mat2);
     
     /*Translación Luz*/
     let mat3 = mat4.identity();
@@ -36,40 +37,40 @@ define(function (require) {
     var transformLuz = motor.crearTransform(mat3);
 
     /*Rotación malla*/ 
-    let mat5 = mat4.identity();
+  /*  let mat5 = mat4.identity();
     //mat4.rotate(mat5,(3.1416/7),[0,0,1]);
      mat4.rotate(mat5,(-3.1416/2),[0,1,0]);
      //mat4.rotate(mat5,(3.1416/4),[0,0,1]);
     var transformMallaRot = motor.crearTransform(mat5);
 
     /*Translación malla*/ 
-    let mat6 = mat4.identity();
+ /*   let mat6 = mat4.identity();
     mat4.translate(mat6, [0.0,-2.0,0.0]);
     var transformMalla = motor.crearTransform(mat6);
 
      /*Rotación malla2*/ 
-    let mat10 = mat4.identity();
+  /*  let mat10 = mat4.identity();
     //mat4.rotate(mat5,(3.1416/7),[0,0,1]);
      mat4.rotate(mat10,(3.1416/2),[1,0,0]);
     // mat4.rotate(mat5,(3.1416/4),[0,0,1]);
     var transformMalla2Rot = motor.crearTransform(mat10);
 
     /*Translación malla2*/ 
-    let mat11 = mat4.identity();
+   /* let mat11 = mat4.identity();
     mat4.translate(mat11, [0.0,0.0,-100.0]);
     var transformMalla2 = motor.crearTransform(mat11);
 
     /*Rotación malla3*/ 
-    let mat15 = mat4.identity();
+    /*let mat15 = mat4.identity();
     //mat4.rotate(mat5,(3.1416/7),[0,0,1]);
     mat4.rotate(mat15,(3.1416/2),[1,0,0]);
     // mat4.rotate(mat5,(3.1416/4),[0,0,1]);
     var transformMalla3Rot = motor.crearTransform(mat15);
 
     /*Translación malla3*/ 
-    let mat16 = mat4.identity();
+   /* let mat16 = mat4.identity();
     mat4.translate(mat16, [0.0,0.0,2.0]);
-    var transformMalla3 = motor.crearTransform(mat16);
+    var transformMalla3 = motor.crearTransform(mat16);*/
 
     var camara = motor.crearCamara(true, 100, new Float32Array([    //Activa, posicion. Activa solo puede haber una
         1, 0, 0, 0,
@@ -84,9 +85,9 @@ define(function (require) {
         0, 0, 0, 1
     ]) );
     //var luz2 = motor.crearLuz("roja");
-    var malla1 = motor.crearMalla("edificio1.3ds",0,0, true,'text_edificio1.jpg');   //nombre, id, shadertype, hasTexture, el id está asociado al recurso
-    var malla2 = motor.crearMalla("esfera.obj",1,0, false, 'esferatex.jpg');
-    var malla3 = motor.crearMalla("cesped-bruno.3ds",2,0, true, 'cesped-buno.png');
+   // var malla1 = motor.crearMalla("edificio1.3ds",0,0, true,'text_edificio1.jpg');   //nombre, id, shadertype, hasTexture, el id está asociado al recurso
+    
+    
 
     nEscena = motor.crearNodo(null,null,null);
     
@@ -120,29 +121,30 @@ define(function (require) {
     
     /************RAMA MALLAS***********/
     //MALLA 1
-    var nTrMallaRot = motor.crearNodo(transformMallaRot, null, nEscena);
-    nEscena.addHijo(nTrMallaRot);
-    var nTrMalla = motor.crearNodo(transformMalla, null, nTrMallaRot);
-    nTrMallaRot.addHijo(nTrMalla);
-    
-    var nMalla1 = motor.crearNodo(malla1, null, nTrMalla);
-    nTrMalla.addHijo(nMalla1);
+    /**
+     * indice salas
+     * 0: exterior
+     * 1: piscina
+     * 2: gym
+     * 3: comedor
+     * 4: SPA
+     * 5: masaje
+     */
+                        //nombre, sala, shadertype, hasTexture, el id está asociado al recurso
+    motor.crearMalla2("edificio1.3ds",0,0, true,'text_edificio1.jpg',-3.1416/3,[0.0,-2.0,0.0] );    
     //MALLA 2 
-    var nTrMallaRot2 = motor.crearNodo(transformMalla2Rot, null, nEscena);
-    nEscena.addHijo(nTrMallaRot2);
-    var nTrMalla2 = motor.crearNodo(transformMalla2, null, nTrMallaRot2);
-    nTrMallaRot2.addHijo(nTrMalla2);
-    var nMalla2 = motor.crearNodo(malla2, null, nTrMalla2);
-    nTrMalla2.addHijo(nMalla2);
+    motor.crearMalla2("esfera.obj",1,0, false, null, -3.1416/2, [0.0,0.0,-100.0] );
+    
 
 
      //MALLA 3 
-    var nTrMallaRot3 = motor.crearNodo(transformMalla3Rot, null, nEscena);
-    nEscena.addHijo(nTrMallaRot3);
-    var nTrMalla3 = motor.crearNodo(transformMalla3, null, nTrMallaRot3);
-    nTrMallaRot3.addHijo(nTrMalla3);
-    var nMalla3 = motor.crearNodo(malla3, null, nTrMalla3);
-    nTrMalla3.addHijo(nMalla3);
+     motor.crearMalla2("cesped-bruno.3ds",2,0, true, 'cesped-buno.png',0, [0.0,0.0,2.0]);
+
+   motor.crearMalla2("spa2.3ds",4,0, true,'spa.png',0,[0.0,0.0,0.0] );
+   motor.crearMalla2("gym2.3ds",2,0, true,'gym.png',0,[0.0,0.0,0.0] );
+   motor.crearMalla2("masaje2.3ds",5,0, true,'masaje.png',0,[0.0,0.0,0.0] );
+   motor.crearMalla2("comedor2.3ds",3,0, true,'comedor.png',0,[0.0,0.0,0.0] );
+
     motor.setEscena(nEscena);
     console.log("nodo raíz:");
     console.log(nEscena);

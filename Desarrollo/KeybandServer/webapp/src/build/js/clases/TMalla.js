@@ -3,7 +3,7 @@ define(function (require) {
 
     var TEntidad = require('clases/TEntidad');
 
-    function TMalla(nombre, id, int, booltext, rutaText) { //constructor de la clase
+    function TMalla(nombre, id, sala, int, booltext, rutaText) { //constructor de la clase
         if (!(this instanceof TMalla)) {
             throw new TypeError("nodo constructor cannot be called as a function.");
         }
@@ -12,6 +12,7 @@ define(function (require) {
         this.shadertype=int;    //para usar un shader u otro
         this.nombre = nombre;
         this.id = id;
+        this.sala = sala;
         this.rutaText = rutaText;
 
         this.vertices = [];

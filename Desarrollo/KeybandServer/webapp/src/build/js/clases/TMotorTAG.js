@@ -7,6 +7,7 @@ define(function (require) {
     var TLuz = require('clases/TLuz');
     var TMalla = require('clases/TMalla');
     var TGestorRecursos = require('clases/TGestorRecursos');
+    var CamaraInteractor = require('clases/CamaraInteractor');
 
     //var TGestor = require('clases/TGestor');
 
@@ -18,6 +19,7 @@ define(function (require) {
         this.nEscena = nEscena0;
         this.numberOfLights =0;
         this.numberOfCameras= 0;
+        this.numberOfMallas = 0;
     }
 
    TMotorTAG.prototype = { 
@@ -42,14 +44,38 @@ define(function (require) {
         	return transform;
         },
 
-        crearMalla: function(nombre,id, int, booltext, rutaText) {
+        crearMalla: function(nombre,id, sala, int, booltext, rutaText) {
             //AQUI TENEMOS QUE PEDIRLE AL GESTOR EL ARCHIVO RECIBIDO
-            var malla = new TMalla(nombre,id, int, booltext, rutaText);
+            var malla = new TMalla(nombre,id, sala, int, booltext, rutaText);
             gestorRecursos.getRecurso(nombre);
             //LO OBTENEMOS Y LUEGO YA SE DEVUELVE
             return malla;
         },
+        crearMalla2: function(nombre, place, shadertype, hasTexture,textName, rot, tra){
+            /*Rotación malla*/ 
+            var mat5 = mat4.identity();
+            //mat4.rotate(mat5,(3.1416/7),[0,0,1]);
+            if(rot!=0)
+                mat4.rotate(mat5,rot,[0,1,0]);
+            //mat4.rotate(mat5,(3.1416/4),[0,0,1]);
+            var transformMallaRot = motor.crearTransform(mat5);
 
+            /*Translación malla*/ 
+            var mat6 = mat4.identity();
+            mat4.translate(mat6, tra);
+            var transformMalla = motor.crearTransform(mat6);
+
+
+            var malla1 = motor.crearMalla(nombre, this.numberOfMallas, place, shadertype, hasTexture,textName);   //nombre, id, shadertype, hasTexture, el id está asociado al recurso
+            this.numberOfMallas++;
+            var nTrMallaRot = motor.crearNodo(transformMallaRot, null, nEscena);
+            nEscena.addHijo(nTrMallaRot);
+            var nTrMalla = motor.crearNodo(transformMalla, null, nTrMallaRot);
+            nTrMallaRot.addHijo(nTrMalla);
+
+            var nMalla1 = motor.crearNodo(malla1, null, nTrMalla);
+            nTrMalla.addHijo(nMalla1);
+        },
         crearCamara: function(arg1, arg2, arg3) {
             var camara = new TCamara(arg1,arg2, arg3);
             this.numberOfCameras ++;
@@ -77,6 +103,9 @@ define(function (require) {
            this.numberOfCameras = int;
         },
         initProgram: function(nEscena){
+            /******************CAMARA INTERACTOR**********************+ */
+            var canvas = document.getElementById("canvas-element-id");
+            interactor = new CamaraInteractor(canvas, transformTra, transformRot);
             var fragmentShader          = utils.getShader(gl, "shader-fs");
             var vertexShader            = utils.getShader(gl, "shader-vs");
 
