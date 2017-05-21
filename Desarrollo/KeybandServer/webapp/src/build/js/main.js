@@ -130,21 +130,28 @@ define(function (require) {
      * 4: SPA
      * 5: masaje
      */
-                        //nombre, sala, shadertype, hasTexture, el id está asociado al recurso
-    motor.crearMalla2("edificio1.3ds",0,0, true,'text_edificio1.jpg',-3.1416/3,[0.0,-2.0,0.0] );    
+                        //nombre, sala, shadertype, hasTexture, textura, rot, tra
+    motor.crearMalla2("cesped.3ds",0,0, true,'cesped.png',0,[0.0,0.0,0.0] );    
+     motor.crearMalla2("bordepiscina.3ds",2,0, true,'bordepiscina.png',0,[0.0,0.0,0.0] );
+     motor.crearMalla2("fondopiscina.3ds",2,0, true,'fondopiscina.png',0,[0.0,0.0,0.0] );
     //MALLA 2 
-    motor.crearMalla2("esfera.obj",1,0, false, null, -3.1416/2, [0.0,0.0,-100.0] );
-    
+    motor.crearMalla2("gym.3ds",2,0, true, 'gym.png', 0, [0.0,0.0,0.0] );
+    motor.crearMalla2("bancos.3ds",2,0, true, 'bancos.png', 0, [0.0,0.0,0.0] );
+    motor.crearMalla2("pesas.3ds",2,0, true, 'pesas.png', 0, [0.0,0.0,0.0] );
 
-
+     motor.crearMalla2("masaje.3ds",5,0, true, 'masaje.png', 0, [0.9,0.0,0.0] );
+     motor.crearMalla2("camillasmasaje.3ds",5,0, true, 'camillasmasaje.png', 0, [0.0,0.0,0.0] );
+     motor.crearMalla2("patasmasaje.3ds",5,0, true, 'patasmasaje.png', 0, [0.0,0.0,0.0] );
+     motor.crearMalla2("letras.3ds",0,0, true, 'letras.png', 0, [0.0,0.0,0.0] );
      //MALLA 3 
-     motor.crearMalla2("cesped-bruno.3ds",2,0, true, 'cesped-buno.png',0, [0.0,0.0,2.0]);
-
-   motor.crearMalla2("spa2.3ds",4,0, true,'spa.png',0,[0.0,0.0,0.0] );
-   motor.crearMalla2("gym2.3ds",2,0, true,'gym.png',0,[0.0,0.0,0.0] );
+     motor.crearMalla2("comedor.3ds",3,0, true, 'comedor.png',0, [0.0,0.0,0.0]);
+     motor.crearMalla2("mesas.3ds",3,0, true, 'mesas.png', 0, [0.0,0.0,0.0] );
+   motor.crearMalla2("spa.3ds",4,0, true,'spa.png',0,[0.0,0.0,0.0] );
+ /*  motor.crearMalla2("gym2.3ds",2,0, true,'gym.png',0,[0.0,0.0,0.0] );
    motor.crearMalla2("masaje2.3ds",5,0, true,'masaje.png',0,[0.0,0.0,0.0] );
-   motor.crearMalla2("comedor2.3ds",3,0, true,'comedor.png',0,[0.0,0.0,0.0] );
+   motor.crearMalla2("comedor2.3ds",3,0, true,'comedor.png',0,[0.0,0.0,0.0] );*/
 
+   motor.crearMalla2("centro.3ds",3,0, false,'comedor.png',0,[3,3,3] );  
     motor.setEscena(nEscena);
     console.log("nodo raíz:");
     console.log(nEscena);

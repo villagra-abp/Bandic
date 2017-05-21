@@ -25,6 +25,12 @@ define(function (require) {
         this.nbuffer;
         this.tbuffer;
         
+        this.maxX;
+        this.maxY;
+        this.maxZ;
+        this.center = [];
+        this.radio;
+
         this.textura = null;
         this.texture_coords= booltext; //para saber si tiene textura o no
     }
@@ -68,6 +74,7 @@ define(function (require) {
             if(this.rutaText!=null)
                 this.setTexture();
             
+            this.setBounding();
         },
         setTexture: function(){
               	//Init texture
@@ -89,12 +96,66 @@ define(function (require) {
             
             //this.texture_coords = true;
         },
+        setBounding: function(){
+            var xmax = -100;
+            var xmin = 100;
+            for(var i=0;i<=this.vertices.length-3;i +=3){
+                if(this.vertices[i]> xmax){
+                     xmax = this.vertices[i];
+                }else if(this.vertices[i]< xmin)
+                    xmin = this.vertices[i];
+            }
+            var ymax = -100;
+            var ymin = 100;
+            for(var j=1;j<=this.vertices.length-3;j +=3){
+                if(this.vertices[j]> ymax){
+                     ymax = this.vertices[j];
+                }else if(this.vertices[j]< ymin)
+                    ymin = this.vertices[j];
+            }
+            var zmax = -100;
+            var zmin = 100;
+            for(var k=2;k<=this.vertices.length-3;k +=3){
+                if(this.vertices[k]> zmax){
+                     zmax = this.vertices[k];
+                }else if(this.vertices[k]< zmin)
+                    zmin = this.vertices[k];
+            }
+            if(xmax>=xmin*(-1.0)){
+                this.maxX=xmax;
+            }else{
+                this.maxX = xmin;
+            }
+            if(ymax>=ymin*(-1.0)){
+                this.maxY=ymax;
+            }else{
+                this.maxY = ymin;
+            }
+            if(zmax>=zmin*(-1.0)){
+                this.maxZ=zmax;
+            }else{
+                this.maxZ = zmin;
+            }
 
+            this.center[0] = (xmin + xmax)/2;
+            this.center[1] = (ymin + ymax)/2;
+            this.center[2] = (zmin + zmax)/2;
+
+            this.radio = Math.sqrt( (this.center[0] - this.maxX)*(this.center[0] - this.maxX) +  (this.center[1] - this.maxY)*(this.center[1] - this.maxY) +  (this.center[2] - this.maxZ)*(this.center[2] - this.maxZ));
+        },
         beginDraw: function () {
             var matModel = mat4.create(pila[pila.length-1]);
                var mat1aux = mat4.create(pila[pila.length-1]);
             var mat2aux = mat4.create(MatView);
             var mvMatrix = mat4.multiply(mat2aux,mat1aux);
+            var mvMatrixAux = mat4.create(mvMatrix);
+            var pMatrixAux = mat4.create(pMatrix);
+            var mvp = mat4.multiply(pMatrixAux, mvMatrixAux);
+            motor.setfrustum(mvp);
+            var visible = motor.esVisible(this.center,this.radio);
+            if(visible==false){
+                console.log(this.nombre + "INVISIBLE");
+            }
             if(this.shadertype==0){
                  try{
                      

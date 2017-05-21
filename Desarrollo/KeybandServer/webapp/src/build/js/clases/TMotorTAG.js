@@ -8,6 +8,7 @@ define(function (require) {
     var TMalla = require('clases/TMalla');
     var TGestorRecursos = require('clases/TGestorRecursos');
     var CamaraInteractor = require('clases/CamaraInteractor');
+    var Frustum = require('clases/Frustum');
 
     //var TGestor = require('clases/TGestor');
 
@@ -20,6 +21,7 @@ define(function (require) {
         this.numberOfLights =0;
         this.numberOfCameras= 0;
         this.numberOfMallas = 0;
+        this.frustum = new Frustum();
     }
 
    TMotorTAG.prototype = { 
@@ -101,6 +103,12 @@ define(function (require) {
         },
         setCameras: function(int) {
            this.numberOfCameras = int;
+        },
+        setfrustum: function(mvp){
+            this.frustum.setplanos(mvp);
+        },
+        esVisible: function(centro, radio){//centro[] float radio
+            return this.frustum.esVisible(centro, radio);
         },
         initProgram: function(nEscena){
             /******************CAMARA INTERACTOR**********************+ */
