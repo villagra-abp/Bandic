@@ -114,4 +114,65 @@ getEmpleado(id){
 return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/pulsera?estado_pulsera=perdida&usuario="+usuario)
                             .map(response => response.json())
    }
+
+   /**ALBERTO */
+
+    filterClientes(dni, nombre, apellidos, localidad, provincia, pais, orderBy, init_row, paginar) {
+     var filter = "";
+     var pagination = "";
+     var order = "";
+
+     if(dni != undefined) {
+        filter = "?dni="+dni;
+     }
+     else {
+        filter = "?dni=";
+     }
+     if(nombre != undefined) {
+        filter = filter + "&&nombre="+nombre;
+     }
+     else {
+        filter = filter + "&&nombre=";
+     }
+     if(apellidos != undefined) {
+        filter = filter + "&&apellidos="+apellidos;
+     }
+     else {
+        filter = filter + "&&apellidos=";
+     }
+     if(provincia != undefined) {
+        filter = filter + "&&provincia="+provincia;
+     }
+     else {
+        filter = filter + "&&provincia=";
+     }
+     if(localidad != undefined) {
+        filter = filter + "&&localidad="+localidad;
+     }
+     else {
+        filter = filter + "&&localidad=";
+     }
+     if(pais != undefined) {
+        filter = filter + "&&pais="+pais;
+     }
+     else {
+        filter = filter + "&&pais=";
+     }
+    if(orderBy != undefined)
+        order = "&&order=asc&&by="+orderBy;
+    else
+        order = "&&order=asc&&by=";
+    if(!paginar)
+        pagination = "&&initrow="+init_row+"&&pagesize=";
+    else
+        pagination = "&&initrow="+init_row+"&&pagesize=5";
+
+    filter = filter+"&&empleado=f";
+
+    console.log(filter+pagination+order);
+
+        return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/usuario"+filter+pagination+order)
+                            .map(response => response.json())
+     
+   }
 }
