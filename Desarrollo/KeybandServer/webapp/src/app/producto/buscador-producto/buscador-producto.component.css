@@ -1,70 +1,45 @@
 .id {
-    width: 7%;
-}
-
-.nombre {
-    width: 15%;
+    width: 4em;
 }
 
 .form-group {
     width: 70%;
-}
- 
-.focusedInput {
-    padding: 7px 8px;
-    margin: 8px 0;
-    margin-left: 1em;
-    margin-bottom: 2em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
 }
 
 #reservable {
     margin-left: 1em;
 }
 
-.focusedButton {
-    padding: 7px 8px;
-    margin: 8px 0;
-    margin-bottom: 2.5em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+label {
+    font-weight: 550;
+    font-size: 11pt;
 }
 
-.focusedInputCheckbox {
-    padding: 7px 8px;
-    margin-left: 3em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+.form-control:hover {
+    background-color:#E6EDF5;
 }
 
-.control-label {
+#row {
+    padding-top: 2em;
+}
+
+.x_title {
+    margin-bottom: 1.3em;
+}
+
+#confirmar, #confirmar2 {
+    background-color:#2A3F54;
+    float: right;
+}
+
+#registro .control-label {
     margin-top: 1em;
 }
 
-.focusedInput2 {
-    padding: 7px 8px;
-    margin: 8px 0;
-    margin-right: .3em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+#newCategoria .control-label {
+    margin-bottom: 1em;
 }
 
-.focusedInput:hover {
-    background-color: #EDEDED; 
-}
-
-.focusedInput:focus {
-    border-color: #73879C;
-}
-
-.focusedInputMenu {
-    display: inline;
-}
 
 @font-face {
     font-family: 'icomoon';
@@ -96,12 +71,11 @@
 
 .pagination {
     display: inline-block;
-    float: right;
 }
 
 .pagination button.arrows {
-    background-color: #2a3f54;
-    color: white;
+    background-color: #ddd;
+    color: black;
     padding: 4px 8px;
     border-radius: 5px;
     text-decoration: none;
@@ -116,27 +90,6 @@
 .pagination button.arrows:hover:not(.active) {
     background-color: #73879C;
     border-radius: 5px;
-}
-
-#buscarbtn{
-    margin-top: 0.5em;
-    background: #2A3F54;
-    font-size: 10px;
-}
-#crearprod{
-    margin-top: 0.5em;
-    background: #2A3F54;
-    font-size: 10px;
-}
-#crearcat{
-    margin-top: 0.5em;
-    background: #2A3F54;
-    font-size: 10px;
-}
-
-select { 
-    width: 8.5em;
-    height: 2.5em; 
 }
 
 #registro .modal-body {
@@ -229,45 +182,4 @@ label {
 }
 .botonesDel {
     margin-left: 25em;
-}
-#confirmar, #confirmar2 {
-    background-color:#2A3F54;
-    float: right;
-}
-
-#registro .control-label {
-    margin-top: 1em;
-}
-
-#newCategoria .control-label {
-    margin-bottom: 1em;
-}
-
-
-@font-face {
-    font-family: 'icomoon';
-    src: url('fonts/icomoon.eot');
-}
-@font-face {
-    font-family: 'icomoon';
-    src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBrAAAAC8AAAAYGNtYXAWz9NjAAABHAAAAExnYXNwAAAAEAAAAWgAAAAIZ2x5ZtcdXCgAAAFwAAAA5GhlYWQFjUXXAAACVAAAADZoaGVhB6oDxgAAAowAAAAkaG10eAYAAAAAAAKwAAAAFGxvY2EAKACGAAACxAAAAAxtYXhwAAgAOwAAAtAAAAAgbmFtZVcZpu4AAALwAAABRXBvc3QAAwAAAAAEOAAAACAAAwQAAZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADphgPA/8AAQAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEADgAAAAKAAgAAgACAAEAIOmG//3//wAAAAAAIOmG//3//wAB/+MWfgADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAgAA/9gD6APAACMAOAAAJScuAQc+ATU0LgIjIg4CFRQeAjMyNjcGFh8BHgE3NiYnJSIuAjU0PgIzMh4CFRQOAiMD4PITJxArMTxpi1BQi2k8PGmLUEeAMgEQEc4bSxsaBB79oDVdRigoRl01NV1GKChGXTVZzhEQATKAR1CLaTw8aYtQUItpPDErECcT8h4EGhtLG+coRl01NV1GKChGXTU1XUYoAAAAAQAAAAEAAG8vzepfDzz1AAsEAAAAAADRQwChAAAAANFDAKEAAP/YA+gDwAAAAAgAAgAAAAAAAAABAAADwP/AAAAEAAAAAAAD6AABAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAKABQAHgByAAEAAAAFADkAAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAOAK4AAQAAAAAAAQAOAAAAAQAAAAAAAgAOAEcAAQAAAAAAAwAOACQAAQAAAAAABAAOAFUAAQAAAAAABQAWAA4AAQAAAAAABgAHADIAAQAAAAAACgA0AGMAAwABBAkAAQAOAAAAAwABBAkAAgAOAEcAAwABBAkAAwAOACQAAwABBAkABAAOAFUAAwABBAkABQAWAA4AAwABBAkABgAOADkAAwABBAkACgA0AGMAaQBjAG8AbQBvAG8AbgBWAGUAcgBzAGkAbwBuACAAMQAuADAAaQBjAG8AbQBvAG8Abmljb21vb24AaQBjAG8AbQBvAG8AbgBSAGUAZwB1AGwAYQByAGkAYwBvAG0AbwBvAG4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=) format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-.icon {
-    font-family: 'icomoon';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-search:before {
-    content: "\e986";
-    margin-right: 0.5em;
 }

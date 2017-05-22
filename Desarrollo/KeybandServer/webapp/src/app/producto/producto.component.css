@@ -2,38 +2,25 @@
     margin-right: 15px;
 }
 
-.focusedInput {
-    padding: 7px 10px;
-    margin: 8px 0;
-    margin-right: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+label {
+    font-weight: 550;
+    font-size: 11pt;
 }
 
-.focusedInput:hover{
-    background-color: #EDEDED; 
+.form-group {
+    width: 70%;
 }
 
-.focusedInput:focus {
-    border-color: #73879C;
+.form-control:hover {
+    background-color:#E6EDF5;
 }
 
-.focusedInputMenu {
-    display: inline;
+#row {
+    padding-top: 2em;
 }
 
-.buscadorProducto {
-    margin-bottom: 1em;
-}
-
-.color{
-    color: white;
-    background: #2a3f54;
-}
-
-tr{
-    text-align: center;
+.x_title {
+    margin-bottom: 1.3em;
 }
 
 #confirmar, #confirmar2 {
