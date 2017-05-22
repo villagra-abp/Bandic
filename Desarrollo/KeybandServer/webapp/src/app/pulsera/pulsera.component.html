@@ -1,3 +1,31 @@
+  <div class="container buscadorProducto">
+  <form (ngSubmit)="onChange($event, idP.value, usuarioP.value, estadoP.value, orderP.value)" class="form-inline formulario">
+    <div class="form-group">
+      <input placeholder="Id" class="form-control id" name="id" #idP type="text" maxlength="12">
+      <input placeholder="Usuario" name="nombre" #usuarioP class="short form-control" type="text">
+          <select class="form-control" name="categoria" #estadoP>
+            <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Estado: </option>
+            <option>cualquiera</option>
+            <option>activa</option>
+            <option>perdida</option>
+            <option>sin asignar</option>
+          </select>
+          <select style="margin-left: 24em; margin-top: 1em;" class="input-xs form-control" name="categoria" #orderP>
+              <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
+              <option>Id</option>
+              <option>Usuario</option>
+              <option>Estado</option>
+            </select>
+        <button style="margin-left: 1.5em; margin-bottom: .1em" type="submit" class="form-control" class="buscar btn btn-default confirmation-modal" title="Detalle">   
+                <span class="icon icon-search"></span>Buscar
+        </button>
+        <div style="margin-bottom: .6em" class="btn-group" role="group" aria-label="...">
+          <a href="#" data-toggle="modal" data-target="#registroPul"> <button type="button" (click)="rellenarPromo('');" class="btn btn-default">Nueva pulsera</button></a>
+        </div>
+      
+    </div>
+  </form>
+</div>
   <!-- Modal REGISTRO-->
              <div class="modal fade" id="registro" role="dialog">
                <div class="modal-dialog">
@@ -98,5 +126,8 @@
 				</table> 
 			</div>
 </div>
-</div>
-</div>
+<div class="pagination">
+      <button class="arrows" (click)="lastPage();" href="#">&laquo;</button>
+        <span>{{init_page}} de {{pages}}</span>
+      <button class="arrows" (click)="nextPage();" href="#">&raquo;</button>
+  </div> 

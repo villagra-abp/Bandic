@@ -54,4 +54,50 @@ getEstados(){
                             );
         
    }
+
+filterPulseras(id, usuario, estado, orderBy, init_row, paginar) {
+     var filter = "";
+     var pagination = "";
+     var order = "";
+
+     if(id != undefined) {
+        filter = "?id="+id;
+     }
+     else {
+        filter = "?id=";
+     }
+
+     if(usuario != undefined) {
+        filter = filter + "&&usuario="+usuario;
+     }
+     else {
+        filter = filter + "&&usuario=";
+     }
+
+     if(estado != undefined) {
+        filter = filter + "&&estado_pulsera="+estado;
+     }
+     else {
+        filter = filter + "&&estado_pulsera=";
+     }
+
+    if(orderBy != undefined)
+        if(orderBy == "Estado")
+            order = "&&order=asc&&by=estado_pulsera";
+        else
+            order = "&&order=asc&&by="+orderBy;
+    else 
+        order = "&&order=asc&&by=";
+
+    if(!paginar)
+        pagination = "&&initrow="+init_row+"&&pagesize=";
+    else
+        pagination = "&&initrow="+init_row+"&&pagesize=5";
+
+    console.log(filter+pagination+order);
+
+        return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/pulsera"+filter+pagination+order)
+                            .map(response => response.json())
+     
+   }
 }
