@@ -96,11 +96,12 @@
 
 .pagination {
     display: inline-block;
+    float: right;
 }
 
 .pagination button.arrows {
-    background-color: #ddd;
-    color: black;
+    background-color: #2a3f54;
+    color: white;
     padding: 4px 8px;
     border-radius: 5px;
     text-decoration: none;
@@ -116,3 +117,25 @@
     background-color: #73879C;
     border-radius: 5px;
 }
+
+#buscarbtn{
+    margin-top: 0.5em;
+    background: #2A3F54;
+    font-size: 10px;
+}
+#crearprod{
+    margin-top: 0.5em;
+    background: #2A3F54;
+    font-size: 10px;
+}
+#crearcat{
+    margin-top: 0.5em;
+    background: #2A3F54;
+    font-size: 10px;
+}
+
+select { 
+    width: 8.5em;
+    height: 2.5em; 
+}
+

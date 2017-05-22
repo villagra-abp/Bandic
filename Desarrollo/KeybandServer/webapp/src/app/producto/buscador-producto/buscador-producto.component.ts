@@ -112,7 +112,7 @@ getCategorias() {
 }
 
 estanciaValida(estancia) {
-  this.estanciaService.getEstancia(estancia)
+  /*this.estanciaService.getEstancia(estancia)
     .subscribe(
       response => {
         console.log(response);
@@ -130,7 +130,7 @@ estanciaValida(estancia) {
       error => {
 
       }
-    )
+    )*/
 }
 
 filterProductos(id, nombre, categoria, reservable, initrow) { //Solo se llama desde el constructor, resultado por defecto de todos los productos

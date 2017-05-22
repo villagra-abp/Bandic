@@ -23,6 +23,14 @@ export class RolComponent implements OnInit {
       .subscribe(
         response => {
           this.roles = response;
+             for(var i = 0; i<response.length; i++){
+                if(response[i].empleado == 't'){
+                  response[i].empleado = 'Si';
+                }
+                else if(response[i].empleado == 'f'){
+                  response[i].empleado = 'No';
+                }
+              }
             console.log(this.roles);
         },
         error => {
@@ -33,7 +41,7 @@ export class RolComponent implements OnInit {
           //}
           }
       );
-                                      
+                                    
     }
   rellenarBorrar(id){
            // console.log(id);

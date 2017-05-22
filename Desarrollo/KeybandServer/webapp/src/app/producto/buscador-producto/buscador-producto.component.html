@@ -1,43 +1,57 @@
+<div class="dashboard_graph">
+<div class="clearfix">
 <div class="container buscadorProducto">
   <form (ngSubmit)="onChange($event, id.value, nombre.value, categoria.value, reservable.checked, order.value)" class="form-inline formulario">
     <div class="form-group">
-      <input placeholder="ID" class="form-control" name="id" #id class="focusedInput focusedInputMenu id" type="text">
-      <input placeholder="Nombre" name="nombre" #nombre class="form-control" class="focusedInput focusedInputMenu nombre" type="text">
-      <select class="focusedInput" name="categoria" #categoria>
+      <input placeholder="ID" size="13" class="form-control" name="id" #id type="text">
+      <input placeholder="Nombre" size="13" name="nombre" #nombre class="form-control" type="text">
+      <select class="selectpicker" name="categoria" #categoria>
         <option selected="selected">Todas</option>
         <option *ngFor="let categoria of categorias | keys" [selected]="categoria.value.id == 'Todas'">{{categoria.value.id}}</option>
       </select>
-      <div class="checkbox">
-        <label><input type="checkbox" class="focusedInputCheckbox" id="reservable" #reservable value="pepe" name="reservable">Reservable</label>
-      </div>
-      <select class="focusedInput" name="categoria" #order>
+      <select class="selectpicker" name="categoria" #order>
         <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
         <option>Id</option>
         <option>Nombre</option>
         <option>Precio</option>
       </select>
+      <div class="checkbox">
+        <label><input type="checkbox" size="10" id="reservable" #reservable value="pepe" name="reservable"> Reservable</label>
+      </div>
     </div>
-    <button type="submit" class="buscar focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">   
+    <button type="submit" class="btn btn-primary" title="Detalle" id="buscarbtn">   
              <span class="icon icon-search"></span>Buscar
     </button>
      <a href="#" data-toggle="modal" data-target="#registro">
-         <button class="focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">
+         <button class="btn btn-primary" title="Detalle" id="crearprod">
              Crear producto
          </button>
     </a>
     <a href="#" data-toggle="modal" data-target="#newCategoria">
-         <button class="focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">
+         <button class="btn btn-primary" title="Detalle" id="crearcat">
              Crear categoria
          </button>
     </a>
   </form>
+
+</div>
+</div>
+</div>
+
+<br>
+
   <app-producto></app-producto>
+
+  <div class="dashboard_graph">
+<div class="clearfix">
   <div class="pagination">
       <button class="arrows" (click)="lastPage();" href="#">&laquo;</button>
         <span>{{init_page}} de {{pages}}</span>
       <button class="arrows" (click)="nextPage();" href="#">&raquo;</button>
   </div> 
 </div>
+</div>
+
 
 <!--MODAL CREAR CATEGORIA-->
 <div class="modal fade" id="newCategoria" role="dialog">

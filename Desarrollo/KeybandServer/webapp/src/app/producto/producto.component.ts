@@ -5,9 +5,9 @@ import { FileUploadService } from './services/fileupload.service';
 import { BuscadorProductoComponent } from './buscador-producto/buscador-producto.component';
 
 @NgModule({
-  declarations: [
-    BuscadorProductoComponent
-  ]
+ declarations: [
+   BuscadorProductoComponent
+ ]
 })
 
 @Component({
