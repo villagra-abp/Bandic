@@ -39,6 +39,7 @@ public getObserver (): Observable<number> {
  */
 
 public upload (id: string, type: string, files: File[], method: string): Promise<any> {
+    id = "nuevo";
     return new Promise((resolve, reject) => {
         let formData: FormData = new FormData(),
             xhr: XMLHttpRequest = new XMLHttpRequest();
@@ -54,15 +55,13 @@ public upload (id: string, type: string, files: File[], method: string): Promise
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     resolve(xhr.response);
-                    return xhr.response;
                 } else {
                     reject(xhr.response);
                 }
             }
         };
 
-        FileUploadService.setUploadUpdateInterval(20);
-
+        FileUploadService.setUploadUpdateInterval(200);
         xhr.upload.onprogress = (event) => {
             this.progress = Math.round(event.loaded / event.total * 100);
 
@@ -70,6 +69,7 @@ public upload (id: string, type: string, files: File[], method: string): Promise
         };
 
         xhr.open('POST', url, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.send(formData);
     });
 }

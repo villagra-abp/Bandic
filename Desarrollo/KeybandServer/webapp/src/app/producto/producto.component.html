@@ -190,8 +190,9 @@
                   <!-- Modal content-->
                   <div class="modal-content">
                     <div class="modal-header">
+                      <img src="./images/KeybandApp.png" alt="..."width="70" height="50" class="logoKeyband">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Empleados asignados {{nombreProductoAsignado}}</h4>
+                      <h4 class="modal-title">Empleados asignados a {{nombreProductoAsignado}}</h4>
                     </div>
                     <div class="modal-body">
                       <div class="table-responsive">
@@ -223,17 +224,17 @@
                     </div>
                     <form *ngIf="empleados_asignados != undefined && empleados_asignados.length > 0" name="contact_form" role="form" class="form-inline formulario" #loginForm="ngForm" (ngSubmit)="asignarProducto(empleado.value)">
                         <div class="form-group">
-                          <label class="col-md-4 control-label" for="nombre">Asignar empleado</label>  
+                          <label class="col-md-5 control-label labelAsig" for="nombre">Asignar empleado</label>  
                           <div class="col-md-6">
-                            <select #empleado class="focusedInput" name="categoria" #empleado>
+                            <select #empleado class="form-control" name="categoria" #empleado>
                               <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
                               <option *ngFor="let empleado of empleados | keys" [ngValue]="empleado.value.dni" [selected]="empleado.value.id == 'Seleccionar'">{{empleado.value.dni}}, {{empleado.value.nombre}} {{empleado.value.apellidos}}</option>
                             </select>
                           </div>
                         </div>
-                        <div class="form-group">
-                            <button type="submit" class="focusedInput focusedInputMenu btn btn-default btn-xs">Asignar</button>
-                            <button data-dismiss="modal" aria-label="Close" class="focusedInput focusedInputMenu btn btn-default btn-xs">Volver</button>
+                        <div class="form-group ye">
+                            <button type="submit" class="btn btn-primary">Asignar</button>
+                            <button data-dismiss="modal" aria-label="Close" class="btn btn-primary">Volver</button>
                         </div>
                     </form>       
                     </div>
@@ -247,10 +248,11 @@
                  <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
+                        <img src="./images/KeybandApp.png" alt="..."width="70" height="50" class="logoKeyband">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Desasignar producto</h4>
+                        <h3 class="modal-title">Desasignar producto</h3>
                       </div>
-                      <div class="modal-body">
+                      <div class="modal-body modalDelete">
                         <h5>El empleado {{empleado_delete}} ya no se hará cargo del producto.</h5>
                         <div class="form-group">
                             <button type="submit" data-dismiss="modal" aria-label="Close" (click)="desasignarProducto(empleado_delete_dni);" class="focusedInput focusedInputMenu btn btn-default btn-xs">Confirmar</button>

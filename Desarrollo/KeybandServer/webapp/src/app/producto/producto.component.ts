@@ -1,13 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { ViewChild, ElementRef, Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { ProductoService } from './services/producto.service';
 import { FileUploadService } from './services/fileupload.service';
 import { BuscadorProductoComponent } from './buscador-producto/buscador-producto.component';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import {ModalModule} from "ng2-modal";
+
+interface FileReaderEventTarget extends EventTarget {
+    result:string
+}
+
+interface FileReaderEvent extends Event {
+    target: FileReaderEventTarget;
+    getMessage():string;
+}
 
 @NgModule({
- declarations: [
-   BuscadorProductoComponent
- ]
+    imports: [ModalModule],
+    declarations: [
+    BuscadorProductoComponent
+  ]
 })
 
 @Component({
@@ -18,6 +30,9 @@ import { BuscadorProductoComponent } from './buscador-producto/buscador-producto
 })
 
 export class ProductoComponent implements OnInit {
+
+  @ViewChild('imagenn') imagenn: ElementRef;
+
   public productos;
   public reservable;
   public init_row;
@@ -126,18 +141,22 @@ desasignarProducto(dni) {
 }
 
 getProducto(id) {
-  console.log("hola");
   this.productoService.getProducto(id)
     .subscribe(
       response => {
         this.productoEdit = response;
         console.log(this.productoEdit);
-      },
+    },
       error => {
 
       }
     )
-}
+} 
+
+  errorHandler(event) {
+    console.debug(event);
+    event.target.src = "./images/image-default.jpg";
+  }
 
 editarProducto(event, id, nombre, descripcion, categoria, precio, iva, cantidad, tweet, estancia, imagen, imagenRRSS) {
   let method = "post";
@@ -204,15 +223,49 @@ getReservables(productos) {
       );
   });
 }
+
+defaultURL() {
+  if(document.getElementById("blahEd") != null && document.getElementById("blahEd").getAttribute("src") != 
+  "http://localhost/keyband/Desarrollo/KeybandServer/fotos/normal/"+this.productoEdit[0].id+"/"+this.productoEdit[0].imagen &&
+    document.getElementById("blahEd").getAttribute("src") != "./images/image-default.jpg")
+    document.getElementById("blahEd").setAttribute("src", "http://localhost/keyband/Desarrollo/KeybandServer/fotos/normal/"+this.productoEdit[0].id+"/"+this.productoEdit[0].imagen);
+
+  if(document.getElementById("blah2Ed") != null && document.getElementById("blah2Ed").getAttribute("src") != 
+  "http://localhost/keyband/Desarrollo/KeybandServer/fotos/RRSS/"+this.productoEdit[0].id+"/"+this.productoEdit[0].imagen_redes &&
+    document.getElementById("blah2Ed").getAttribute("src") != "./images/image-default.jpg")
+    document.getElementById("blah2Ed").setAttribute("src", "http://localhost/keyband/Desarrollo/KeybandServer/fotos/RRSS/"+this.productoEdit[0].id+"/"+this.productoEdit[0].imagen_redes);  
+}
+
+
 //*******************SUBIR LA FOTO******************* */
 fileChange(event, type) {
+  console.log("aaaaaaaaaaaah");
   if(type == 's') {
+    console.log("derecha");
     this.fileEventRRSS = event;
     this.fileTypeRRSS = type;
+    var reader = new FileReader();
+
+    reader.onload = function(fre:FileReaderEvent) {
+        //var data = JSON.parse(fre.target.result);
+        document.getElementById("blah2Ed").setAttribute("src", fre.target.result);
+    }
+
+    reader.readAsDataURL(event.target.files[0]);
   }
+
   else if(type == 'n'){
+    console.log("izquierda");
     this.fileEvent = event;
     this.fileType = type;
+    var reader = new FileReader();
+
+    reader.onload = function(fre:FileReaderEvent) {
+        //var data = JSON.parse(fre.target.result);
+        document.getElementById("blahEd").setAttribute("src", fre.target.result);
+    }
+
+    reader.readAsDataURL(event.target.files[0]);
   }
 }
 
@@ -248,6 +301,7 @@ uploadFile(event, id, type, method): Promise<any> {
 
 
   ngOnInit() {
+    
   }
 
 }

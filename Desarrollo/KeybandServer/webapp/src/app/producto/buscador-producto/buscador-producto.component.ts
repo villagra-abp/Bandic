@@ -6,6 +6,18 @@ import { ProductoComponent } from '../producto.component'
 import { FormBuilder, Validators } from '@angular/forms';
 import { Headers, RequestOptions, Http } from '@angular/http';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/share';
+
+interface FileReaderEventTarget extends EventTarget {
+    result:string
+}
+
+interface FileReaderEvent extends Event {
+    target: FileReaderEventTarget;
+    getMessage():string;
+}
+
 
 @NgModule({
   declarations: [ProductoComponent]
@@ -19,6 +31,17 @@ import { Headers, RequestOptions, Http } from '@angular/http';
 })
 
 export class BuscadorProductoComponent implements OnInit {
+  /**
+ * @param Observable<number>
+ */
+private progress$: Observable<number>;
+
+/**
+ * @type {number}
+ */
+private progress: number = 0;
+
+private progressObserver: any;
 
   public selectedNombre;
   public selectedId;
@@ -43,9 +66,19 @@ export class BuscadorProductoComponent implements OnInit {
   public init_row;
   public campo;
   public empleados;
+  public estancias;
+  public id1;
+  public id2;
+  public idCat;
+  public comest;
+  public categoriaID;
 
   constructor(public estanciaService: EstanciaService, public productoService: ProductoService, public fileuploadService: FileUploadService) {
     
+    this.progress$ = new Observable(observer => {
+        this.progressObserver = observer
+    });
+
     this.productos_reservables = [];
     this.productoService.getEmpleados()
         .subscribe(
@@ -56,10 +89,30 @@ export class BuscadorProductoComponent implements OnInit {
 
             }
         );
+
+      this.estanciaService.getEstancias()
+        .subscribe(
+            response => {
+                this.estancias = response;
+                console.log(response);
+            },
+            error => {
+
+            }
+        );
     this.productoService.getCategorias()
         .subscribe(
             response => {
                 this.categorias = response;
+                this.categorias.filter(element => {
+                
+                    if(element.comestible == "f") {
+                      element.comestible = "No";
+                    }
+                    else {
+                      element.comestible = "Si";
+                    }
+                  } );             
             },
             error => {
 
@@ -81,6 +134,21 @@ export class BuscadorProductoComponent implements OnInit {
             }
         );
   }
+
+  /**
+ * @returns {Observable<number>}
+ */
+public getObserver (): Observable<number> {
+    return this.progress$;
+}
+
+/**
+ * Upload files through XMLHttpRequest
+ *
+ * @param url
+ * @param files
+ * @returns {Promise<T>}
+ */
 
 getProductos() { //Se llama para recargar los productos cuando se crea uno nuevo
   this.productoService.getProductos() //inicialmente hacer getProductos para ver cuantos hay y guardarme el numero de filas
@@ -111,26 +179,66 @@ getCategorias() {
         );
 }
 
-estanciaValida(estancia) {
-  /*this.estanciaService.getEstancia(estancia)
-    .subscribe(
-      response => {
-        console.log(response);
-        if(response.length == 0) {
-          console.log("no existe joder");
-          document.getElementById("estancia").style.borderColor = "red";
-          document.getElementById("confirmar").setAttribute("disabled", "disabled");
-        }
-        if(response.length > 0) {
-          console.log("existeeee");
-          document.getElementById("estancia").style.borderColor = "#73879C";
-          document.getElementById("confirmar").removeAttribute("disabled");
-        }
-      },
-      error => {
+getCategoria(id) {
+  this.categoriaID = id;
+}
 
+deleteCategoria() {
+  this.productoService.deleteCategoria(this.categoriaID)
+  .subscribe(
+    response => {
+      console.log(response);
+      location.reload();
+    }
+  )
+}
+
+camposOblig1(newValue) {
+      this.id1 = newValue;
+      if(this.id1 && this.id2 && this.id1 != "" && this.id2 != "") {
+        document.getElementById("confirmar").removeAttribute("disabled");
+        document.getElementById("camposOblig").style.display = "none";
       }
-    )*/
+      else {
+        document.getElementById("confirmar").setAttribute("disabled", "true");
+        document.getElementById("camposOblig").style.display = "block";
+      }
+}
+
+camposOblig2(newValue) {
+      this.id2 = newValue;
+      if(this.id1 && this.id2 && this.id1 != "" && this.id2 != "") {
+        document.getElementById("confirmar").removeAttribute("disabled");
+        document.getElementById("camposOblig").style.display = "none";
+      }
+      else {
+        document.getElementById("confirmar").setAttribute("disabled", "true");
+        document.getElementById("camposOblig").style.display = "block";
+      }
+}
+
+camposOblig3(newValue) {
+      this.idCat = newValue;
+      if(this.comest && this.comest && this.idCat != "" && this.comest != "") {
+        document.getElementById("confirmar2").removeAttribute("disabled");
+        document.getElementById("camposOblig2").style.display = "none";
+      }
+      else {
+        document.getElementById("confirmar2").setAttribute("disabled", "true");
+        document.getElementById("camposOblig2").style.display = "block";
+      }
+}
+
+camposOblig4(newValue) {
+      this.comest = newValue;
+      if(this.idCat && this.comest && this.comest != "" && this.idCat != "") {
+        document.getElementById("confirmar2").removeAttribute("disabled");
+        document.getElementById("camposOblig2").style.display = "none";
+      }
+      else {
+        document.getElementById("confirmar2").setAttribute("disabled", "true");
+        document.getElementById("camposOblig2").style.display = "block";
+      }
 }
 
 filterProductos(id, nombre, categoria, reservable, initrow) { //Solo se llama desde el constructor, resultado por defecto de todos los productos
@@ -179,22 +287,53 @@ getReservables(productos) {
 }
 
 crearProducto(event, id, nombre, descripcion, categoria2, precio, iva, tweet, cantidad, estancia, imagen, imagenRRSS, empleado) {
-    let empleado_id = empleado.split(",");
-    console.log(empleado_id);
+    let empleado_id;
+    let estancia_id;
+    let enviar_empleado;
+    let enviar_estancia;
+
+    console.log(estancia);
+    console.log(empleado);
+
+    if(estancia == "Sin estancia" || estancia == "Seleccionar") {
+      enviar_estancia = null;
+    }
+    else {
+      estancia_id = estancia.split(" (");
+      enviar_estancia = estancia_id[0];
+    }
+    if(empleado == "Sin empleado" || empleado == "Seleccionar") {
+      enviar_empleado = null;
+    }    
+    else {
+      empleado_id = empleado.split(",");
+      enviar_empleado = empleado_id[0];
+    }
+    
+    console.log(enviar_estancia);
+    console.log(enviar_empleado);
+    
     let filename = imagen.replace(/^.*\\/, "");
 		let filenameRRSS = imagenRRSS.replace(/^.*\\/, "");
     this.idProducto = id;
-    this.productoService.crearProducto(id, nombre, descripcion, categoria2, precio, iva, tweet, cantidad, estancia, filename, filenameRRSS)
+    this.productoService.crearProducto(id, nombre, descripcion, categoria2, precio, iva, tweet, cantidad, enviar_estancia, filename, filenameRRSS)
         .subscribe(
           response => {
             console.log(response);
             if(this.fileEvent != undefined && this.fileType != undefined)
-                this.uploadFile(this.fileEvent, this.idProducto, this.fileType);
+                this.uploadFile(this.fileEvent, id, this.fileType);
             if(this.fileEventRRSS != undefined && this.fileTypeRRSS != undefined)
-                this.uploadFile(this.fileEventRRSS, this.idProducto, this.fileTypeRRSS);
+                this.uploadFile(this.fileEventRRSS, id, this.fileTypeRRSS);
               this.filterProductos(undefined, undefined, undefined, undefined, 0);
-              this.asignarProducto(id, empleado_id[0]);
+              if(empleado_id != null) {
+                this.asignarProducto(id, enviar_empleado);
+              }
               this.getProductos();
+              document.getElementById("blah").setAttribute("src", "./images/image-default.jpg");
+              document.getElementById("blah2").setAttribute("src", "./images/image-default.jpg");
+              //document.getElementById('buttonCerrar').click();
+              //location.reload();
+              
           },
           error => {
              console.log(error);
@@ -229,6 +368,7 @@ asignarProducto(id, empleado) {
 
 onChange(event, id, nombre, categoria, reservable, orden) { //cuando se pulsa en buscar
       if(orden != "Ordenar por:") this.campo = orden; 
+      console.log(id);
       this.selectedId = id;
       this.selectedNombre = nombre;
       this.selectedCategoria = categoria;
@@ -326,14 +466,40 @@ setPages(productos) {
   }
 
 //*******************SUBIR LA FOTO******************* */
+defaultURL() {
+    document.getElementById("blah").setAttribute("src", "./images/image-default.jpg");
+    document.getElementById("blah2").setAttribute("src", "./images/image-default.jpg");
+}
+
+
 fileChange(event, type) {
+  console.log("aaaaaaaaaaaah");
   if(type == 's') {
+    console.log("derecha");
     this.fileEventRRSS = event;
     this.fileTypeRRSS = type;
+    var reader = new FileReader();
+
+    reader.onload = function(fre:FileReaderEvent) {
+        //var data = JSON.parse(fre.target.result);
+        document.getElementById("blah2").setAttribute("src", fre.target.result);
+    }
+
+    reader.readAsDataURL(event.target.files[0]);
   }
+
   else if(type == 'n'){
+    console.log("izquierda");
     this.fileEvent = event;
     this.fileType = type;
+    var reader = new FileReader();
+
+    reader.onload = function(fre:FileReaderEvent) {
+        //var data = JSON.parse(fre.target.result);
+        document.getElementById("blah").setAttribute("src", fre.target.result);
+    }
+
+    reader.readAsDataURL(event.target.files[0]);
   }
 }
 
@@ -346,14 +512,8 @@ uploadFile(event, id, type): Promise<any> {
         });
 
     try {
-        result = this.fileuploadService.upload(id, type, event.target.files, method);
+        result = this.upload(id, type, event.target.files, method)
         console.log(result);
-        if(result != "OK") {
-          if(result == "formatError") 
-            this.messageError = "Formato incorrecto. Sólo son aptos jpg, jpeg o png.";
-          if(result == "sizeError")
-            this.messageError = "El tamaño de la imagen no puede exceder los 2MB";
-        }
     } catch (error) {
         document.write(error)
     }
@@ -361,6 +521,51 @@ uploadFile(event, id, type): Promise<any> {
     if (!result['images']) {
         return;
     }
+}
+
+upload (id: string, type: string, files: File[], method: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+        let formData: FormData = new FormData(),
+            xhr: XMLHttpRequest = new XMLHttpRequest();
+        let url = "http://localhost/keyband/Desarrollo/KeybandServer/rest/upload.php?id="+id+"&&RRSS="+type+"&&method="+method;
+        
+        if(files != undefined) {
+            for (let i = 0; i < files.length; i++) {
+                formData.append("uploads[]", files[i], files[i].name);
+            }
+        }
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    resolve(xhr.response);
+                    this.messageError = xhr.responseText;
+                } else {
+                    reject(xhr.response);
+                }
+            }
+        };
+
+        this.setUploadUpdateInterval(200);
+        xhr.upload.onprogress = (event) => {
+            this.progress = Math.round(event.loaded / event.total * 100);
+
+            this.progressObserver.next(this.progress);
+        };
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.send(formData);
+    });
+}
+
+/**
+ * Set interval for frequency with which Observable inside Promise will share data with subscribers.
+ *
+ * @param interval
+ */
+setUploadUpdateInterval (interval: number): void {
+    setInterval(() => {}, interval);
 }
 
 
