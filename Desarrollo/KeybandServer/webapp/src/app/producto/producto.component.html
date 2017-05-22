@@ -61,122 +61,128 @@
 
     <!--MODAL EDITAR PRODUCTO-->
 
+    <!--MODAL EDITAR PRODUCTO-->
+
     <div class="modal fade" id="editar" role="dialog">
+      <div id="responsive-form" class="clearfix">
                 <div class="modal-dialog">
                   <!-- Modal content-->
                   <div class="modal-content">
                     <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Editar producto</h4>
+                      <img src="./images/KeybandApp.png" alt="..."width="70" height="50" class="logoKeyband">
+                      <button type="button" class="close" (click)="defaultURL()" data-dismiss="modal">&times;</button>
+                      <h3 class="modal-title">Editar producto</h3>
                     </div>
                     <div class="modal-body">
-                        <form *ngIf="productoEdit != undefined" name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="editarProducto($event, id.value, nombre.value, descripcion.value, categoria.value, precio.value, iva.value, cantidad.value, tweet.value, estancia.value, imagen.value, imagenRRSS.value)">
+                        <form *ngIf="productoEdit != undefined" name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
                         <fieldset>
-                          <div class="form-group">
-                          <label class="col-md-4 control-label" for="user">ID del producto</label>  
-                          <div class="col-md-6">
-                              <input class="form-control focusedInput" name="id" [(ngModel)]="productoEdit[0].id" value="" type="text" #id placeholder="Introduzca ID" required autofocus>
-                          </div>
+                          <label style="margin-left:2em;"><small>(*) Campos obligatorios</small></label>
+                            <div class="form-rowV">
+                              <span class="imageLabel" for="imgInpEd"><small>Imagen de producto</small></span>
+                              <div class="column-half">
+                                  <label for="imgInpEd">
+                                    <img id="blahEd" #imagenn width="180" height="170" src="http://localhost/keyband/Desarrollo/KeybandServer/fotos/normal/{{productoEdit[0].id}}/{{productoEdit[0].imagen}}" (error)="errorHandler($event)" alt="your image">
+                                  </label>
+                                  <input type='file' id="imgInpEd" #imagen (change)="fileChange($event, 'n')" accept="image/x-png,image/gif,image/jpeg" />
+                              </div>
+                              <span class="imageLabel" for="imgInpEd"><small>Imagen de redes sociales</small></span>
+                              <div class="column-half">
+                                  <label for="imgInp2Ed">
+                                    <img id="blah2Ed" #imagennRRSS width="180" height="170" src="http://localhost/keyband/Desarrollo/KeybandServer/fotos/RRSS/{{productoEdit[0].id}}/{{this.productoEdit[0].imagen_redes}}"  (error)="errorHandler($event)" alt="your image">
+                                  </label>
+                                  <input type='file' id="imgInp2Ed"  #imagenRRSS (change)="fileChange($event, 's')" accept="image/x-png,image/gif,image/jpeg"/>             
+                              </div>
+                            </div>
+
+                        <div class="form-row1">
+                        <div class="column column-4">
+                          <label for="catProd">Categoría</label>
+                          <select [(ngModel)]="productoEdit[0].categoria_producto" id="catProd" class="form-control" name="categoria" #categoria2>
+                            <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
+                            <option *ngFor="let categoria of categorias | keys" [selected]="categoria.value.id == 'Seleccionar'">{{categoria.value.id}}</option>
+                          </select>
                         </div>
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="user">Nombre del producto</label>  
-                          <div class="col-md-6">
-                              <input name="nombre" [(ngModel)]="productoEdit[0].nombre" class="form-control focusedInput" value="" type="text" #nombre placeholder="Introduzca nombre" required autofocus>
-                          </div>
+                        <div class="column column-4">
+                          <label for="nomProd">Nombre(*)</label>
+                          <input class="form-control" id="nomProd" name="nombre" [(ngModel)]="productoEdit[0].nombre" (ngModelChange)="camposOblig2($event)" value="" type="text" #nombre2 placeholder="Introduzca nombre" required autofocus>
                         </div>
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="nombre">Descripcion</label>  
-                          <div class="col-md-6">
-                          <input name="descripcion" class="form-control focusedInput" [(ngModel)]="productoEdit[0].descripcion" value="" #descripcion placeholder="Introduzca descripcion" required>
+                        <div class="column column-4">
+                          <label for="idProd">ID del producto(*)</label>
+                          <input class="form-control" id="idProd" name="id3" [(ngModel)]="productoEdit[0].id" (ngModelChange)="camposOblig1($event)" value="" type="text" #id2 placeholder="Introduzca ID" required autofocus>
+                        </div>
+                      </div>
+
+                        <div class="form-row">
+                          <div class="column column-3">
+                              <label for="desProd">Descripción</label>
+                              <textarea class="form-control" id="desProd" name="desc" [(ngModel)]="productoEdit[0].descripcion" #descripcion placeholder="Introduzca descripcion"></textarea>
+                          </div>
+                          <div class="column column-3">
+                            <label for="entProd">Entrada para redes sociales</label>
+                            <textarea id="entProd" class="form-control" name="tweet" [(ngModel)]="productoEdit[0].tweet" #tweet placeholder="Introduzca texto redes sociales"></textarea>
                           </div>
                         </div>
 
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="nombre">Categoria</label>  
-                          <div class="col-md-6">
-                            <select class="focusedInput" [(ngModel)]="productoEdit[0].categoria_producto" name="categoria" #categoria>
-                              <option *ngFor="let categoria of categorias | keys" [ngValue]="categoria.value.id" [selected]="categoria.value.id == productoEdit[0].categoria_producto">{{categoria.value.id}}</option>
+                        <div class="form-row1">
+                          <div class="column column-4">
+                            <label for="preProd">Precio</label>
+                            <input id="preProd" class="form-control" name="precio" [(ngModel)]="productoEdit[0].precio" type="number" #precio placeholder="Introduzca precio">
+                          </div>
+                          <div class="column column-4">
+                            <label for="ivaProd">Iva</label>
+                            <input id="ivaProd" class="form-control" name="iva" [(ngModel)]="productoEdit[0].iva" type="number" #iva placeholder="Introduzca iva">
+                          </div>
+                          <div class="column column-4">
+                            <label for="canProd">Cantidad disponible</label>
+                            <input id="canProd" class="form-control" name="cantidad" [(ngModel)]="productoEdit[0].cantidad_disponible" type="number" #cantidad placeholder="Introduzca cantidad">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                        <div class="column column-3 estaancia">
+                            <h4 class="modal-title">Asignar estancia</h4>
+                            <select class="form-control" name="categoria" #estancia>
+                              <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
+                              <option [ngValue]="sinEstancia">Sin estancia</option>
+                              <option *ngFor="let estancia of estancias | keys" [ngValue]="estancia.value.id" [selected]="estancia.value.id == 'Seleccionar'">{{estancia.value.id}} (Estancia pública)</option>
                             </select>
                           </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Precio</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput" name="precio" [(ngModel)]="productoEdit[0].precio" value="" type="number" #precio placeholder="Introduzca precio" required="">
+                      </div>
+                      <div class="form-row">
+                          <div class="row x_title">
                           </div>
                         </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Iva</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput" name="iva" [(ngModel)]="productoEdit[0].iva" value="" type="text" #iva placeholder="Introduzca precio" required="">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Tweet</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput" name="tweet" [(ngModel)]="productoEdit[0].tweet" value="" type="text" #tweet placeholder="Introduzca precio" required="">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Cantidad disponible</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput" name="cantidad" [(ngModel)]="productoEdit[0].cantidad_disponible" value="" type="number" #cantidad placeholder="Introduzca cantidad" required="">
-                          </div>
-                        </div>
-
-                       <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Estancia</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput2" name="estancia" [(ngModel)]="productoEdit[0].estancia" value="" type="text" #estancia placeholder="Introduzca estancia" required="">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Imagen de producto</label>
-                          <label class="focusedInput col-md-6">
-                             Explorador de archivos&hellip; <input type="file" name="imagen" #imagen (change)="fileChange($event, 'n')" accept="image/x-png,image/gif,image/jpeg" class="form-control focusedInput" style="display: none;">
-                          </label>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Imagen para redes sociales</label>
-                          <label class="focusedInput col-md-6">
-                            Explorador de archivos&hellip; <input type="file" name="imagenRRSS" #imagenRRSS (change)="fileChange($event, 's')" accept="image/x-png,image/gif,image/jpeg" class="form-control focusedInput" style="display: none;">
-                          </label>
-                        </div>
+                      
 
                        <!-- Button -->
-                        <div class="form-group">
-                          <label class="col-md-8 control-label"></label>
-                          <div class="col-md-4">
-                            <br>
-                            <button type="submit" class="focusedInput">Confirmar</button>
+                        <div class="form-row">
+                          <div class="column-full">
+                              <input type="submit" value="Confirmar" class="btn btn-primary" id="confirmar" data-dismiss="modal" (click)="editarProducto($event, id.value, nombre.value, descripcion.value, categoria.value, precio.value, iva.value, cantidad.value, tweet.value, estancia.value, imagen.value, imagenRRSS.value)">
+                              <span id="camposOblig" style="color: red">Por favor, rellena los campos obligatorios</span>
                           </div>
                         </div>
-
                        </fieldset>
                         </form>        
                     </div>
                   </div>            
                 </div>
+                </div>
               </div>
+
+
                   <!--MODAL DELETE PRODUCTO-->
           <div class="modal fade" id="delete" role="dialog">
                  <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
+                        <img src="./images/KeybandApp.png" alt="..."width="70" height="50" class="logoKeyband">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Eliminar producto</h4>
+                        <h3 class="modal-title">Eliminar producto</h3>
                       </div>
-                      <div *ngIf="productoEdit != undefined" class="modal-body">
+                      <div *ngIf="productoEdit != undefined" class="modal-body modalDelete">
                         <h5>El producto {{productoEdit[0].id}} se va a eliminar.</h5>
                         <div class="form-group">
-                            <button type="submit" data-dismiss="modal" aria-label="Close" (click)="eliminarProducto(productoEdit[0].id);" class="focusedInput focusedInputMenu btn btn-default btn-xs">Confirmar</button>
-                            <button type="submit" data-dismiss="modal" aria-label="Close" class="focusedInput focusedInputMenu btn btn-default btn-xs">Volver</button>
+                            <button type="submit" data-dismiss="modal" aria-label="Close" (click)="eliminarProducto(productoEdit[0].id);" class="btn btn-primary">Confirmar</button>
+                            <button type="submit" data-dismiss="modal" aria-label="Close" class="btn btn-primary">Cancelar</button>
                         </div>
                       </div>
                     </div>
