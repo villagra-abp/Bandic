@@ -24,8 +24,9 @@ import { LoginComponent }   from '../login/login.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/inicio', pathMatch: 'full'},
-// { path: 'detail/:id', component: HeroDetailComponent }, EJEMPLO DONDE SE LE PASA ID
+  { path: ' ', redirectTo: './inicio', pathMatch: 'full'},
+//{ path: '', redirectTo: '/inicio', pathMatch: 'full'},
+//{ path: 'detail/:id', component: HeroDetailComponent }, EJEMPLO DONDE SE LE PASA ID
   { path: 'cliente',     component: ClienteComponent },
   { path: 'inicio',     component: InicioComponent },
   { path: 'empleado',     component: EmpleadoComponent },

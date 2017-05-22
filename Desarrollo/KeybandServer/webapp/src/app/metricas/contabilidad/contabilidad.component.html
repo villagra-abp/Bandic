@@ -9,10 +9,89 @@
   </form>-->
 
 <h1> Resultados generales</h1>
-<div style="display: block">
-  <canvas baseChart
-              [data]="doughnutChartData"
-              [labels]="doughnutChartLabels"
-              [chartType]="doughnutChartType"
-  ></canvas>
+<br>
+<div class="col-md-4 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Categorías <small>Por demanda</small></h2>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <div style="display: block">
+          <canvas baseChart
+                  [datasets]="radarChartData"
+                  [labels]="radarChartLabels"
+                  [chartType]="radarChartType"
+                  [colors]="lineChartColors"
+          ></canvas>
+        </div>
+    </div>
+  </div>
 </div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Productos <small>Más vendidos</small></h2>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content" id="productoTop">
+      <!--	<tr *ngFor="let producto of productos | keys">
+           	<td>{{producto.value.id}}</td>
+      	</tr>-->
+          <h3>Gin-tonic</h3>
+          <h2>Sándwich Mixto</h2>
+          <h2>Agua mineral</h2>
+          <h4>Exc. Roma</h4>
+          <h5>Exc. Mallorca</h5>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>TPVs <small>Comparativa</small></h2>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+      <div style="display: block">
+          <canvas baseChart
+                  [data]="pieChartData"
+                  [labels]="pieChartLabels"
+                  [legend]="leyenda"
+                  [chartType]="pieChartType"
+                  [colors]="coloresTPVs"
+          ></canvas>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Ganancias totales <small>Año 2016</small></h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div style="display: block">
+          
+          <canvas baseChart
+                  [datasets]="barChartData"
+                  [labels]="barChartLabels"
+                  [options]="barChartOptions"
+                  [legend]="barChartLegend"
+                  [chartType]="barChartType"
+                  [colors]="coloresPrincipales"
+          ></canvas>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

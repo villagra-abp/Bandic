@@ -1,8 +1,10 @@
+<div class="dashboard_graph">
+<div class="clearfix">
 <div class="container">
  <form class="form-inline" (ngSubmit)="onChange(identificador.value, capacidades.value)">
    <div class="form-group">
-     <input class="form-control" size="23" #identificador class="focusedInput" type="text" placeholder="Búsqueda por identificador">
-     <input class="form-control" size="23" #capacidades class="focusedInput" type="text" placeholder="Búsqueda por capacidad">
+     <input class="form-control" size="25" #identificador class="form-control" type="text" placeholder="Búsqueda por identificador">
+     <input class="form-control" size="25" #capacidades class="form-control" type="text" placeholder="Búsqueda por capacidad">
    </div>
    
    <!-- <button type="submit" class="buscar focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">   
@@ -10,15 +12,19 @@
     </button> -->
 
     <div class="boton" role="group" aria-label="...">
-    <button type="submit">   
+    <button type="submit" class="btn btn-primary" id="buscarbtn">   
              <span class="glyphicon glyphicon-search"></span> Buscar
     </button> 
   
-    <a href="#" data-toggle="modal" data-target="#registro"><button (click)="rellenarHabitacion('')"> Nueva habitación</button></a>
+    <a href="#" data-toggle="modal" data-target="#registro"><button class="btn btn-primary" id="crearbtn" (click)="rellenarHabitacion('')"> Nueva habitación</button></a>
     </div>
 
  </form>
 </div>
+</div>
+</div>
+
+<br>
 
 <!-- Modal REGISTRO-->
               <div class="modal fade" id="registro" role="dialog">
@@ -64,8 +70,8 @@
                           <label class="col-md-8 control-label"></label>
                           <div class="col-md-4">
                             <br>        
-                             <button id="bcrear"  *ngIf="crear" class="btn btn-primary" (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Crear Habitación</button>
-                             <button id="beditar"  *ngIf="edit" class="btn btn-primary"  (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Editar Habitación</button> 
+                             <button id="btncrear"  *ngIf="crear" class="btn btn-primary" (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Crear Habitación</button>
+                             <button id="btneditar"  *ngIf="edit" class="btn btn-primary"  (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Editar Habitación</button> 
                           </div>
                         </div>
 
@@ -77,6 +83,11 @@
               </div>
 
 <!-- TABLA ESTANCIAS -->
+<div class="dashboard_graph">
+<div class="clearfix">
+    <div class="x_title">
+      <h3>Resultados <small>Habitaciones</small></h3>
+    </div>
 <div class="panel-body">
 		
 		<div class="table-responsive">
@@ -91,16 +102,16 @@
 				<tbody>
 					<tr *ngFor="let habitacion of habitaciones | keys">
 						<td>
-              <a href="#" data-toggle="modal" data-target="#borrar">
-							<button (click)="rellenarBorrar(habitacion.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
-										<span class="glyphicon glyphicon-remove"></span>
-							</button>
-              </a>
-							<a href="#" data-toggle="modal" data-target="#registro">
-								<button (click)="rellenarHabitacion(habitacion.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Detalle">
-									<span class="glyphicon glyphicon-edit"></span>
+              <a href="#" data-toggle="modal" data-target="#registro">
+								<button (click)="rellenarHabitacion(habitacion.value.id)" style="background-color:#F88A3D"  class="btn btn-default btn-xs confirmation-modal" title="Detalle">
+									<span class="glyphicon glyphicon-edit" style="color:white" ></span>
 								</button>
 							</a>
+              <a href="#" data-toggle="modal" data-target="#borrar">
+						  	<button (click)="rellenarBorrar(habitacion.value.id)" class="btn btn-default btn-xs confirmation-modal" style="background-color:#FE5855" title="Borrar">
+										<span class="glyphicon glyphicon-remove" style="color:white"></span>
+							</button>
+              </a>
 						</td>
 						<td>{{habitacion.value.id}}</td>
 						<td>{{habitacion.value.descripcion}}</td>
@@ -109,7 +120,8 @@
 			</table> 
 		</div>
 	</div>
-
+	</div>
+	</div>
 
 		<!-- Modal BORRAR -->
               <div class="modal fade" id="borrar" role="dialog">
@@ -132,7 +144,7 @@
                           <div class="modal-footer">
                             <br>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary" (click)="borrarHabitacion(borrar.id)" data-dismiss="modal">Aceptar</button>
+                            <button type="button" class="btn btn-primary" id="aceptarbtn" (click)="borrarHabitacion(borrar.id)" data-dismiss="modal">Aceptar</button>
                           </div>
                         </div>
                         </fieldset>

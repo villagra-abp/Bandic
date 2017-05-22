@@ -1,3 +1,37 @@
 .ocultar{
     visibility: hidden;
+    margin-top: 3em;
+}
+
+#buscarbtn{
+    background: #2A3F54;
+    margin-left: 1em;
+    margin-top: 0.4em;
+}
+
+select { 
+    width: 17.5em;
+    height: 2.5em; 
+}
+
+h2{
+    margin-left: 1em;
+}
+
+#personas{
+  background: #2A3F54;
+  color: white;
+  margin: 3.5em;
+  font-size: 0.5em;
+  padding: 1em;
+  text-align: center;
+}
+
+#ocupado{
+  background: #2A3F54;
+  color: white;
+  margin: 3.5em;
+  font-size: 0.5em;
+  padding: 1em;
+  text-align: center;
 }

@@ -44,6 +44,11 @@ urlBase: string = 'http://localhost/Keyband/Desarrollo/KeybandServer/rest/'
                         .map(response => response.json())          
       }
 
+    getEstancia(estancia) {
+            return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia/"+estancia)
+                                    .map(response => response.json())
+        }
+
       filterEstancias(id, capacidad){
          var filter = "";
         if(id != undefined) {

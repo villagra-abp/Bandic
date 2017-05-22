@@ -11,3 +11,32 @@
     float: right;
     margin-top: 20px;
 }
+
+#crearbtn{
+    margin-top: -1.5em;
+    background: #2A3F54;
+    font-size: 13px;
+}
+
+#crearmodal{
+    background: #2A3F54;
+}
+
+#editarmodal{
+    background: #2A3F54;
+}
+
+#buscarbtn{
+    margin-top: -1.5em;
+    background: #2A3F54;
+    font-size: 13px;
+}
+
+tr{
+    text-align: center;
+}
+
+#aceptarbtn{
+    background: #2A3F54;
+    margin-top: 0.75em;
+}

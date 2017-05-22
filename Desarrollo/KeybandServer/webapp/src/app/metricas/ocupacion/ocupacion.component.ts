@@ -32,11 +32,6 @@ export class OcupacionComponent implements OnInit {
        responsive: true
   };
 
-    //OTRA FUNCION PARA SACAR EL AÑO
- 
- 
-
-
   public barChartLabels:string[] = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   //public barChartLabels:string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   public barChartType:string = 'bar';
@@ -209,4 +204,15 @@ completarDetalles(id){
     {data: this.datos1, label: this.year1},
     {data: this.datos2, label: this.year2}
   ];
+
+
+    public coloresBarras: any[] = [
+       { // third color
+      backgroundColor: 'rgba(111,200,206,1)',
+      borderColor: 'rgba(111,200,206,0.2)',
+      pointBackgroundColor: 'rgba(225,10,24,0.2)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
+    }];
 }

@@ -47,7 +47,7 @@ class LoginService {
 			$email = array(
 					'emaildest' =>$dataArray[0]["email"],
 					'namedest' => $dataArray[0]["nombre"]." ".$dataArray[0]["apellidos"] ,
-					'body' => "Por favor usa este enlace para cambiar tu contrase�a: http://localhost/KeyBand/Desarrollo/KeybandServer/webapp/index.html#/restorepassword?".$token,
+					'body' => "Por favor introduzca este código para restablecer tu contraseña:2054",
 					 'subject' => $dataArray[0]["nombre"]." Restablece tu contrase�a - KeyBand"
 					
 			);

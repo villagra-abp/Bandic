@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Admin. KeyBand </title>
-
+    
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -27,7 +27,6 @@
 
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet">
-    <link href="build/css/custom.min.css" rel="stylesheet">
 
    <script type='text/javascript' src='build/js/gl-matrix-min.js'></script>
 <script type='text/javascript' src='build/js/utils.js'></script>
@@ -36,62 +35,37 @@
 <script id="shader-vs" type="x-shader/x-vertex">
 attribute vec3 aVertexPosition;
 attribute vec3 aVertexNormal;
- 
+attribute vec2 aVertexTextureCoords;
+
+//uniform mat4 uMMatrix;
 uniform mat4 uMVMatrix; //igual en primer uso
 uniform mat4 uPMatrix; //igual en car.gl
 uniform mat4 uNMatrix;
  
-uniform vec4 uAmbient;
-uniform float uShininess;   //shininness
 
-uniform vec3 u_PosLuz;             // in: posicion de la luz
- 
-uniform vec4 u_Color;
- 
-varying vec4 vFinalColor;
+
+uniform vec3 u_PosLuz;  //necesario PointLight
+
+varying vec2 vTextureCoord;
+
+varying vec3 vPosition; //necesario phong
+varying vec3 vNormal;   //necesario pointLight y phong
+varying vec3 vLightDir; //necesario pointLight
+varying vec3 vEyeVec;   //necesario pointLight
  
 void main(void) {
- 
     //Transformed vertex position
     vec4 vertex = uMVMatrix * vec4(aVertexPosition, 1.0);
-    //vec4 LightPos = uMVMatrix*u_PosLuz0;
-    //Transformed normal position
-    vec3 N = vec3(uNMatrix * vec4(aVertexNormal, 1.0)); //calculates the transformed normal.
-    
-    //Normalize light to calculate lambertTerm
-    //vec3 L = normalize(uLightDirection); 
-     vec3 L = normalize(vertex.xyz - u_PosLuz); 
-    //Lambert's cosine law
-    float lambertTerm = dot(N,-L);
-    
-    //Ambient Term
-    vec4 Ia = u_Color*uAmbient;
-    
-    //Diffuse Term
-    vec4 Id = vec4(0.0,0.0,0.0,1.0);
-    
-    //Specular Term
-    vec4 Is = vec4(0.0,0.0,0.0,1.0);
-    
-    if(lambertTerm > 0.0) //only if lambertTerm is positive
-    {
-        Id = u_Color * lambertTerm; //add diffuse term
-        
-        vec3 eyeVec = -vec3(vertex.xyz);
-        vec3 E = normalize(eyeVec);
-        vec3 R = reflect(L, N);
-        float specular = pow(max(dot(R, E), 0.0), uShininess );
-        
-        Is = u_Color * specular; //add specular term
-    }
-    
-    
-    //Final color
-    vFinalColor = Ia + Id + Is;
-    vFinalColor.a = 1.0;
+    vPosition = vec3(vertex);
+    //Transformed normal vector
+    vNormal = vec3(uNMatrix * vec4(aVertexNormal, 0.0));//igual que en phong pero sin normalizar
+    vLightDir = vertex.xyz - u_PosLuz;
+
+    vEyeVec = -vec3(vertex.xyz);
  
-    //Transformed vertex position
-    gl_Position = uPMatrix * vertex;
+    gl_Position = uPMatrix* uMVMatrix * vec4(aVertexPosition, 1.0);
+    
+    vTextureCoord = aVertexTextureCoords;
 }
 </script>
 
@@ -99,30 +73,159 @@ void main(void) {
 #ifdef GL_ES
 precision highp float;
 #endif
+struct Material {
+    sampler2D diffuse;
+    sampler2D specular;
+    float shininess;
+}; 
+struct DirLight {
+    vec3 direction;
+	
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
 
-varying vec4  vFinalColor;
+struct PointLight {
+    vec3 position;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+uniform float hasTexture;//para saber si tiene textura
+uniform sampler2D uSampler; //necesario ambos
+varying vec2 vTextureCoord;//necesario ambos
 
-void main(void)  {
- gl_FragColor = vFinalColor;
+uniform vec3 SunPosition;  //necesario PointLight
+
+uniform float uShininess;        //necesario pointLight
+
+
+varying vec3 vPosition; //necesario phong
+varying vec3 vNormal;   //necesario pointLight y phong
+varying vec3 vLightDir; //necesario pointLigth
+varying vec3 vEyeVec;   //necesario pointLight
+
+
+vec4 Phong();
+vec4 CalcPointLight();
+void main () // CALCULAR EL COLOR DEL FRAGMENTO
+{
+    vec4 resul2 = CalcPointLight();
+    vec4 resul = Phong();
+    //Final color
+    vec4 finalColor = resul+ resul2;
+    gl_FragColor = finalColor;
 }
+
+vec4 Phong () {
+    vec4 LightIntensity = vec4(0.3,0.3,0.3, 1.0); //INTENSIDAD DE LA LUZ
+     vec4 Kd = vec4(1.0,1.0,1.0,1.0); //COMPONENTE DIFUSA DEL MATERIAL
+     vec4 Ka = vec4(0.3,0.3,0.3,1.0); //COMPONENTE AMBIENTAL DEL MATERIAL
+     vec4 Ks = vec4(1.0,1.0,1.0,1.0); //COMPONENTE ESPECULAR DEL MATERIAL
+     float Shininess = 100.0; //FACTOR DE BRILLO DEL MATERIAL
+    vec3 n = normalize (vNormal);
+    vec3 s = normalize (SunPosition - vPosition);
+    vec3 v = normalize (vec3 (-vPosition));
+    vec3 r = reflect (-s, n);
+    vec4 Ia;
+    vec4 Id;
+    vec4 Is;
+    if(hasTexture==1.0){
+         Ia = vec4(Ka * texture2D(uSampler,vTextureCoord));
+        Id = vec4(Kd * max (dot (s, n), 0.0) * texture2D(uSampler,vTextureCoord) );
+        Is = vec4(Ks *pow (max (dot (r,v), 0.0), Shininess) * texture2D(uSampler,vTextureCoord) );
+    }
+    else{
+        Ia = Ka;
+        Id = vec4(Kd * max (dot (s, n), 0.0) );
+        Is = vec4(Ks *pow (max (dot (r,v), 0.0), Shininess)  );
+    
+    }
+    //vec3 light = LightIntensity * (Ka + Kd * max (dot (s, n), 0.0) + Ks *
+    //pow (max (dot (r,v), 0.0), Shininess));
+    vec4 lightfinal = LightIntensity * (Ia+Id+Is);
+    return lightfinal;
+}
+
+vec4 CalcPointLight()
+{
+    vec3 L = normalize(vLightDir);
+ vec3 N = normalize(vNormal);
+ 
+ //coseno
+ float lambertTerm = dot(N,-L);
+ 
+ vec4 uLightAmbient = vec4(0.03,0.03,0.03,1.0) * texture2D(uSampler,vTextureCoord);
+ vec4 Ia = uLightAmbient;
+ vec4 Id = vec4(0.0,0.0,0.0,1.0);
+ 
+ vec4 Is = vec4(0.0,0.0,0.0,1.0);
+ 
+ if(lambertTerm > 0.0) //si incide la luz
+ {
+     vec4 uMaterialDiffuse = vec4(1.0,1.0,1.0,1.0); //lo que le da color al objeto
+  Id = uMaterialDiffuse * lambertTerm * texture2D(uSampler,vTextureCoord); 
+  
+  vec3 E = normalize(vEyeVec);
+  vec3 R = reflect(L, N);
+  float specular = pow( max(dot(R, E), 0.0), uShininess);
+  vec4 uMaterialSpecular = vec4(1.0,1.0,1.0,1.0);
+  if(hasTexture==1.0){
+        Id = uMaterialDiffuse * lambertTerm * texture2D(uSampler,vTextureCoord); 
+        Is = uMaterialSpecular * specular * texture2D(uSampler,vTextureCoord); 
+  }else{
+       Id = uMaterialDiffuse * lambertTerm; 
+        Is = uMaterialSpecular * specular; 
+  }
+ }
+    return (Ia + Id + Is);
+}
+</script>
+
+<!-- Fragment Shader 2 //-->
+<script id='shader-fs2' type='x-shader/x-fragment'>
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+    varying vec4 v_Color;
+    void main(void) {
+        gl_FragColor = v_Color; //Green
+    }
+</script>
+
+<!-- Vertex Shader 2 //-->
+<script id='shader-vs2' type='x-shader/x-vertex'>
+    attribute vec3 aVertexPosition; //propiedades por vertice
+
+    uniform vec4 uColor;
+    uniform mat4 uMVMatrix; //propiedades fijas: luz, matrices, camaras...
+    uniform mat4 uPMatrix;
+
+    varying vec4 v_Color;               // out: Color al fragment shader
+    void main(void) {
+        v_Color= uColor;
+        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+        //gl_PointSize = 3.0;
+    }
 </script>
 
   </head>
 
   <body class="nav-md">
-    <base href="./">
-    <app-root></app-root>
+    <div class="container body">
+      <div class="main_container">
+            <base href="./">
+            <app-root></app-root>        
+      </div>
+    </div>
     
   </body>
-    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
     <!-- jQuery -->
     <script src="vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
-    <script src="vendors/fastclick/lib/fastclick.js"></script>
     <!-- <script src="vendors/fastclick/lib/fastclick.js"></script> -->
     <!-- NProgress -->
     <script src="vendors/nprogress/nprogress.js"></script>
@@ -157,7 +260,6 @@ void main(void)  {
     <script src="vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <!-- Custom Theme Scripts -->
-
     <script src="build/js/custom.min.js"></script>
 	
         <script id='code-js' data-main="build/js/main" src="http://requirejs.org/docs/release/1.0.8/comments/require.js"></script>

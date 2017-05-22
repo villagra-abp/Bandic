@@ -56,39 +56,75 @@ export class InicioComponent implements OnInit {
     responsive: true
   };
 
+  /*public colores:Array<any> = [
+    {
+      backgroundColor:["#FF7360"]
+    }
+  ];*/
+
   public lineChartColors:Array<any> = [
     { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
+      backgroundColor: 'rgba(111,200,206,0.2)',
+      borderColor: 'rgba(111,200,206,1)',
+      pointBackgroundColor: 'rgba(111,200,206,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      pointHoverBorderColor: 'rgba(111,200,206,0.8)'
     }
   ];
 
   public lineChartLegend:boolean = true;
-  
   public lineChartType:string = 'line';
 
    /* A PARTIR DE AQUI EL GRÁFICO DE COMUNIDADES AUTONOMAS */
-
   // PolarArea
-  //public polarAreaChartLabels:string[] = ['Galicia','Asturias','Cantabria','País Vasco','Navarra','Cataluña','Comunidad Valenciana','Islas Baleares','Región de Murcia','Andalucía','Castilla la Mancha','Castilla y León','Extremadura','Islas Canarias','La Rioja','Comunidad de Madrid','Ceuta','Melilla','Aragón'];
+
+
   public polarAreaChartLabels:string[] = ['Cataluña','Comunidad Valenciana','Islas Baleares','Región de Murcia','Andalucía','Comunidad de Madrid'];
   public polarAreaChartData:number[] = [5,7,4,5,3,6];
   public polarAreaLegend:boolean = true;
  
   public polarAreaChartType:string = 'polarArea';
 
-  /*habitaciones ocupadas*/
-
-  public pieChartLabels:string[] = ['Reservado', 'Disponible'];
-  public pieChartData:number[] = [75,25];
-  public pieChartType:string = 'pie';
- 
 
   ngOnInit() {
   }
 
+
+  /* AQUI VA LA GRAFICA DE HABITACIONES OCUPADAS */
+
+  public barChartOptions:any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels:string[] = ['2010', '2011', '2012', '2013', '2014', '2015', '2016'];
+  public barChartType:string = 'bar';
+  public barChartLegend:boolean = true;
+ 
+  public barChartData:any[] = [
+    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Nacionales'},
+    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Extranjeros'}
+  ];
+
+  public coloresClientes: Array<any> = [
+    { // first color
+      backgroundColor: 'rgba(225,115,96,1)',
+      borderColor: 'rgba(225,115,96,0.2)',
+      pointBackgroundColor: 'rgba(225,10,24,0.2)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
+    },
+    { // third color 
+      backgroundColor: 'rgba(111,200,206,1)',
+      borderColor: 'rgba(111,200,206,0.2)',
+      pointBackgroundColor: 'rgba(225,10,24,0.2)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
+    }];
+
+    public coloresRuleta: any[] = [{ 
+      backgroundColor:["#FF7360", "#6FC8CE", "#8DE78D", "#F0F562"] 
+    }];
 }

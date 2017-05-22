@@ -54,4 +54,9 @@ export class MetricasService {
         return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario")
                             .map(response => response.json())  
       }
+
+      getTopProductos(){
+        /*return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/producto/top")
+                            .map(response => response.json())  */
+      }
 }
