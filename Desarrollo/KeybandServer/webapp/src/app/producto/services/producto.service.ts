@@ -5,13 +5,16 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import "rxjs/add/operator/map";
 //import {Observable} from "rxjs/Observable";
-  
-// Permitimos que este objeto se pueda inyectar con la DI
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/share';
+
 @Injectable()
 export class ProductoService {
-  
-   constructor(private http: Http){}
-   
+
+constructor (private http: Http) {
+
+}
    crearProducto(id, nombre, descripcion, categoria_producto, precio, iva, tweet, cantidad_disponible, estancia, imagen, imagen_redes) {
       let enviar = JSON.stringify({id, nombre, descripcion, precio, iva, tweet, cantidad_disponible, categoria_producto, estancia, imagen, imagen_redes});
       return this.http.put("http://localhost/keyband/Desarrollo/KeybandServer/rest/producto", enviar)
@@ -32,6 +35,11 @@ export class ProductoService {
    eliminarProducto(id) {
      return this.http.delete("http://localhost/keyband/Desarrollo/KeybandServer/rest/producto/"+id)
                             .map(response => response.json())
+   }
+
+   deleteCategoria(id) {
+     return this.http.delete("http://localhost/keyband/Desarrollo/KeybandServer/rest/categoria/"+id)
+                            
    }
 
    asignarProducto(usuario, producto) {

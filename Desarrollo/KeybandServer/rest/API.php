@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once "Resources/UsuarioResource.php"; 
 require_once "Resources/CategoriaResource.php";
 require_once "Resources/PulseraResource.php";
@@ -11,8 +11,11 @@ require_once "Resources/LineaTicketResource.php";
 require_once "Resources/PermisoResource.php";
 require_once "Resources/PromocionResource.php";
 require_once "Resources/TpvResource.php";
+require_once "Resources/UploadResource.php";
+require_once "ShareOnFb.php";
 
-class API {   
+class API {    
+
     public function rest(){
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Headers:Origin, X-Requested-With, Content-Type, Accept");
@@ -27,6 +30,7 @@ class API {
         tipo 6: /recurso/recurso/id/id
         tipo 7: /recurso/recurso/recurso
         tipo 8: /recurso/recurso/recurso/id
+        tipo 9: fb/nombe_hotel/nombre_producto
         */
         $type = $this->typeURI();
         $method = $_SERVER['REQUEST_METHOD'];
@@ -73,7 +77,9 @@ class API {
             case 'estadoPulsera':
             	EstadoPulseraResource::methodEstadoPulsera($method,$type);
             	break;
-                
+            case 'upload':
+            	UploadResource::methodUpload($method, $type);
+            	break;
             case 'categoria':
             	CategoriaResource::methodCategoriaProducto($method,$type);
             	break;
@@ -85,6 +91,10 @@ class API {
             	break;
             case 'tpv':
             	TpvResource::methodTpv($method,$type);
+            	break;
+            case 'fb':
+            	header('Content-Type: text/html; charset=utf-8');
+            	Share::methodShare($method,$type);
             	break;
             default:
             	header('HTTP/1.1 404 Not Found');
@@ -116,6 +126,8 @@ class API {
                     }
                 }
             }else{	//hasta aqui es recurso/id
+            	if($_GET['resource'] == "fb" && isset($_GET['resource2']) && isset($_GET['resource3']))
+            		return 9;
                 if(!isset($_GET['resource3'])){
                     return 2;
                 }else{
@@ -132,8 +144,8 @@ class API {
     }
     public function isResource($resource){//añadir al array por cada nuevo recurso que se cree
         // TODO comprobar diferencias $array = array("rol","usuario","producto", "categoria", "empleado","reservas","estancia","capacidad","aforo","accesoestancia","ticket","carrito");
-    	$array = array("usuario","password","passwordrestore","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo",
-        		"accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura","rol", "promocion", "reservable", "tpv");
+    	$array = array("imagen","usuario","password","passwordrestore","foto", "pulsera", "producto", "categoria", "empleado","reservas","estancia","capacidad","aforo",
+        		"accesoestancia","ticket", "lineaticket", "carrito", "factura", "estado", "permiso", "factura", "lineafactura","rol", "promocion", "reservable", "tpv", "detalles", "upload");
         $longitud = count($array);
         for($i=0; $i<$longitud; $i++){
             if($resource==$array[$i])

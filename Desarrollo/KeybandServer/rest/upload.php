@@ -6,7 +6,6 @@ $id_producto = $_GET['id'];
 $uploaddir = "../fotos/";
 
 if(isset($_FILES['uploads'])){
-	print_r($_FILES['uploads']);
 	$muchsize = false;
 	$formaterror = false;
 
@@ -19,11 +18,11 @@ if(isset($_FILES['uploads'])){
     $file_type=$_FILES['uploads']['type'][0];   
     $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
     $extensions = array("jpeg","jpg","png");
-    
+        
     if(in_array($file_ext,$extensions )=== false){
     	$formaterror = true;
     }
-    if($file_size > 2097152){
+    if($file_size == 0){
     	$muchsize = true;
     }
     
@@ -34,20 +33,20 @@ if(isset($_FILES['uploads'])){
     		$uploaddir = "../fotos/RRSS/";  
     	
 	    $uploadfile = $uploaddir . $id_producto . '/' .  $file_name; // path fichero destino
-		echo $_GET['RRSS'];
 		if(isset($_GET['method'])) {
 			 // Se crea el directorio si no existe
 			 if (!file_exists($uploaddir . $id_producto)) 
 			     mkdir($uploaddir . $id_producto, 0777, true);
 			 else {//si existe el directorio elimino lo que haya dentro
-			 	echo "hola, editar";
+			 	//echo "hola, editar";
 			    $files = glob($uploaddir.$id_producto.'/*'); // get all file names
 			    foreach($files as $file){ // iterate files
 			    	if(is_file($file))
 			    		unlink($file); // delete file
 			    }
 			 }
-			 echo $_FILES['uploads']['tmp_name'][0];
+			 //print_r($_FILES['uploads']);
+			 //echo $_FILES['uploads']['tmp_name'][0];
 			 if(move_uploaded_file($_FILES['uploads']['tmp_name'][0], $uploadfile)) // se sube el fichero
 			     echo "OK";                 
 		}

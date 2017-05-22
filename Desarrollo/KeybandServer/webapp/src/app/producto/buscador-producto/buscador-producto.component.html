@@ -1,27 +1,27 @@
 <div class="container buscadorProducto">
-  <form (ngSubmit)="onChange($event, id.value, nombre.value, categoria.value, reservable.checked, order.value)" class="form-inline formulario">
+  <form (ngSubmit)="onChange($event, id3.value, nombre.value, categoria.value, reservable.checked, order.value)" class="form-inline formulario">
     <div class="form-group">
-      <input placeholder="ID" class="form-control" name="id" #id class="focusedInput focusedInputMenu id" type="text">
-      <input placeholder="Nombre" name="nombre" #nombre class="form-control" class="focusedInput focusedInputMenu nombre" type="text">
-      <select class="focusedInput" name="categoria" #categoria>
+      <input placeholder="ID" class="form-control id" name="id" #id3 type="text">
+      <input placeholder="Nombre" name="nombre" #nombre class="form-control" type="text">
+      <select class="form-control" name="categoria" #categoria>
         <option selected="selected">Todas</option>
         <option *ngFor="let categoria of categorias | keys" [selected]="categoria.value.id == 'Todas'">{{categoria.value.id}}</option>
       </select>
       <div class="checkbox">
-        <label><input type="checkbox" class="focusedInputCheckbox" id="reservable" #reservable value="pepe" name="reservable">Reservable</label>
+        <label><input type="checkbox" class="form-control" id="reservable" #reservable value="pepe" name="reservable">Reservable</label>
       </div>
-      <select class="focusedInput" name="categoria" #order>
+      <select class="form-control" name="categoria" #order>
         <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
         <option>Id</option>
         <option>Nombre</option>
         <option>Precio</option>
       </select>
     </div>
-    <button type="submit" class="buscar focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">   
+    <button type="submit" class="form-control" class="buscar btn btn-default btn-xs confirmation-modal" title="Detalle">   
              <span class="icon icon-search"></span>Buscar
     </button>
      <a href="#" data-toggle="modal" data-target="#registro">
-         <button class="focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">
+         <button class="btn btn-default btn-xs confirmation-modal" title="Detalle">
              Crear producto
          </button>
     </a>
@@ -41,152 +41,193 @@
 
 <!--MODAL CREAR CATEGORIA-->
 <div class="modal fade" id="newCategoria" role="dialog">
+  <div id="responsive-form" class="clearfixCat">
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
+          <img src="./images/KeybandApp.png" alt="..."width="70" height="50" class="logoKeyband">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Crear categoria</h4>
+          <h3 class="modal-title">Crear categoria</h3>
         </div>
         <div class="modal-body">
-          <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="crearCategoria(id.value, comestible.checked)">
-            <fieldset>
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="user">ID de categoria</label>  
-                <div class="col-md-6">
-                    <input class="form-control focusedInput2" value="" type="text" #id placeholder="Introduzca ID" required autofocus>
+          <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
+            <label style="margin-left:2em;"><small>(*) Campos obligatorios</small></label>            <fieldset>
+                <div class="form-group">
+                  <label class="col-md-6 control-label" for="user">ID de categoria (*)</label>  
+                    <div class="col-md-6">
+                      <input class="form-control" value="" name="idCat" [ngModel]="idCat" (ngModelChange)="camposOblig3($event)" type="text" #id placeholder="Introduzca ID" autofocus>                      
+                    </div>
                 </div>
-              </div>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="user">¿Comestible?</label>  
-              <div class="col-md-6">
-                  <label><input type="checkbox" class="focusedInputCheckbox" id="reservable" #comestible name="reservable">Reservable</label>
-              </div>
-            </div>
-            <div class="col-md-4">
-                <br>
-                <button type="submit" class="focusedInput2">Confirmar</button>
-            </div>
+                <div class="form-group">
+                  <label class="col-md-6 control-label" for="user">¿Comestible? (*)</label>  
+                     <div class="col-md-6">
+                        <input type="checkbox" id="reservable" name="comest" [ngModel]="comest" (ngModelChange)="camposOblig4($event)" #comestible name="reservable">
+                     </div>
+                </div>
+                <div class="form-group">
+                      <input type="submit" id="confirmar2" data-dismiss="modal" (click)="crearCategoria(id.value, comestible.checked)" value="confirmar" class="btn btn-primary" disabled>
+                      <span id="camposOblig2" style="color: red; margin-left: 2em;">Por favor, rellena los campos obligatorios</span>
+                </div>
             </fieldset>
           </form>
+          <br>
+          <div style="margin-left: 2em; margin-right: 2em;" class="table-responsive">
+            <h4 class="modal-title">Categorias disponibles</h4>
+            <br>
+            <table class="table table-striped table-bordered table-hover">
+                <thead class = "color">
+                    <tr>
+                        <th class="text-center">Acciones</th>
+                        <th class="text-center">Id</th>                
+                        <th class="text-center">Comestible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let categoria of categorias | keys">
+                        <td>
+                           <a href="#" data-toggle="modal" data-target="#deleteCategoria">
+                              <button (click)="getCategoria(categoria.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
+                                          <span class="glyphicon glyphicon-remove"></span>
+                              </button>
+                            </a>
+                        </td>
+                        <td>{{categoria.value.id}}</td>
+                        <td>{{categoria.value.comestible}}</td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
         </div>
       </div>
     </div>
+  </div>
 </div>
+
 <!--MODAL CREAR PRODUCTO-->
 
-<div class="modal fade" id="registro" role="dialog">
-                <div class="modal-dialog">
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Crear producto</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
-                        <fieldset>
-                          <div class="form-group">
-                          <label class="col-md-4 control-label" for="user">ID del producto</label>  
-                          <div class="col-md-6">
-                              <input class="form-control focusedInput2" value="" type="text" #id2 placeholder="Introduzca ID" required autofocus>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="user">Nombre del producto</label>  
-                          <div class="col-md-6">
-                              <input class="form-control focusedInput2" value="" type="text" #nombre2 placeholder="Introduzca nombre" required autofocus>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="nombre">Descripcion</label>  
-                          <div class="col-md-6">
-                          <textarea class="form-control focusedInput2" value="" #descripcion placeholder="Introduzca descripcion" required=""></textarea>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="nombre">Categoria</label>  
-                          <div class="col-md-6">
-                            <select class="focusedInput" name="categoria" #categoria2>
-                              <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
-                              <option *ngFor="let categoria of categorias | keys" [selected]="categoria.value.id == 'Seleccionar'">{{categoria.value.id}}</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Precio</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput2" value="" type="number" #precio placeholder="Introduzca precio" required="">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Iva</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput2" value="" type="number" #iva placeholder="Introduzca iva" required="">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Tweet</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput2" value="" type="text" #tweet placeholder="Introduzca tweet" required="">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Cantidad disponible</label>
-                          <div class="col-md-6">
-                            <input class="form-control focusedInput2" value="" type="number" #cantidad placeholder="Introduzca cantidad" required="">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Estancia</label>
-                          <div class="col-md-6">
-                            <input [(ngModel)]="variable" name="estancia" id="estancia" (ngModelChange)="estanciaValida($event)" class="form-control focusedInput2" value="" type="text" #estancia placeholder="Introduzca estancia" required="">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Imagen de producto</label>
-                          <label class="focusedInput col-md-6">
-                             Explorador de archivos&hellip; <input type="file" #imagen (change)="fileChange($event, 'n')" accept="image/x-png,image/gif,image/jpeg" class="form-control focusedInput2" style="display: none;">
-                          </label>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="contra">Imagen para redes sociales</label>
-                          <label class="focusedInput col-md-6">
-                            Explorador de archivos&hellip; <input type="file" #imagenRRSS (change)="fileChange($event, 's')" accept="image/x-png,image/gif,image/jpeg" class="form-control focusedInput2" style="display: none;">
-                          </label>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-4 control-label" for="nombre">Asignar empleado</label>  
-                          <div class="col-md-6">
-                            <select class="focusedInput" name="categoria" #empleado>
-                              <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
-                              <option *ngFor="let empleado of empleados | keys" [ngValue]="empleado.value.dni" [selected]="empleado.value.id == 'Seleccionar'">{{empleado.value.dni}}, {{empleado.value.nombre}} {{empleado.value.apellidos}}</option>
-                            </select>
-                          </div>
-                        </div>
-
-                       <!-- Button -->
-                        <div class="form-group">
-                          <label class="col-md-8 control-label"></label>
-                          <div class="col-md-4">
-                            <br>
-                            <button id="confirmar" data-dismiss="modal" (click)="crearProducto($event, id2.value, nombre2.value, descripcion.value, categoria2.value, precio.value, iva.value, tweet.value, cantidad.value, estancia.value, imagen.value, imagenRRSS.value, empleado.value)" class="focusedInput2">Confirmar</button>
-                          </div>
-                        </div>
-
-                       </fieldset>
-                        </form>        
-                    </div>
-                  </div>            
+<div class="modal fade clearfix" id="registro" role="dialog">
+  <div id="responsive-form">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <img src="./images/KeybandApp.png" alt="..."width="70" height="50" class="logoKeyband">
+        <button type="button" class="close" (click)="defaultURL();" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Crear producto</h3>
+      </div>
+      <div class="modal-body">
+        <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
+          <fieldset>
+            <label style="margin-left:2em;"><small>(*) Campos obligatorios</small></label>
+            <div class="form-rowV">
+              <span class="imageLabel" for="imgInp"><small>Imagen de producto</small></span>
+              <div class="column-half">
+                   <label for="imgInp">
+                    <img id="blah" width="180" height="170" src="./images/image-default.jpg" alt="your image">
+                   </label>
+                   <input type='file' id="imgInp" #imagen (change)="fileChange($event, 'n')" accept="image/x-png,image/gif,image/jpeg" />
+              </div>
+              <span class="imageLabel" for="imgInp"><small>Imagen de redes sociales</small></span>
+              <div class="column-half">
+                   <label for="imgInp2">
+                    <img id="blah2" width="180" height="170" src="./images/image-default.jpg"  alt="your image">
+                   </label>
+                   <input type='file' id="imgInp2"  #imagenRRSS (change)="fileChange($event, 's')" accept="image/x-png,image/gif,image/jpeg"/>             
+              </div>
+            </div>
+            <div class="form-row1">
+              <div class="column column-4">
+                <label for="catProd">Categoría</label>
+                <select id="catProd" class="form-control" name="categoria" #categoria2>
+                  <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
+                  <option *ngFor="let categoria of categorias | keys" [selected]="categoria.value.id == 'Seleccionar'">{{categoria.value.id}}</option>
+                </select>
+              </div>
+              <div class="column column-4">
+                <label for="nomProd">Nombre(*)</label>
+                <input class="form-control" id="nomProd" name="nombre" [ngModel]="nombree" (ngModelChange)="camposOblig2($event)" value="" type="text" #nombre2 placeholder="Introduzca nombre" required autofocus>
+              </div>
+              <div class="column column-4">
+                <label for="idProd">ID del producto(*)</label>
+                <input class="form-control" id="idProd" name="id3" [ngModel]="idd" (ngModelChange)="camposOblig1($event)" value="" type="text" #id2 placeholder="Introduzca ID" required autofocus>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="column column-3">
+                  <label for="desProd">Descripción</label>
+                  <textarea class="form-control" id="desProd" value="" #descripcion placeholder="Introduzca descripcion"></textarea>
+              </div>
+              <div class="column column-3">
+                <label for="entProd">Entrada para redes sociales</label>
+                <textarea id="entProd" class="form-control" value="" #tweet placeholder="Introduzca texto redes sociales"></textarea>
+              </div>
+            </div>
+            
+            <div class="form-row1">
+              <div class="column column-4">
+                <label for="preProd">Precio</label>
+                <input id="preProd" class="form-control" value="" type="number" #precio placeholder="Introduzca precio">
+              </div>
+              <div class="column column-4">
+                <label for="ivaProd">Iva</label>
+                <input id="ivaProd" class="form-control" value="" type="number" #iva placeholder="Introduzca iva">
+              </div>
+              <div class="column column-4">
+                <label for="canProd">Cantidad disponible</label>
+                <input id="canProd" class="form-control focusedInput2" value="" type="number" #cantidad placeholder="Introduzca cantidad">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="column column-3">
+                <h4 class="modal-title">Asignar empleado</h4>
+                <select class="form-control" name="categoria" #empleado>
+                  <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
+                  <option [ngValue]="sinEmpleado">Sin empleado</option>
+                  <option *ngFor="let empleado of empleados | keys" [ngValue]="empleado.value.dni" [selected]="empleado.value.id == 'Seleccionar'">{{empleado.value.dni}}, {{empleado.value.nombre}} {{empleado.value.apellidos}}</option>
+                </select>
+              </div>
+              <div class="column column-3">
+                <h4 class="modal-title">Asignar estancia</h4>
+                <select class="form-control" name="categoria" #estancia>
+                  <option [disabled]="item === Seleccionar" [ngValue]="item">Seleccionar</option>
+                  <option [ngValue]="sinEstancia">Sin estancia</option>
+                  <option *ngFor="let estancia of estancias | keys" [ngValue]="estancia.value.id" [selected]="estancia.value.id == 'Seleccionar'">{{estancia.value.id}} (Estancia pública)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="row x_title">
                 </div>
               </div>
+            <div class="form-row">
+              <div class="column-full">
+                  <input type="submit" value="Confirmar" class="btn btn-primary" id="confirmar" data-dismiss="modal" (click)="crearProducto($event, id2.value, nombre2.value, descripcion.value, categoria2.value, precio.value, iva.value, tweet.value, cantidad.value, estancia.value, imagen.value, imagenRRSS.value, empleado.value)" disabled>
+                  <span id="camposOblig" style="color: red">Por favor, rellena los campos obligatorios</span>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</div><!--end responsive-form-->
+
+          <div class="modal fade" id="deleteCategoria" role="dialog">
+                 <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <img src="./images/KeybandApp.png" alt="..."width="70" height="50" class="logoKeyband">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Eliminar cliente</h4>
+                      </div>
+                      <div class="modal-body">
+                        <h5>La categoria {{categoriaID}} se va a eliminar.</h5>
+                        <div class="form-group botonesDel">
+                            <button type="submit" data-dismiss="modal" aria-label="Close" (click)="deleteCategoria();" class="btn btn-primary">Confirmar</button>
+                            <button type="submit" data-dismiss="modal" aria-label="Close" class="btn btn-primary">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+               </div>

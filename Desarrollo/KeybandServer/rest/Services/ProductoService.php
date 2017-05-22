@@ -2,9 +2,10 @@
 require_once "./Dao/ProductoDAO.php";
 require_once "SupportService.php";
 /***********************************************USUARIO Service****************************************/
-/*AQUï¿½ LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
-/*HABRAï¿½ QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
+/*AQU� LLAMAMOS AL DAO Y DEVOLVEMOS AL CLIENTE MEDIANTE ECHO*/
+/*HABRA� QUE CONFIGURAR AQUI LOS CODIGOS DE ERROR*/
 class ProductoService {
+	
 	public static function getProductos($where,$order,$pagination) {
 		$table = "producto";
 		$dataArray = MasterDAO::getAll($table,null,$where,$order,$pagination);
@@ -29,7 +30,7 @@ class ProductoService {
 	public static function getProductosReservables($where,$order,$pagination) {
 		$where["categoria_producto.comestible"] = 'false';
 		$where["categoria_producto.id"] = "producto.categoria_producto";
-		$dataArray = ProductoDAO::getProductosReservables(["producto", "categoria_producto"],["producto.id","producto.nombre","producto.descripcion","producto.precio","producto.cantidad_disponible","producto.categoria_producto"],$where,$order,$pagination);
+		$dataArray = ProductoDAO::getProductosReservables(["producto", "categoria_producto"],["*"],$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 
@@ -117,7 +118,19 @@ class ProductoService {
 	}
 	
 	public static function reservarProducto($obj) {
+		print_r($obj);
 		if(!ProductoService::isEmpleado($obj)) {
+			$primaries = [
+					"usuario" => $obj['usuario'],
+					"producto" => $obj['producto']
+			];
+			$primaries2 = [
+					"id" => $obj['producto']
+			];
+			$primaries3 = [
+					"dni" => $obj['usuario']
+			];
+
 			if(SupportService::IdValido('asignar_producto',$primaries,"Ese producto ya estï¿½ asignado a ese cliente") &&
 				SupportService::FkValido('producto',$primaries2,"El producto debe existir") &&
 				SupportService::FkValido('usuario',$primaries3,"El usuario debe existir")) {

@@ -1,0 +1,104 @@
+#registroUsu .modal-body {
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+#registroUsu #responsive-form2{
+	max-width:30em; /*-- change this to get your desired form width --*/;
+	margin:0 auto;
+    width:100%;
+}
+
+#registroUsu .modal-dialog {
+    width: 60em;
+}
+#registroUsu .modal-content {
+    margin-right: 10em;
+    margin-left: -20em;
+}
+.clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+.logoKeyband {
+    position: relative;
+    float:left;
+}
+.modal-title {
+ padding-top: .3em;
+}
+
+.hola {
+  border-right: 1px dashed #333;
+}
+
+.hola2 {
+    border-bottom: 1px dashed #333;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.botonesDel {
+    margin-left: 25em;
+}
+
+#borrarUsu h5 {
+    margin-left: 2em;
+}
+.id {
+    width: 6em;
+}
+.short {
+    width: 8em;
+}
+.form-inline input {
+    margin-right: .5em;
+}
+
+.input-xs {
+    height: 22px;
+  padding: 2px 5px;
+  font-size: 12px;
+}
+@font-face {
+    font-family: 'icomoon';
+    src: url('fonts/icomoon.eot');
+}
+@font-face {
+    font-family: 'icomoon';
+    src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBrAAAAC8AAAAYGNtYXAWz9NjAAABHAAAAExnYXNwAAAAEAAAAWgAAAAIZ2x5ZtcdXCgAAAFwAAAA5GhlYWQFjUXXAAACVAAAADZoaGVhB6oDxgAAAowAAAAkaG10eAYAAAAAAAKwAAAAFGxvY2EAKACGAAACxAAAAAxtYXhwAAgAOwAAAtAAAAAgbmFtZVcZpu4AAALwAAABRXBvc3QAAwAAAAAEOAAAACAAAwQAAZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADphgPA/8AAQAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEADgAAAAKAAgAAgACAAEAIOmG//3//wAAAAAAIOmG//3//wAB/+MWfgADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAgAA/9gD6APAACMAOAAAJScuAQc+ATU0LgIjIg4CFRQeAjMyNjcGFh8BHgE3NiYnJSIuAjU0PgIzMh4CFRQOAiMD4PITJxArMTxpi1BQi2k8PGmLUEeAMgEQEc4bSxsaBB79oDVdRigoRl01NV1GKChGXTVZzhEQATKAR1CLaTw8aYtQUItpPDErECcT8h4EGhtLG+coRl01NV1GKChGXTU1XUYoAAAAAQAAAAEAAG8vzepfDzz1AAsEAAAAAADRQwChAAAAANFDAKEAAP/YA+gDwAAAAAgAAgAAAAAAAAABAAADwP/AAAAEAAAAAAAD6AABAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAKABQAHgByAAEAAAAFADkAAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAOAK4AAQAAAAAAAQAOAAAAAQAAAAAAAgAOAEcAAQAAAAAAAwAOACQAAQAAAAAABAAOAFUAAQAAAAAABQAWAA4AAQAAAAAABgAHADIAAQAAAAAACgA0AGMAAwABBAkAAQAOAAAAAwABBAkAAgAOAEcAAwABBAkAAwAOACQAAwABBAkABAAOAFUAAwABBAkABQAWAA4AAwABBAkABgAOADkAAwABBAkACgA0AGMAaQBjAG8AbQBvAG8AbgBWAGUAcgBzAGkAbwBuACAAMQAuADAAaQBjAG8AbQBvAG8Abmljb21vb24AaQBjAG8AbQBvAG8AbgBSAGUAZwB1AGwAYQByAGkAYwBvAG0AbwBvAG4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+.icon {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-search:before {
+    content: "\e986";
+    margin-right: 0.5em;
+}
+.body {
+    padding-top: 0;
+}
+.form-inline {
+    padding-left: 1.5em;
+}
+.form-control:hover {
+    background-color:#E6EDF5;
+}
+.form-control:focus {
+    border-color: #5A738E;
+}

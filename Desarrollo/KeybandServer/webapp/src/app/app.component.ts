@@ -8,7 +8,6 @@ import { RouterModule, Routes } from '@angular/router';
     ProfileBarComponent
   ]
 })
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

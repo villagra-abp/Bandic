@@ -50,10 +50,25 @@ class CategoriaService {
 	}
 	
 	public static function deleteCategoria($id) {
-		$primaries = [
+		/*
+		$dataArray = MasterDAO::getAll('producto',null,null,null,null);
+		foreach($dataArray as $key => $key_value) {
+			foreach($key_value as $key2 => $key_value2) {
+				if($key2 == "categoria_producto" && $key_value2 == $id) {
+					$key_value['categoria_producto'] = null;
+					$primaries = [
+							"id"=> $key_value['id']
+					];
+					$dataArray2 = MasterDAO::update('producto',$key_value,$primaries);
+				}
+			}
+		}
+		*/
+		
+		$primaries2 = [
 				"id" => $id
 		];
-		$dataArray = MasterDAO::delete('categoria_producto',$primaries);
+		$dataArray = MasterDAO::delete('categoria_producto',$primaries2);
 		echo json_encode($dataArray);
 	}
 }

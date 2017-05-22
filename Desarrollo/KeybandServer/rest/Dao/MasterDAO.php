@@ -3,6 +3,7 @@ include_once "./conection.php";
 include_once "./Resources/SupportResource.php";
 
 class MasterDAO {
+	
 	public static function delete($table,$primaries) {
 		/*EJEMPLO
 		 * $table = "usuario"
@@ -128,7 +129,7 @@ class MasterDAO {
         	    "sexo":"F","pais":"Espa\u00f1a","localidad":"San Vicente",
         	    "provincia":"Alicante","rol":"Cliente","estancia":null,
         	    "empleado":"f","email":"juliana@gmail.com","fecha_nacimiento":"2002-12-10"];
-       	Este objeto te debe venir asï¿½ del FRONT supuestamente
+       	Este objeto te debe venir as� del FRONT supuestamente
 		 */
 		$dataArray = array();
 		if(!$obj || !$table){
@@ -173,7 +174,10 @@ class MasterDAO {
 					}
 					$i++;
 				}
+				
 				$sql = $sql.$keys.") VALUES (".$values.")";
+				//echo $sql;
+
 				$result = @pg_query($conection, $sql);
 
 				if (!$result) {//Resultado erroneo
@@ -231,7 +235,7 @@ class MasterDAO {
 			if (!$result) {//Resultado erroneo
 				header('HTTP/1.1 200 Ocurrio un error en la consulta');
 				return error_get_last();
-			}else {//Resultado correcto
+			}else{//Resultado correcto
 				$count = pg_numrows($result);
 				for($i=0; $i<$count; $i++) {
 					$row = pg_fetch_assoc ($result);
@@ -322,8 +326,9 @@ class MasterDAO {
 					$sql = $sql.$key." is null ";
 					else {
 						if(!SupportResource::isTable($key_value)){
-							if(!SupportResource::isBool($key_value) && !is_numeric($key_value))
+							if(!SupportResource::isBool($key_value) && !SupportResource::is_numeric($key,$key_value)) {
 								$sql = $sql.$key." LIKE '%".$key_value."%' ";
+							}
 							else 
 								$sql = $sql.$key." = '".$key_value."' ";
 						}
@@ -350,7 +355,6 @@ class MasterDAO {
 		}
 		return $sql;
 	}
-	
 	public function constructSelectFrom($table,$columns){
 		if($columns){
 			$sql = 'SELECT ';
