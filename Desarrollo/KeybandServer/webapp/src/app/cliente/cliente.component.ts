@@ -16,6 +16,32 @@ public pulsera_actual;
 public pulseras_perdidas;
 public usuariopulsera;
 symptoms= [];
+maxLength = '9';
+maxLength2 = '100';
+public empleados; public dni; public nombre; public apellidos; public localidad; public pais; public provincia; public orden;
+public pulseras;
+public pulsera_actual;
+public pulseras_perdidas;
+public usuariopulsera;
+public title;
+public UsuarioDNI;
+public campo;
+public init_row;
+public pages;
+public init_page;
+public rows;
+public dniValido;
+public emailValido;
+public emaill;
+public dnii;
+public sexoo;
+public nombree;
+public apellidoss;
+public fechaNac;
+public paiss;
+public passwordd;
+
+symptoms= [];
 
 roles= [];
 initialized = false;
@@ -43,18 +69,28 @@ edit: boolean = false;
                this.clienteService.getUsuarios()
                                     .subscribe(
                                        response => {
+                                       
+                                         if(this.init_row == undefined)
+                                                this.init_row = 0;
+                                                this.init_page = 1;
+                                                this.pages = Math.ceil((parseInt(response.length)/5));                                         
+                                                this.clienteService.filterClientes(undefined, undefined, undefined, undefined, undefined, undefined, undefined, this.init_row, true)
+                                                .subscribe(
+                                                    response=> {
+                                                   for(var i = 0; i<response.length; i++){
+                                            	    if(response[i].sexo == 'm'){
+                                            		    response[i].sexo = 'Hombre';
+                                            	    }
+                                            	    else if(response[i].sexo == 'f'){
+                                              		  response[i].sexo = 'Mujer';
+                                              		  }
+                                          			  }
+                                              		  this.empleados = response;
+                                               		 console.log(this.empleados);
+                                                    }
+                                                )
 
-                                             for(var i = 0; i<response.length; i++){
-                                                if(response[i].sexo == 'm'){
-                                                response[i].sexo = 'Hombre';
-                                                }
-                                                else if(response[i].sexo == 'f'){
-                                                response[i].sexo = 'Mujer';
-                                                }
-                                            }
-                                                this.empleados = response;
- 
-                                                console.log(this.empleados);
+                       
                                         },
                                         error => {
                                             //this.errorMessage = <any>error;
@@ -140,11 +176,13 @@ editarEmpleado(id) {
                    var estado = "activa";
         if(this.crear==true){
                 this.clienteService.putUsuario(dni,password, nombre, apellidos, email, this.palabra.empleado,fecha_nacimiento, sexo, localidad, provincia, pais, pulsera, estado, fecha_entrada, fecha_salida, roles_enviar);
-           
+           		this.getUsuarios();
+           	
         }
            else{
                
                this.clienteService.postUsuario(dni,password, nombre, apellidos, email,this.palabra.empleado, fecha_nacimiento, sexo, localidad, provincia, pais, fecha_entrada, fecha_salida);
+               this.getUsuarios();
            }
    }
 
@@ -215,6 +253,229 @@ if(this.pulsera_actual!=""){
 }
   this.clienteService.postPulsera(id, this.usuariopulsera, estado);  
 
+}
+
+/**ALBERTO */
+
+getUsu(id) {
+    this.UsuarioDNI = id;
+}
+
+onChange(event, dni, nombre, apellidos, localidad, provincia, pais, orden) {
+    this.dni = dni;
+    this.nombre = nombre;
+    this.apellidos = apellidos;
+    this.localidad = localidad;
+    this.provincia = provincia;
+    this.pais = pais;
+    this.orden = orden;
+
+    if(orden != "Ordenar por:") this.campo = orden;
+    else this.campo = undefined;
+
+    if(this.init_row == undefined)
+        this.init_row = 0;
+
+    while(this.init_page>1) {
+        this.init_page--;
+        this.init_row = this.init_row-5;
+      } 
+    this.clienteService.filterClientes(dni, nombre, apellidos, localidad, provincia, pais, this.campo, this.init_row, false)
+    .subscribe(
+        response => {
+            console.log(response);
+            this.rows = response.length;
+             if(response.length > 5) { //hace falta paginacion
+                this.clienteService.filterClientes(dni, nombre, apellidos, localidad, provincia, pais, this.campo, this.init_row, true)
+                .subscribe(
+                    response => {
+                        this.empleados = response;
+                        this.setPages(this.empleados);
+                    }
+                );
+             }
+             else {
+                 this.empleados = response;
+                 this.setPages(this.empleados);
+             }
+            this.pages = Math.ceil((parseInt(response.length)/5));  
+            console.log(this.pages);                                       
+        }
+    )
+}
+
+setPages(productos) {
+    this.init_page = 1;
+    this.pages = Math.ceil((parseInt(this.rows)/5));
+    console.log(this.pages);
+    if(this.pages == 0) {
+      this.pages = 1;
+    }
+  }
+
+nextPage() {
+    if(this.init_page<this.pages) {
+      this.init_page++;
+      this.init_row = this.init_row+5;
+    }
+
+    this.clienteService.filterClientes(this.dni, this.nombre, this.apellidos, this.localidad, this.provincia, this.pais, this.campo, this.init_row, true)
+    .subscribe(
+        response => {
+            console.log(response);
+            this.empleados = response;
+        }
+    )
+}
+
+lastPage() {
+    if(this.init_page>1) {
+      this.init_page--;
+      this.init_row = this.init_row-5;
+    }
+
+    this.clienteService.filterClientes(this.dni, this.nombre, this.apellidos, this.localidad, this.provincia, this.pais, this.campo, this.init_row, true)
+    .subscribe(
+        response => {
+            console.log(response);
+            this.empleados = response;
+        }
+    )
+}
+
+getUsuarios() { //Se llama para recargar los productos cuando se crea uno nuevo
+  this.clienteService.getUsuarios() //inicialmente hacer getProductos para ver cuantos hay y guardarme el numero de filas
+        .subscribe(
+            response => {
+                if(this.init_row == undefined)
+                  this.init_row = 0;
+                this.rows = response.length;
+                this.setPages(response);
+                this.clienteService.filterClientes(undefined, undefined, undefined, undefined, undefined, undefined, undefined, 0, true);
+            },
+            error => {
+
+            }
+        );
+}
+
+validarDni(newValue) {
+  this.dnii = newValue;
+  var numero
+  var letr
+  var letra
+  var expresion_regular_dni
+  var validar;
+ 
+  expresion_regular_dni = /^\d{8}[a-zA-Z]$/;
+ 
+  if(expresion_regular_dni.test (this.dnii) == true){
+     numero = this.dnii.substr(0,this.dnii.length-1);
+     letr = this.dnii.substr(this.dnii.length-1,1);
+     numero = numero % 23 - 1;
+     letra='TRWAGMYFPDXBNJZSQVHLCKET';
+     
+     letra=letra.substring(numero+1,numero+2);
+     console.log(letra);
+     console.log(letr);
+    if (letra!=letr.toUpperCase()) {
+      validar = false;
+     }else{
+       validar = true;
+     }
+  }else{
+     validar = false;
+   }
+
+   if(validar) {
+        document.getElementById("errorDni").innerHTML = "Dni(*)";
+        document.getElementById("errorDni").style.color = "#73879C";
+        document.getElementById("dni").style.borderColor = "#ccc";
+        this.dniValido = true;
+   }
+   else {
+        document.getElementById("errorDni").innerHTML = "Dni(*): formato incorrecto";
+        document.getElementById("errorDni").style.color = "red";
+        document.getElementById("dni").style.borderColor = "red";
+        this.dniValido = false;
+   }
+    if(this.sexoo && this.passwordd && this.paiss && this.fechaNac && this.nombree && this.apellidoss && this.dniValido && this.emailValido) {
+        document.getElementById("submitCliente").removeAttribute("disabled");
+        document.getElementById("camposOblig3").style.display = "none";
+    }
+    else {
+        document.getElementById("submitCliente").setAttribute("disabled", "true");
+        document.getElementById("camposOblig3").style.display = "block";
+        document.getElementById("camposOblig3").style.marginLeft = "23em";
+    }
+}
+
+validarEmail(newValue) {
+    this.emaill = newValue;
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!re.test(newValue)) {
+        document.getElementById("errorEmail").innerHTML = "Email(*): formato incorrecto";
+        document.getElementById("errorEmail").style.color = "red";
+        document.getElementById("email").style.borderColor = "red";
+        this.emailValido = false;
+    }
+    else {
+        document.getElementById("errorEmail").innerHTML = "Email(*)";
+        document.getElementById("errorEmail").style.color = "#73879C";
+        document.getElementById("email").style.borderColor = "#ccc";
+        this.emailValido = true;
+    }
+    if(this.sexoo && this.passwordd && this.paiss && this.fechaNac && this.nombree && this.apellidoss && this.dniValido && this.emailValido) {
+        document.getElementById("submitCliente").removeAttribute("disabled");
+        document.getElementById("camposOblig3").style.display = "none";
+    }
+    else {
+        document.getElementById("submitCliente").setAttribute("disabled", "true");
+        document.getElementById("camposOblig3").style.display = "block";
+        document.getElementById("camposOblig3").style.marginLeft = "23em";
+    }
+}
+
+camposOblig(newValue, campo) {
+    if(newValue != "" && campo == "n")
+        this.nombree = true;
+    else if (newValue == "" && campo == "n")
+        this.nombree = false;
+    
+    if(newValue != "" && campo == "a")
+        this.apellidoss = true;
+    else if (newValue == "" && campo == "a")
+        this.apellidoss = false;
+
+    if(newValue != "" && campo == "f")
+        this.fechaNac = true;
+    else if (newValue == "" && campo == "f")
+        this.fechaNac = false;
+
+    if(newValue != "" && campo == "p")
+        this.paiss = true;
+    else if (newValue == "" && campo == "p")
+        this.paiss = false;
+
+    if(newValue != "" && campo == "c")
+        this.passwordd = true;
+    else if (newValue == "" && campo == "c")
+        this.passwordd = false;
+
+    if(newValue != "" && campo == "s")
+        this.sexoo = true;
+    else if (newValue == "" && campo == "s")
+        this.sexoo = false;
+
+    if(this.sexoo && this.passwordd && this.paiss && this.fechaNac && this.nombree && this.apellidoss && this.dniValido && this.emailValido) {
+        document.getElementById("submitCliente").removeAttribute("disabled");
+        document.getElementById("camposOblig3").style.display = "none";
+    }
+    else {
+        document.getElementById("submitCliente").setAttribute("disabled", "true");
+        document.getElementById("camposOblig3").style.display = "block";
+        document.getElementById("camposOblig3").style.marginLeft = "23em";
+    }
 }
 
   ngOnInit() {

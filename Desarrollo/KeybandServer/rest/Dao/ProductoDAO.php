@@ -29,6 +29,7 @@ class ProductoDAO{
 					unset($where["id"]);
 				}
 				$sql = $sql.MasterDAO::constructWhere($where);
+				//echo $sql;
 			}
 				if($order)
 					$sql = $sql.MasterDAO::constructOrderBy($order);

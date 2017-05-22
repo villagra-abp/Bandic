@@ -68,6 +68,13 @@ class SupportResource {
 		}
 		return true;
 	}
+	public function is_numeric($key, $key_value) {
+		if($key == "dni" || $key == "usuario")
+			return false;
+		else if(is_numeric($key_value))
+			return true;
+	}
+	
 	public function isDate($fecha){
 		$date=array();
 		$date= split('-', $fecha);
