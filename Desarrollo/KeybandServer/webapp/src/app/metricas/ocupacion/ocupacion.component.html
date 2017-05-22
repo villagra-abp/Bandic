@@ -1,21 +1,34 @@
-<h1> Ocupación de una estancia </h1>
-
+<div class="dashboard_graph">
+  <div class="clearfix">
+    <div class="x_title">
+    <h1> Ocupación de una estancia </h1>
+    </div>
    <form class="otra" #loginForm="ngForm" (ngSubmit)="getOcupacion(id.value)">
-      <select class="focusedInput" name="id" #id>
+     <label for="selectest">Escoja una estancia de la lista:</label>
+     <br>
+      <select class="selectpicker" name="id" id="selectest" #id>
         <option selected="selected">Todas</option>
         <option *ngFor="let estancia of estancias | keys">{{estancia.value.id}}</option>
       </select>
-      <button type="submit"> Buscar </button>
+      <button type="submit" id="buscarbtn" class="btn btn-primary"> Buscar </button>
   </form>
+  </div>
+</div>
 
+<br>
  <!--  <form class="otra" #loginForm="ngForm" (ngSubmit)="getOcupacion(id.value)">
     <input id="ocupacion" name="ocupacion" type="text" #id placeholder="Introduzca estancia" class="prueba" required="" autofocus>
     <button type="submit">Buscar</button>
   </form> -->
 
-<div class="clearfix">
-<div class="col-md-9 col-sm-9 col-xs-12">
-  <h1> Resultados </h1>
+<div class="dashboard_graph">
+  <div class="clearfix">
+    <div class="col-md-9 col-sm-9 col-xs-12">
+      <div class="row x_title">
+        <div class="col-md-6">
+          <h3>Resultados: <small> {{estancia}} </small></h3>
+      </div>
+      </div>
     <div style="display: block">
       <canvas baseChart
               [datasets]="barChartData"
@@ -23,21 +36,34 @@
               [options]="barChartOptions"
               [legend]="barChartLegend"
               [chartType]="barChartType"
-               ></canvas>
+              [colors]="coloresBarras"
+      ></canvas>
  
   <!-- <button (click)="randomize()">Modificar</button>-->
     </div>
+ 
 </div>
 <div class="col-md-3 col-sm-3 col-xs-12">
   <br>
   <br>
-  <div class='ocultar' id='ocultar'>
-  <h2> En este momento hay <strong>{{acceso}}</strong> personas en la estancia <strong>{{estancia}}</strong>. 
-  <br>
-  Hay ocupado un <strong>{{porcentaje}}</strong> % de la capacidad total (<strong>{{capacidad}}</strong> personas).</h2>
+  <!--<div class='ocultar' id='ocultar'>
+      <h2> En este momento hay <strong>{{acceso}}</strong> personas en la estancia <strong>{{estancia}}</strong>. 
+      <br>
+      Hay ocupado un <strong>{{porcentaje}}</strong> % de la capacidad total (<strong>{{capacidad}}</strong> personas).</h2>
+  </div>-->
+
+  <div class="ocultar" id='ocultar'>  
+    <div class="row" id='personas'>
+         <h3> Personas <br> <strong>{{acceso}}</strong> </h3>
+    </div>
+      
+    <div id='ocupado'>
+         <h3> Ocupado <br> <strong>{{porcentaje}}</strong> % </h3>
+    </div>
+  </div>
+    </div>
   </div>
 </div>
-</div>
 
-<p> Actualmente, existen en el establecimiento {{numero}} estancias públicas. Para más información, pulsar en el apartado Estancias -> Públicas </p>
+<!--<p> Actualmente, existen en el establecimiento {{numero}} estancias públicas. Para más información, pulsar en el apartado Estancias -> Públicas </p>-->
  

@@ -23,11 +23,55 @@ public tpvs;
             });
    }
   
-  // Doughnut
-  public doughnutChartLabels:string[] = ['Barra Comedor', 'Barra Recepción','Barra Piscina'];
-  public doughnutChartData:number[] = [1700, 1250, 2300];
-  public doughnutChartType:string = 'doughnut';
+  // ESTADISTICAS PRINCIPALES DE LA VENTANA GRANDE
+  public barChartOptions:any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels:string[] = ['TPV Recepción', 'TPV Piscina', 'TPV Salas', 'TPV Comedor'];
+  public barChartType:string = 'bar';
+  public barChartLegend:boolean = true;
  
+  public barChartData:any[] = [
+    {data: [65, 59, 80, 81], label: '1ºTrimestre'},
+    {data: [28, 48, 40, 19], label: '2ºTrimestre'},
+    {data: [28, 48, 30, 59], label: '3ºTrimestre'}
+  ];
+  
+  /*  public coloresPrincipales: any[] = [
+      { 
+        backgroundColor:[{
+          backgroundColor: '#FF7360'},{
+          backgroundColor:'#8DE78D'},{
+          backgroundColor:'#F0F562'}]
+      }];*/
+
+      public coloresPrincipales: Array<any> = [
+    { // first color
+      backgroundColor: 'rgba(225,115,96,1)',
+      borderColor: 'rgba(225,115,96,0.2)',
+      pointBackgroundColor: 'rgba(225,10,24,0.2)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
+    },
+    { // second color
+      backgroundColor: 'rgba(141,231,141,1)',
+      borderColor: 'rgba(141,231,141,0.2)',
+      pointBackgroundColor: 'rgba(225,10,24,0.2)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
+    },
+    { // third color
+      backgroundColor: 'rgba(111,200,206,1)',
+      borderColor: 'rgba(111,200,206,0.2)',
+      pointBackgroundColor: 'rgba(225,10,24,0.2)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
+    }];
+
   ngOnInit() {
   }
 
@@ -59,5 +103,35 @@ public tpvs;
 	       );   */ 
 	   }
 
+/* AQUI VAN LAS CATEGORIAS */
+
+    public radarChartLabels:string[] = ['Alimentación', 'Masajes', 'Deportes', 'Otros', 'Excursiones'];
+    public radarChartData:any = [
+        {data: [92, 79, 90, 81, 55], label: '2017'}
+    ];
+    public radarChartType:string = 'radar';
+
+  public lineChartColors:Array<any> = [
+    { // Verde
+      backgroundColor: 'rgba(141,231,141,0.2)',
+      borderColor: 'rgba(141,231,141,1)',
+      pointBackgroundColor: 'rgba(141,231,141,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(141,231,141,0.8)'
+    }
+  ];
+
+/* AQUI VAN LOS TPV COMPARADOS */
+
+  public leyenda:boolean = true;
+  public pieChartLabels:string[] = ['TPV Piscina', 'TPV Recepción', 'TPV Comedor', 'TPV Salas'];
+  public pieChartData:number[] = [75,35,156,20];
+  public pieChartType:string = 'pie';
+
+  public coloresTPVs: any[] = [
+      { 
+        backgroundColor:["#FF7360", "#6FC8CE", "#8DE78D", "#F0F562"] 
+      }];
 
 }

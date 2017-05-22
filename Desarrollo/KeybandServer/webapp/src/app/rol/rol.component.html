@@ -1,3 +1,11 @@
+<div class="dashboard_graph">
+<div class="clearfix">
+    <div class="x_title">
+      <h3>Resultados <small>Roles</small>
+        <button type="button" class="btn btn-primary" id="btncrear" (click)="redirect()">Crear Rol</button>
+      </h3>
+    </div>
+
 <div class="panel-body">
 		
 		<div class="table-responsive">
@@ -12,16 +20,16 @@
 				<tbody>
 					<tr *ngFor="let Rol of roles | keys">
 						<td>
-              <a href="#" data-toggle="modal" data-target="#borrar">
-							<button (click)="rellenarBorrar(Rol.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
-										<span class="glyphicon glyphicon-remove"></span>
-							</button>
-              </a>
-							<a href="#" data-toggle="modal" data-target="#registro">
-								<button (click)="getRol(Rol.value.id)" class="btn btn-default btn-xs confirmation-modal" title="Detalle">
-									<span class="glyphicon glyphicon-edit"></span>
+              <a href="#" data-toggle="modal" data-target="#registro">
+								<button (click)="getRol(Rol.value.id)" class="btn btn-default btn-xs confirmation-modal" style="background-color:#F88A3D"  title="Detalle">
+									<span class="glyphicon glyphicon-edit" style="color:white"></span>
 								</button>
 							</a>
+              <a href="#" data-toggle="modal" data-target="#borrar">
+                <button (click)="rellenarBorrar(Rol.value.id)" class="btn btn-default btn-xs confirmation-modal"  style="background-color:#FE5855" title="Borrar">
+                      <span class="glyphicon glyphicon-remove" style="color:white" ></span>
+                </button>
+              </a>
 						</td>
 						<td>{{Rol.value.id}}</td>
 						<td>{{Rol.value.empleado}}</td>
@@ -30,7 +38,8 @@
 			</table> 
 		</div>
 	</div>
-<button type="button" class="btn btn-primary" (click)="redirect()">Crear Rol</button>
+</div>
+</div>
 
 	<!-- Modal BORRAR -->
               <div class="modal fade" id="borrar" role="dialog">

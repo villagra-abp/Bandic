@@ -1,8 +1,4 @@
- <div class="btn-group" role="group" aria-label="...">
-   <a href="#" data-toggle="modal" data-target="#registro"> <button type="button" (click)="rellenarUsu('');" class="btn btn-default">Nuevo cliente</button></a>
-</div>
-  
-     <!-- Modal REGISTRO-->
+ <!-- Modal REGISTRO-->
              <div class="modal fade" id="registro" role="dialog">
                <div class="modal-dialog">
                  <!-- Modal content-->
@@ -278,6 +274,14 @@
 
 
 
+<div class="dashboard_graph">
+<div class="clearfix">
+    <div class="x_title">
+ 
+        <h3>Resultados <small>Clientes</small>
+        <a href="#" data-toggle="modal" data-target="#registro"> <button type="button" id="crearbtn" (click)="rellenarUsu('');" class="btn btn-primary">Nuevo cliente</button></a>
+        </h3>
+    </div>
 
 <div class="panel-body">
 		
@@ -299,18 +303,16 @@
 				</thead>
 				<tbody>
 					<tr *ngFor="let usuario of empleados | keys">
-						<td><button (click)="borrarEmpleado(usuario.value.dni)" class="btn btn-default btn-xs confirmation-modal" title="Borrar">
-            	<span class="glyphicon glyphicon-remove"></span>
-								</button>
+						<td>
 				<a href="#" data-toggle="modal" data-target="#registro">
-								<button (click)="rellenarUsu(usuario.value.dni);" class="btn btn-default btn-xs confirmation-modal" title="editar">
-            	<span class="glyphicon glyphicon-edit"></span>
+								<button (click)="rellenarUsu(usuario.value.dni);" style="background-color:#F88A3D" class="btn btn-default btn-xs confirmation-modal" title="editar">
+            	<span class="glyphicon glyphicon-edit" style="color:white"></span>
 								</button>
 				</a>
 
         			<a href="#" data-toggle="modal" data-target="#pulseras">
-								<button (click)="usuarioPulseras(usuario.value.dni)" class="btn btn-default btn-xs confirmation-modal" title="pulseras">
-            	<span class="glyphicon glyphicon-option-vertical"></span>
+								<button (click)="usuarioPulseras(usuario.value.dni)" class="btn btn-default btn-xs confirmation-modal" style="background-color:#68B6E9" title="pulseras">
+            	<span class="glyphicon glyphicon-option-vertical" style="color:white"></span>
 								</button>
 				</a>
             </td>
@@ -327,4 +329,6 @@
 				</tbody>
 			</table> 
 		</div>
+	</div>
+  </div>
 	</div>

@@ -43,6 +43,15 @@ edit: boolean = false;
                this.clienteService.getUsuarios()
                                     .subscribe(
                                        response => {
+
+                                             for(var i = 0; i<response.length; i++){
+                                                if(response[i].sexo == 'm'){
+                                                response[i].sexo = 'Hombre';
+                                                }
+                                                else if(response[i].sexo == 'f'){
+                                                response[i].sexo = 'Mujer';
+                                                }
+                                            }
                                                 this.empleados = response;
  
                                                 console.log(this.empleados);

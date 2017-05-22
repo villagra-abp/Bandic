@@ -20,12 +20,14 @@ import { PulseraComponent }   from '../pulsera/pulsera.component';
 import { PromocionComponent }   from '../promocion/promocion.component';
 import { MapaComponent }   from '../mapa/mapa.component';
 import { LoginComponent }   from '../login/login.component';
+import { AdminComponent }   from '../admin/admin.component';
 
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/inicio', pathMatch: 'full'},
-// { path: 'detail/:id', component: HeroDetailComponent }, EJEMPLO DONDE SE LE PASA ID
+  { path: ' ', redirectTo: './inicio', pathMatch: 'full'},
+//{ path: '', redirectTo: '/inicio', pathMatch: 'full'},
+//{ path: 'detail/:id', component: HeroDetailComponent }, EJEMPLO DONDE SE LE PASA ID
   { path: 'cliente',     component: ClienteComponent },
   { path: 'inicio',     component: InicioComponent },
   { path: 'empleado',     component: EmpleadoComponent },
@@ -42,7 +44,21 @@ const routes: Routes = [
   { path: 'pulsera',     component: PulseraComponent },
   { path: 'promocion',     component: PromocionComponent },
   { path: 'login',     component: LoginComponent }
-];
+  
+  //{ path: '**', redirectTo:'inicio'}
+  
+  
+  /*{ path: '',     redirectTo:'/login', pathMatch:'full'},
+  { path: 'login',     component: LoginComponent },
+  { path: 'admin',     component: AdminComponent ,
+  children: [
+    {path: '',     redirectTo:'/admin/inicio', pathMatch:'full'},
+    {path: 'inicio',     component:InicioComponent},
+    {path: 'estancia',     component:EstanciaComponent},
+    ]*/
+
+
+  ];
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],

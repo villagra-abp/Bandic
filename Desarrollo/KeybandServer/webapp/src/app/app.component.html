@@ -1,5 +1,53 @@
-<div class="container body">
-      <div class="main_container">
-        <app-menu></app-menu>
-      </div>
+<div class="login" id="login">
+        <div class="container">
+        <div class="card card-container">
+            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <form class="form-signin" #loginForm="ngForm" (ngSubmit)="doLogin(dni.value, password.value)">
+                <span id="reauth-email" class="reauth-email"></span>
+                <input type="text" id="inputEmail" class="form-control" #dni placeholder="Nombre de usuario" required autofocus>
+                <input type="password" id="inputPassword" class="form-control" #password placeholder="Contraseña" required>
+                <div id="remember" class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Recordar
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block btn-signin" data-toggle="modal" data-target="#bienvenido" type="submit">Entrar</button>
+            </form>
+            <a href="#" class="forgot-password">
+                ¿Olvidaste la contraseña?
+            </a>
+        </div>
+    </div>
 </div>
+
+<div class="menu" id="menu"> 
+            <app-menu></app-menu>   
+</div>
+
+<!-- ANTIGUAS COSAS 
+<app-menu></app-menu>
+<router-outlet></router-outlet>
+-->
+
+<!-- Modal BORRAR -->
+<div class="modal fade" id="bienvenido" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Bienvenido</h4>
+        </div>
+        <div class="modal-body">
+            <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
+            <fieldset>
+                <div class="modal-body">
+                     <p>Al Panel de Administración de <strong>KeyBand</strong></p>
+                </div>
+            </fieldset>
+            </form>        
+        </div>
+        </div>            
+    </div>
+    </div>

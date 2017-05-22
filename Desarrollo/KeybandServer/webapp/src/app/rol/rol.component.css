@@ -1,4 +1,14 @@
 .color{
     color: white;
+    background: #2a3f54; 
+}
+
+#btncrear{
     background: #2a3f54;
+    float: right;
+    margin-top: -0.4em;
+}
+
+tr {
+    text-align: center;
 }

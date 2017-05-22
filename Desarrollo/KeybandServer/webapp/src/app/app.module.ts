@@ -23,11 +23,9 @@ import { LoginComponent } from './login/login.component';
 import { BuscadorCategoriaComponent } from './categoria-producto/buscador-categoria/buscador-categoria.component';
 import { BuscadorClienteComponent } from './cliente/buscador-cliente/buscador-cliente.component';
 import { BuscadorEmpleadoComponent } from './empleado/buscador-empleado/buscador-empleado.component';
-import { BuscadorEstanciaComponent } from './estancia/buscador-estancia/buscador-estancia.component';
-import { BuscadorHabitacionComponent } from './habitacion/buscador-habitacion/buscador-habitacion.component';
 import { BuscadorProductoComponent } from './producto/buscador-producto/buscador-producto.component';
 import { BuscadorPulseraComponent } from './pulsera/buscador-pulsera/buscador-pulsera.component';
-import {BuscadorNotificacionComponent} from './notificacion/buscador-notificacion/buscador-notificacion.component';
+import { BuscadorNotificacionComponent } from './notificacion/buscador-notificacion/buscador-notificacion.component';
 import { BuscadorRolComponent } from './rol/buscador-rol/buscador-rol.component';
 import { AppRoutingModule} from './app-routing/app-routing.module'; //importamos el contenedor de las rutas
 import { InicioComponent } from './inicio/inicio.component';
@@ -42,6 +40,7 @@ import { WysiwygComponent } from './wysiwyg/wysiwyg.component';
 import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 import { NewRolComponent } from './rol/new-rol/new-rol.component';
 import { EditRolComponent } from './rol/edit-rol/edit-rol.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -65,8 +64,6 @@ import { EditRolComponent } from './rol/edit-rol/edit-rol.component';
     BuscadorCategoriaComponent,
     BuscadorClienteComponent,
     BuscadorEmpleadoComponent,
-    BuscadorEstanciaComponent,
-    BuscadorHabitacionComponent,
     BuscadorProductoComponent,
     BuscadorPulseraComponent,
     BuscadorNotificacionComponent,
@@ -80,6 +77,7 @@ import { EditRolComponent } from './rol/edit-rol/edit-rol.component';
     WysiwygComponent,
     NewRolComponent,
     EditRolComponent,
+    AdminComponent,
   
   
   ],

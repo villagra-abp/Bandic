@@ -26,3 +26,12 @@
 .buscadorProducto {
     margin-bottom: 1em;
 }
+
+.color{
+    color: white;
+    background: #2a3f54;
+}
+
+tr{
+    text-align: center;
+}
