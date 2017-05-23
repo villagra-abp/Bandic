@@ -1,0 +1,19 @@
+.color{
+    color: white;
+    background: #2a3f54;
+}
+
+.error{
+    visibility: hidden;
+}
+
+.boton {
+    float: right;
+    margin-top: 20px;
+}
+/*NUEVO clases nuevas*/
+.input-xs {
+    height: 22px;
+  padding: 2px 5px;
+  font-size: 12px;
+}
