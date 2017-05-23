@@ -13,7 +13,7 @@ export class LoginService {
        let valor = JSON.stringify({dni, password});
        
        return this.http.post("http://localhost/Keyband/Desarrollo/KeybandServer/rest/login",valor)
-                            .map(response => response.json());     
+                            //.map(response => response.json());     
     }
 
   

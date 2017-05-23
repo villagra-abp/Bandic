@@ -300,22 +300,12 @@ class UsuarioResource{
 					}
 					break;
 				case 'fecha_entrada':
-					if(!$key_value){
-						SupportResource::echoError("Fecha de entrada Requerida");
-						return false;
-					}
-						
 					if(!SupportResource::isDate($key_value)){
 						SupportResource::echoError("Fecha entrada Incorrecto");
 						return false;
 					}
 					break;
-				case 'fecha_salida':
-					if(!$key_value){
-						SupportResource::echoError("Fecha de salida Requerida");
-						return false;
-					}
-						
+				case 'fecha_salida':									
 					if(!SupportResource::isDate($key_value)){
 						SupportResource::echoError("Fecha salida Incorrecto");
 						return false;

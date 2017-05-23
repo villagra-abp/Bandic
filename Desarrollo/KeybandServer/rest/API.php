@@ -12,7 +12,7 @@ require_once "Resources/PermisoResource.php";
 require_once "Resources/PromocionResource.php";
 require_once "Resources/TpvResource.php";
 require_once "ShareOnFb.php";
-require_once "Resources/UploadResource.php";
+//require_once "Resources/UploadResource.php";
 
 class API {    
 

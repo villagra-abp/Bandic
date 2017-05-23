@@ -18,25 +18,43 @@ define(function (require) {
         constructor: TTransform,
 
         identidad: function () {
-            console.log("Dibujo la entidad");
+            //console.log("Dibujo la entidad");
         },
         getMatriz: function(){
             return this.matriz;
         },
         cargar: function (matriz) {
-            console.log("Cargo la matriz "+matriz);
+            //console.log("Cargo la matriz "+matriz);
         },
 
         trasponer: function() {
-            console.log("Transponer la matriz "+this.matriz);
+            //console.log("Transponer la matriz "+this.matriz);
         },
 
-        transladar: function(x,y,z) {
-            console.log("Transladar la matriz "+this.matriz);
+        transladar: function(azimuth, elevation, position, normal, right, up) {
+            //console.log("Transladar la matriz "+this.matriz);
+            mat4.identity(this.matriz);
+            mat4.translate(this.matriz, position);
+           // mat4.rotateY(this.matriz, azimuth * Math.PI/180);
+           // mat4.rotateX(this.matriz, elevation * Math.PI/180);
+            
+            mat4.multiplyVec4(this.matriz, [1, 0, 0, 0], right);
+            mat4.multiplyVec4(this.matriz, [0, 1, 0, 0], up);
+            mat4.multiplyVec4(this.matriz, [0, 0, 1, 0], normal);
+    
+            mat4.multiplyVec4(this.matriz, [0, 0, 0, 1], position);
         },
 
-        rotar: function(x,y,z,w) {
-            console.log("Rotar la matriz "+this.matriz);
+        rotar: function(azimuth, elevation, position, normal, right, up) {
+             //console.log("Rotar la matriz "+this.matriz);
+            mat4.identity(this.matriz);
+            //mat4.translate(this.matriz, position);
+            mat4.rotateY(this.matriz, azimuth * Math.PI/180);
+            mat4.rotateX(this.matriz, elevation * Math.PI/180);
+
+            mat4.multiplyVec4(this.matriz, [1, 0, 0, 0], right);
+            mat4.multiplyVec4(this.matriz, [0, 1, 0, 0], up);
+            mat4.multiplyVec4(this.matriz, [0, 0, 1, 0], normal);
         },
 
         beginDraw: function () {

@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { ProductoService } from './services/producto.service';
 import { FileUploadService } from './services/fileupload.service';
 import { BuscadorProductoComponent } from './buscador-producto/buscador-producto.component';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import {ModalModule} from "ng2-modal";
 
 interface FileReaderEventTarget extends EventTarget {
     result:string
@@ -16,7 +14,7 @@ interface FileReaderEvent extends Event {
 }
 
 @NgModule({
-    imports: [ModalModule],
+    imports: [],
     declarations: [
     BuscadorProductoComponent
   ]

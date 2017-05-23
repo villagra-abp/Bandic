@@ -204,9 +204,7 @@ public rows;
                         else {
                                 this.estancias = response;
                                 this.setPages();
-                        }
-                        this.setPages(); 
-                        console.log(this.pages);   
+                        }  
                 },           
                 error => {
                         console.log(error);

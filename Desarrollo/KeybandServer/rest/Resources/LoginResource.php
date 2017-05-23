@@ -15,7 +15,6 @@ class LoginResource{
 
 	}
 	public static function postLogin($type){
-		
 		$obj = json_decode( file_get_contents('php://input'));
 		$objArr = (array)$obj;
 		

@@ -31,7 +31,7 @@ define(function () {
             return this.entidad;
         },
         getHijo: function (int){
-            return  this.hijos[0];
+            return  this.hijos[int];
         },
         setEntidad: function(entidad) {
             this.entidad = entidad;

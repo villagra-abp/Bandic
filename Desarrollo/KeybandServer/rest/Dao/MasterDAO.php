@@ -233,7 +233,7 @@ class MasterDAO {
 				$sql = $sql.MasterDAO::constructPagination($pagination);
 			$result = @pg_query($conection, $sql);
 			if (!$result) {//Resultado erroneo
-				header('HTTP/1.1 200 Ocurrio un error en la consulta');
+				//header('HTTP/1.1 200 Ocurrio un error en la consulta');
 				return error_get_last();
 			}else{//Resultado correcto
 				$count = pg_numrows($result);
@@ -341,7 +341,7 @@ class MasterDAO {
 					$sql = $sql."AND".$key." is null";
 					else {
 						if(!SupportResource::isTable($key_value)){
-							if(!SupportResource::isBool($key_value) && !is_numeric($key_value))
+							if(!SupportResource::isBool($key_value) && !SupportResource::is_numeric($key,$key_value))
 								$sql = $sql."AND ".$key." LIKE '%".$key_value."%' ";
 							else
 								$sql = $sql."AND ".$key." = '".$key_value."' ";

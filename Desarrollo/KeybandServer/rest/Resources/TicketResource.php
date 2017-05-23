@@ -172,12 +172,12 @@ class TicketResource{
 						SupportResource::echoError("fecha requerida");
 						$return=false;
 						break 2;
-					}
+					}/*
 					if(!SupportResource::isDate($key_value)) {
 						SupportResource::echoError("formato fecha incorrecto");
 						$return=false;
 						break 2;
-					}
+					}*/
 					break;
 				case 'tpv':
 					if(strlen($key_value) > 100){

@@ -21,12 +21,12 @@ constructor(private loginService: LoginService, private router:Router) { }
                 //data-toggle="modal" data-target=".bs-example-modal-sm"
                 document.getElementById("login").style.display = "none";
                 document.getElementById("menu").style.display = "block";
-                this.router.navigate(['/inicio']);
-             
+                this.router.navigate(['/inicio']);      
             }  
         },
        error =>{
-              alert('Ha ocurrido un error en la petición');
+         console.log(error);
+              //alert('Ha ocurrido un error en la petición');
       }); 
   }
     ngOnInit(){

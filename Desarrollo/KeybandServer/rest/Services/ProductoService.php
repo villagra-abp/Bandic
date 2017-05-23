@@ -23,14 +23,14 @@ class ProductoService {
 	public static function getProductosTpv($where,$order,$pagination) {
 		$where["categoria_producto.comestible"] = 'true';
 		$where["categoria_producto.id"] = "producto.categoria_producto";
-		$dataArray = MasterDAO::getAll(["producto", "categoria_producto"],["producto.id","producto.nombre","producto.descripcion","producto.precio","producto.cantidad_disponible","producto.categoria_producto"],$where,$order,$pagination);
+		$dataArray = MasterDAO::getAll(["producto", "categoria_producto"],["producto.id","producto.nombre","producto.descripcion","producto.precio","producto.cantidad_disponible","producto.categoria_producto", "producto.imagen"],$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 	
 	public static function getProductosReservables($where,$order,$pagination) {
 		$where["categoria_producto.comestible"] = 'false';
 		$where["categoria_producto.id"] = "producto.categoria_producto";
-		$dataArray = ProductoDAO::getProductosReservables(["producto", "categoria_producto"],["*"],$where,$order,$pagination);
+		$dataArray = ProductoDAO::getProductosReservables(["producto", "categoria_producto"],["producto.id", "producto.nombre", "producto.descripcion", "producto.precio", "producto.tweet", "producto.imagen", "producto.imagen_redes"],$where,$order,$pagination);
 		echo json_encode($dataArray);
 	}
 

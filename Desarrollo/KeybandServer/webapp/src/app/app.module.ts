@@ -23,8 +23,6 @@ import { LoginComponent } from './login/login.component';
 import { BuscadorCategoriaComponent } from './categoria-producto/buscador-categoria/buscador-categoria.component';
 import { BuscadorClienteComponent } from './cliente/buscador-cliente/buscador-cliente.component';
 import { BuscadorEmpleadoComponent } from './empleado/buscador-empleado/buscador-empleado.component';
-import { BuscadorEstanciaComponent } from './estancia/buscador-estancia/buscador-estancia.component';
-import { BuscadorHabitacionComponent } from './habitacion/buscador-habitacion/buscador-habitacion.component';
 import { BuscadorProductoComponent } from './producto/buscador-producto/buscador-producto.component';
 import { BuscadorPulseraComponent } from './pulsera/buscador-pulsera/buscador-pulsera.component';
 import {BuscadorNotificacionComponent} from './notificacion/buscador-notificacion/buscador-notificacion.component';
@@ -65,8 +63,6 @@ import { EditRolComponent } from './rol/edit-rol/edit-rol.component';
     BuscadorCategoriaComponent,
     BuscadorClienteComponent,
     BuscadorEmpleadoComponent,
-    BuscadorEstanciaComponent,
-    BuscadorHabitacionComponent,
     BuscadorProductoComponent,
     BuscadorPulseraComponent,
     BuscadorNotificacionComponent,

@@ -10,11 +10,6 @@ import { RolService } from '../rol/services/rol.service';
  
 })
 export class ClienteComponent implements OnInit {
-public empleados;
-public pulseras;
-public pulsera_actual;
-public pulseras_perdidas;
-public usuariopulsera;
 symptoms= [];
 maxLength = '9';
 maxLength2 = '100';
@@ -41,7 +36,6 @@ public fechaNac;
 public paiss;
 public passwordd;
 
-symptoms= [];
 
 roles= [];
 initialized = false;
