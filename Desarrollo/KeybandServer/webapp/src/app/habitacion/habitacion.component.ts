@@ -60,7 +60,7 @@ public rows;
                 response => {
                         //console.log(response.json());
                         this.palabra = {id:"",capacidad:"",descripcion:""};
-                        this.recargar();
+                        this.getEstancias();
                 },
                 error => {
                         alert("Error en la petición");
@@ -123,10 +123,10 @@ public rows;
         this.habitacionService.editHabitacion(id, capacidad, descripcion).subscribe(
             response => {
                        //console.log(response.json());
-                this.recargar();
+                this.getEstancias();
             },
             error => {
-                this.recargar();
+                this.getEstancias();
                     //alert("Error en la petición");
             }
         );
@@ -150,7 +150,7 @@ public rows;
             this.habitacionService.completeHabitacion(id).subscribe(response=>{
                 this.borrar = {id: response[0].id };
                 this.estancia = response[0].id ;
-                this.recargar();
+                this.getEstancias();
             });
     }
 
