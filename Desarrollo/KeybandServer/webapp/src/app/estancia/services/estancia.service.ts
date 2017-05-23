@@ -44,13 +44,13 @@ urlBase: string = 'http://localhost/Keyband/Desarrollo/KeybandServer/rest/'
                         .map(response => response.json())          
       }
 
-    getEstancia(estancia) {
-            return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia/"+estancia)
-                                    .map(response => response.json())
-        }
+/*NUEVO filterEstancias*/
 
-      filterEstancias(id, capacidad){
+      filterEstancias(id, capacidad, orderBy, init_row, paginar){
          var filter = "";
+         var pagination = "";
+         var order = "";
+
         if(id != undefined) {
             filter = "&&id="+id;
         }
@@ -64,10 +64,18 @@ urlBase: string = 'http://localhost/Keyband/Desarrollo/KeybandServer/rest/'
         else {
             filter = filter +  "&&capacidad=";
         }
+        if(orderBy != undefined)
+        order = "&&order=asc&&by="+orderBy;
+        else
+            order = "&&order=asc&&by=";
+        if(!paginar)
+            pagination = "&&initrow="+init_row+"&&pagesize=";
+        else
+            pagination = "&&initrow="+init_row+"&&pagesize=5";
 
-        console.log(filter);
+        console.log(filter+pagination+order);
 
-      return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia?publica=t"+filter)
+      return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia?publica=t"+filter+pagination+order)
                       .map(response => response.json())
       }
 }

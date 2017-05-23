@@ -38,8 +38,11 @@ export class HabitacionService {
       return this.http.post("http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/" + id, enviar)
                       .map(response => response.json())          
     }
-    filterEstancias(id, capacidad){
+      filterEstancias(id, capacidad, orderBy, init_row, paginar){
          var filter = "";
+         var pagination = "";
+         var order = "";
+
         if(id != undefined) {
             filter = "&&id="+id;
         }
@@ -53,10 +56,18 @@ export class HabitacionService {
         else {
             filter = filter +  "&&capacidad=";
         }
+        if(orderBy != undefined)
+        order = "&&order=asc&&by="+orderBy;
+        else
+            order = "&&order=asc&&by=";
+        if(!paginar)
+            pagination = "&&initrow="+init_row+"&&pagesize=";
+        else
+            pagination = "&&initrow="+init_row+"&&pagesize=5";
 
-        console.log(filter);
+        console.log(filter+pagination+order);
 
-      return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia?publica=f"+filter)
+      return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/estancia?publica=f"+filter+pagination+order)
                       .map(response => response.json())
-    }
+      }
 }

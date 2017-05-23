@@ -1,10 +1,17 @@
 <div class="dashboard_graph">
 <div class="clearfix">
 <div class="container">
- <form class="form-inline" (ngSubmit)="onChange(identificador.value, capacidades.value)">
+ <form class="form-inline" (ngSubmit)="onChange(identificador.value, capacidades.value, ordenEs)">
    <div class="form-group">
      <input class="form-control" size="25" #identificador type="text" placeholder="Búsqueda por identificador">
      <input class="form-control" size="25" #capacidades  type="text" placeholder="Búsqueda por capacidad">
+   <div style="margin-right: 1em; margin-top: 1em;">
+        <select class="input-xs form-control" name="categoria" #ordenEs><!--NUEVO la clase input-xs-->
+            <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
+            <option>Id</option>
+            <option>Capacidad</option>
+          </select>
+    </div>
    </div>
    
    <!-- <button type="submit" class="buscar focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">   
@@ -42,7 +49,7 @@
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="user">Identificador estancia</label>  
                           <div class="col-md-6">
-                          	<input id="user" name="user" value="{{palabra.id}}" type="text" #id placeholder="Introduzca identificador" [ngModel]="identificador" (ngModelChange)="comprobarId($event, 'identificador')" class="form-control input-md" required="" autofocus>
+                          	<input id="user" name="user" value="{{palabra.id}}" type="text" #id placeholder="Introduzca identificador" [ngModel]="identi" (ngModelChange)="comprobarId($event, 'identificador')" class="form-control input-md" required="" autofocus>
                             <span class="error" id="errorusu">Nombre no disponible.</span>
                             <!--<span class="error" id="errorusu">Nombre no disponible.</span>-->
                           </div>
@@ -153,3 +160,9 @@
                   </div>            
                 </div>
               </div>
+                            <!--NUEVO-->
+  <div class="pagination">
+      <button class="arrows" (click)="lastPage();" href="#">&laquo;</button>
+        <span>{{init_page}} de {{pages}}</span>
+      <button class="arrows" (click)="nextPage();" href="#">&raquo;</button>
+  </div> 

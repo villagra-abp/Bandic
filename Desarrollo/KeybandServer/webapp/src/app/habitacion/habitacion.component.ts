@@ -21,6 +21,13 @@ export class HabitacionComponent implements OnInit {
  public palabra = {id:"",capacidad:"",descripcion:""};
  public borrar = {id:""};
 
+  /*NUEVAS VARIABLES*/
+ public campo;
+public init_row;
+public pages;
+public init_page;
+public rows;
+
  crear: boolean = false;
  edit: boolean = false;
  disabled: boolean = false;
@@ -30,8 +37,17 @@ export class HabitacionComponent implements OnInit {
      this.habitacionService.getHabitaciones()
             .subscribe(
             response => {
-                        this.habitaciones = response;
-                        //console.log(this.estancias);
+                        if(this.init_row == undefined)
+                                this.init_row = 0;
+                                this.init_page = 1;
+                                this.pages = Math.ceil((parseInt(response.length)/5));                                          
+                                this.habitacionService.filterEstancias(undefined, undefined, undefined, this.init_row, true)
+                                .subscribe(
+                                        response=> {
+                                        this.habitaciones = response;
+                                        console.log(this.habitaciones);
+                                        }
+                                )
                 },
                 error => {
                         alert("Error en la petición");
@@ -76,7 +92,7 @@ export class HabitacionComponent implements OnInit {
     this.habitacionService.deleteHabitacion(id).subscribe(
           response => {
                   //console.log(response.json());
-                  this.recargar();
+                  this.getEstancias();
           },
           error => {
                   alert("Error en la petición");
@@ -115,7 +131,7 @@ export class HabitacionComponent implements OnInit {
             }
         );
     }
-
+/* NUEVO este getEstancias ya no vale, comentar
      recargar(){
         this.habitacionService.getHabitaciones()
             .subscribe(
@@ -127,7 +143,7 @@ export class HabitacionComponent implements OnInit {
                         alert("Error en la petición");
                 }
             );
-    }
+    }*/
 
     rellenarBorrar(id){
            // console.log(id);
@@ -162,15 +178,39 @@ export class HabitacionComponent implements OnInit {
   ngOnInit() {
   }
 
-      onChange(id, capacidad) { //cuando se pulsa en buscar
+  /*NUEVO*/
+       onChange(id, capacidad, orden) { //cuando se pulsa en buscar
         this.selectedId = id;
         this.selectedCapacidad = capacidad;
 
-        this.habitacionService.filterEstancias(this.selectedId, this.selectedCapacidad)
+        if(orden != "Ordenar por:") this.campo = orden;
+        else this.campo = undefined;
+
+        if(this.init_row == undefined)
+        this.init_row = 0;
+
+        while(this.init_page>1) {
+                this.init_page--;
+                this.init_row = this.init_row-5;
+        } 
+        this.habitacionService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, false)
                 .subscribe(
                 response => {
-                         this.habitaciones = response;
-                         this.setHabitaciones(this.habitaciones);    
+                        console.log(response);
+                        this.rows = response.length;
+                        if(response.length > 5) { //hace falta paginacion
+                                this.habitacionService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, true)
+                                .subscribe(
+                                response => {
+                                        this.habitaciones = response;
+                                        this.setPages();
+                                }
+                                );
+                        }
+                        else {
+                                this.habitaciones = response;
+                                this.setPages();
+                        } 
                 },           
                 error => {
                         console.log(error);
@@ -178,9 +218,59 @@ export class HabitacionComponent implements OnInit {
         );
     }
 
-      setHabitaciones(response){
-                     console.log(response);
-                     this.habitaciones = response;          
+    setPages() {
+        this.init_page = 1;
+        this.pages = Math.ceil((parseInt(this.rows)/5));
+        console.log(this.pages);
+        if(this.pages == 0) {
+        this.pages = 1;
+        }
     }
+
+    nextPage() {
+    if(this.init_page<this.pages) {
+      this.init_page++;
+      this.init_row = this.init_row+5;
+    }
+
+    this.habitacionService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, true)
+    .subscribe(
+        response => {
+            console.log(response);
+            this.habitaciones = response;
+        }
+    )
+}
+
+lastPage() {
+    if(this.init_page>1) {
+      this.init_page--;
+      this.init_row = this.init_row-5;
+    }
+
+this.habitacionService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, true)    
+.subscribe(
+        response => {
+            console.log(response);
+            this.habitaciones = response;
+        }
+    )
+}
+
+getEstancias() { //Se llama para recargar los productos cuando se crea uno nuevo
+  this.habitacionService.getHabitaciones() //inicialmente hacer getProductos para ver cuantos hay y guardarme el numero de filas
+        .subscribe(
+            response => {
+                if(this.init_row == undefined)
+                  this.init_row = 0;
+                this.rows = response.length;
+                this.setPages();
+                this.habitacionService.filterEstancias(undefined, undefined, undefined, 0, true);
+            },
+            error => {
+
+            }
+        );
+}
 
 }

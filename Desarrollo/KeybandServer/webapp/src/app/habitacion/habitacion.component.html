@@ -1,7 +1,7 @@
 <div class="dashboard_graph">
 <div class="clearfix">
 <div class="container">
- <form class="form-inline" (ngSubmit)="onChange(identificador.value, capacidades.value)">
+ <form class="form-inline" (ngSubmit)="onChange(identificador.value, capacidades.value, ordenHa.value)">
    <div class="form-group">
      <input class="form-control" size="25" #identificador class="form-control" type="text" placeholder="Búsqueda por identificador">
      <input class="form-control" size="25" #capacidades class="form-control" type="text" placeholder="Búsqueda por capacidad">
@@ -153,3 +153,9 @@
                   </div>            
                 </div>
               </div>
+                                          <!--NUEVO-->
+  <div class="pagination">
+      <button class="arrows" (click)="lastPage();" href="#">&laquo;</button>
+        <span>{{init_page}} de {{pages}}</span>
+      <button class="arrows" (click)="nextPage();" href="#">&raquo;</button>
+  </div> 

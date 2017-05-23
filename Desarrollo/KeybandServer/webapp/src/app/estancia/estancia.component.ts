@@ -16,6 +16,13 @@ export class EstanciaComponent implements OnInit {
  public selectedId;
  public selectedCapacidad;
 
+/*NUEVAS VARIABLES*/
+ public campo;
+public init_row;
+public pages;
+public init_page;
+public rows;
+
  crear: boolean = false;
  edit: boolean = false;
  disabled: boolean = false;
@@ -24,8 +31,18 @@ export class EstanciaComponent implements OnInit {
         this.estanciaService.getEstancias()
             .subscribe(
             response => {
-                        this.estancias = response;
-                        //console.log(this.estancias);
+                        /*EL SUBSCRIBE ES NUEVO ENTERO*/
+                        if(this.init_row == undefined)
+                                this.init_row = 0;
+                                this.init_page = 1;
+                                this.pages = Math.ceil((parseInt(response.length)/5));                                         
+                                this.estanciaService.filterEstancias(undefined, undefined, undefined, this.init_row, true)
+                                .subscribe(
+                                        response=> {
+                                        this.estancias = response;
+                                        console.log(this.estancias);
+                                        }
+                                )
                 },
                 error => {
                         alert("Error en la petición");
@@ -64,7 +81,7 @@ export class EstanciaComponent implements OnInit {
                 this.getEstancias();
             });
     }
-
+/*
     getEstancias() {
         this.estanciaService.getEstancias()
             .subscribe(
@@ -76,7 +93,7 @@ export class EstanciaComponent implements OnInit {
                         alert("Error en la petición");
                 }
             ); 
-    }
+    }*/
 
     crearEstancias(id, capacidad, descripcion) {
       this.estanciaService.putEstancia(id, capacidad, descripcion).subscribe(
@@ -156,21 +173,100 @@ export class EstanciaComponent implements OnInit {
                 );
     }
 
-    onChange(id, capacidad) { //cuando se pulsa en buscar
+    onChange(id, capacidad, orden) { //cuando se pulsa en buscar
         this.selectedId = id;
         this.selectedCapacidad = capacidad;
 
-        this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad)
+        if(orden != "Ordenar por:") this.campo = orden;
+        else this.campo = undefined;
+
+        if(this.init_row == undefined)
+        this.init_row = 0;
+
+        while(this.init_page>1) {
+                this.init_page--;
+                this.init_row = this.init_row-5;
+        } 
+        this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, false)
                 .subscribe(
                 response => {
-                         this.estancias = response;
-                         this.setEstancias(this.estancias);    
+                        console.log(response);
+                        this.rows = response.length;
+                        if(response.length > 5) { //hace falta paginacion
+                                this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, true)
+                                .subscribe(
+                                response => {
+                                        this.estancias = response;
+                                        this.setPages();
+                                }
+                                );
+                        }
+                        else {
+                                this.estancias = response;
+                                this.setPages();
+                        }
+                        this.setPages(); 
+                        console.log(this.pages);   
                 },           
                 error => {
                         console.log(error);
                 }
         );
     }
+
+    setPages() {
+        this.init_page = 1;
+        this.pages = Math.ceil((parseInt(this.rows)/5));
+        console.log(this.pages);
+        if(this.pages == 0) {
+        this.pages = 1;
+        }
+    }
+
+    nextPage() {
+    if(this.init_page<this.pages) {
+      this.init_page++;
+      this.init_row = this.init_row+5;
+    }
+
+    this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, true)
+    .subscribe(
+        response => {
+            console.log(response);
+            this.estancias = response;
+        }
+    )
+}
+
+lastPage() {
+    if(this.init_page>1) {
+      this.init_page--;
+      this.init_row = this.init_row-5;
+    }
+
+this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, true)    .subscribe(
+        response => {
+            console.log(response);
+            this.estancias = response;
+        }
+    )
+}
+
+getEstancias() { //Se llama para recargar los productos cuando se crea uno nuevo
+  this.estanciaService.getEstancias() //inicialmente hacer getProductos para ver cuantos hay y guardarme el numero de filas
+        .subscribe(
+            response => {
+                if(this.init_row == undefined)
+                  this.init_row = 0;
+                this.rows = response.length;
+                this.setPages();
+                this.estanciaService.filterEstancias(undefined, undefined, undefined, 0, true);
+            },
+            error => {
+
+            }
+        );
+}
 
   ngOnInit() {
   }

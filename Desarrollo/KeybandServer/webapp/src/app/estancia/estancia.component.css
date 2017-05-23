@@ -40,3 +40,9 @@ tr{
     background: #2A3F54;
     margin-top: 0.75em;
 }
+/*NUEVO clases nuevas*/
+.input-xs {
+    height: 22px;
+  padding: 2px 5px;
+  font-size: 12px;
+}
