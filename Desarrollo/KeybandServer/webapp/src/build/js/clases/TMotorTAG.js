@@ -22,6 +22,8 @@ define(function (require) {
         this.numberOfCameras= 0;
         this.numberOfMallas = 0;
         this.frustum = new Frustum();
+        this.porcentajes = [];
+        this.mapa_activado = false;
     }
 
    TMotorTAG.prototype = { 
@@ -142,7 +144,11 @@ define(function (require) {
             prg[0].uShininess          = gl.getUniformLocation(prg[0], "uShininess");
 
             prg[0].hasTexture          = gl.getUniformLocation(prg[0], "hasTexture");
-            
+
+            prg[0].mapa_activado          = gl.getUniformLocation(prg[0], "mapa_activado");
+            prg[0].colorMapa          = gl.getUniformLocation(prg[0], "colorMapa");
+            prg[0].pintable          = gl.getUniformLocation(prg[0], "pintable");
+
             prg[0].SunPosition     = gl.getUniformLocation(prg[0], "SunPosition");
              prg[0].u_PosLuz     = gl.getUniformLocation(prg[0], "u_PosLuz");
              prg[0].viewPos     = gl.getUniformLocation(prg[0], "viewPos");
@@ -150,13 +156,23 @@ define(function (require) {
 
             prg[0].uSampler          = gl.getUniformLocation(prg[0], "uSampler");
 
-            gl.uniform1f(prg[0].hasTexture, 0.0);;
+              /* FERNANDO */
+            prg[0].TipoSala         = gl.getUniformLocation(prg[0], "TipoSala");
+            //TIEMPO
+            prg[0].uTime        = gl.getUniformLocation(prg[0], "uTime");
+            //RESOLUCION
+            prg[0].resolution = gl.getUniformLocation(prg[0], "resolution");
+
+            gl.uniform1f(prg[0].hasTexture, 0.0);
+            gl.uniform1f(prg[0].mapa_activado, 0.0);
+            gl.uniform1f(prg[0].pintable, 0.0);
             /*SITIO NUEVO de estas tres lineas de abajo*/
             gl.enableVertexAttribArray(prg[0].aVertexPosition);
             gl.enableVertexAttribArray(prg[0].aVertexTexCoord);
             gl.enableVertexAttribArray(prg[0].aVertexNormal);
 
             gl.enableVertexAttribArray(prg[0].aVertexTextureCoords);
+            
 
             /***********************SHADER 2********************** */
              var fgShader = utils.getShader(gl, 'shader-fs2');
@@ -188,7 +204,7 @@ define(function (require) {
         },
         
         renderLoop: function() {
-            gl.clearColor(0.3,0.3,0.3, 1.0);
+            gl.clearColor(0.968,0.968,0.968, 1.0);
             gl.clearDepth(100.0);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LEQUAL);
@@ -353,8 +369,240 @@ define(function (require) {
             //gl.uniform4fv(prg[0].uColorLocation,[1,1,1,1.0])    //esto pinta el objeto con textura tal y como es
 
             
-        }
+        },
+        initMap: function(){
+            let PiscinaActual;
+            let PiscinaTotal;
+            let SpaA;
+            let SpaT;
+            let ComA;
+            let ComT;
+            let GymA;
+            let GymT;
+            let MasA;
+            let MasT;
+            let boolp1 = false;
+            let boolp2 = false;
+
+            let boolp11 = false;
+            let boolp21 = false;
+
+            let boolp13 = false;
+            let boolp23 = false;
+
+            let boolp14 = false;
+            let boolp24 = false;
+
+            let boolp15 = false;
+            let boolp25 = false;
             
+            /*PISCINA*/ 
+             var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Afoto actual piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].count)
+                             PiscinaActual = a[0].count;
+                             boolp1=true;
+                             if(boolp2==true)
+                                motor.calcularPorcentaje(1,PiscinaTotal,PiscinaActual);
+                        }
+                    }
+                };
+                xhttp.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/aforo/Piscina", true);
+                xhttp.send();
+            
+             var xhttp2 = new XMLHttpRequest();
+                xhttp2.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Capacidad  piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].capacidad)
+                             PiscinaTotal = a[0].capacidad;
+                             boolp2 = true;
+                             if(boolp1==true)
+                                motor.calcularPorcentaje(1,PiscinaTotal,PiscinaActual);
+                        }
+                    }
+                };
+                xhttp2.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/Piscina", true);
+                xhttp2.send();
+
+                /*SPA */
+                 var xhttp3 = new XMLHttpRequest();
+                xhttp3.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Afoto actual SPA");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].count)
+                             SpaA = a[0].count;
+                             boolp11=true;
+                             if(boolp21==true)
+                                motor.calcularPorcentaje(4,SpaT,SpaA);
+                        }
+                    }
+                };
+                xhttp3.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/aforo/Spa", true);
+                xhttp3.send();
+            
+             var xhttp4 = new XMLHttpRequest();
+                xhttp4.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Capacidad  piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].capacidad)
+                             SpaT = a[0].capacidad;
+                             boolp21 = true;
+                             if(boolp11==true)
+                                motor.calcularPorcentaje(4,SpaT,SpaA);
+                        }
+                    }
+                };
+                xhttp4.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/Spa", true);
+                xhttp4.send();
+
+
+                 /*COMEDOR*/ 
+             var xhttp5 = new XMLHttpRequest();
+                xhttp5.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Afoto actual piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].count)
+                             ComA = a[0].count;
+                             boolp13=true;
+                             if(boolp23==true)
+                                motor.calcularPorcentaje(3,ComT,ComA);
+                        }
+                    }
+                };
+                xhttp5.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/aforo/Comedor", true);
+                xhttp5.send();
+            
+             var xhttp6 = new XMLHttpRequest();
+                xhttp6.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Capacidad  piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].capacidad)
+                             ComT = a[0].capacidad;
+                             boolp23 = true;
+                             if(boolp13==true)
+                                motor.calcularPorcentaje(3,ComT,ComA);
+                        }
+                    }
+                };
+                xhttp6.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/Comedor", true);
+                xhttp6.send();
+
+
+                      /*GIMNASIO*/ 
+             var xhttp7 = new XMLHttpRequest();
+                xhttp7.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Afoto actual piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].count)
+                             GymA = a[0].count;
+                             boolp14=true;
+                             if(boolp24==true)
+                                motor.calcularPorcentaje(2,GymT,GymA);
+                        }
+                    }
+                };
+                xhttp7.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/aforo/Gimnasio", true);
+                xhttp7.send();
+            
+             var xhttp8 = new XMLHttpRequest();
+                xhttp8.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Capacidad  piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].capacidad)
+                             GymT = a[0].capacidad;
+                             boolp24 = true;
+                             if(boolp14==true)
+                                motor.calcularPorcentaje(2,GymT,GymA);
+                        }
+                    }
+                };
+                xhttp8.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/Gimnasio", true);
+                xhttp8.send();
+
+
+                       /*ZONA MASAJES*/ 
+             var xhttp9 = new XMLHttpRequest();
+                xhttp9.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Afoto actual piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].count)
+                             MasA = a[0].count;
+                             boolp15=true;
+                             if(boolp25==true)
+                                motor.calcularPorcentaje(5,MasT,MasA);
+                        }
+                    }
+                };
+                xhttp9.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/aforo/ZonaMasajes", true);
+                xhttp9.send();
+            
+             var xhttp10 = new XMLHttpRequest();
+                xhttp10.onreadystatechange = function() {
+                    if(this.readyState == 4){
+                        if(this.status==200){
+                             console.log("Capacidad  piscina");
+                             let a = JSON.parse(this.responseText);
+                            console.log(a[0].capacidad)
+                             MasT = a[0].capacidad;
+                             boolp25 = true;
+                             if(boolp15==true)
+                                motor.calcularPorcentaje(5,MasT,MasA);
+                        }
+                    }
+                };
+                xhttp10.open("GET", "http://localhost/Keyband/Desarrollo/KeybandServer/rest/estancia/ZonaMasajes", true);
+                xhttp10.send();
+        },
+        isMapActivated:function(){
+            return this.mapa_activado;
+           
+        },
+        mapacalor:function(){
+            if(this.mapa_activado==false){
+                this.mapa_activado = true;
+                gl.uniform1f(prg[0].mapa_activado, 1.0);
+           
+            }else{
+                  this.mapa_activado = false;
+                 gl.uniform1f(prg[0].mapa_activado, 0.0);
+            }
+            
+             
+        },
+        calcularPorcentaje: function(estancia,capacidad, aforo){
+            console.log("Calculando porcentaje");
+            console.log(estancia + " "+ capacidad+ " "+ aforo);
+            this.porcentajes[estancia]  = ((aforo*100)/capacidad);
+            //this.porcentajes[estancia] = 80.0;
+            if(estancia==1){
+                 this.porcentajes[6] =((aforo*100)/capacidad);
+            }
+            //alert(this.porcentajes[estancia]);
+        },
+        getPorcentaje: function(sala){
+            return this.porcentajes[sala];
+        }
     }; 
     //metodos para registro y manejo de camaras, luces y viewports
 

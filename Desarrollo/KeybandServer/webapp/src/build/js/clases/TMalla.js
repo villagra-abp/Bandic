@@ -154,87 +154,104 @@ define(function (require) {
             motor.setfrustum(mvp);
             var visible = motor.esVisible(this.center,this.radio);
             if(visible==false){
-                console.log(this.nombre + "INVISIBLE");
+                //console.log(this.nombre + "INVISIBLE");
             }
-            if(this.shadertype==0){
-                 try{
-                     
-                      gl.uniformMatrix4fv(prg[0].uMMatrix, false, matModel);
-                     gl.uniform4fv(prg[0].uColorLocation,[1,1,1,1.0])    //esto pinta el objeto con textura tal y como es
-                    gl.uniformMatrix4fv(prg[0].uMVMatrix, false, mvMatrix);
+            else{
+                if(this.shadertype==0){
+                    try{
+                        if(this.sala!=0){
+                            gl.uniform1f(prg[0].pintable, 1.0);
+                        }else{
+                             gl.uniform1f(prg[0].pintable, 0.0);
+                        }
+                        gl.uniformMatrix4fv(prg[0].uMMatrix, false, matModel);
+                        gl.uniform4fv(prg[0].uColorLocation,[1,1,1,1.0])    //esto pinta el objeto con textura tal y como es
+                        gl.uniformMatrix4fv(prg[0].uMVMatrix, false, mvMatrix);
 
-                    var normalMatrix = mat4.transpose(mat4.inverse(mvMatrix));
-                    gl.uniformMatrix4fv(prg[0].uNMatrix, false, normalMatrix);
-                    /*esto está ahora en initprogram, porque creo que solo es necesario hacerlo una vez*/
-                    /*gl.enableVertexAttribArray(prg.aVertexPosition);
-                    gl.enableVertexAttribArray(prg.aVertexTexCoord);
-                    gl.enableVertexAttribArray(prg.aVertexNormal);*/
-                    
-                    
-                    //2. bind buffers 
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuffer);
-                    gl.vertexAttribPointer(prg[0].aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+                        var normalMatrix = mat4.transpose(mat4.inverse(mvMatrix));
+                        gl.uniformMatrix4fv(prg[0].uNMatrix, false, normalMatrix);
+                        /*esto está ahora en initprogram, porque creo que solo es necesario hacerlo una vez*/
+                        /*gl.enableVertexAttribArray(prg.aVertexPosition);
+                        gl.enableVertexAttribArray(prg.aVertexTexCoord);
+                        gl.enableVertexAttribArray(prg.aVertexNormal);*/
+                        
+                        if(motor.isMapActivated()){
+                           let a = motor.getPorcentaje(this.sala);
+                           //console.log(a);
+                           gl.uniform1f(prg[0].colorMapa, a);
+                           // console.log("DrawMalla"+ a );
+                        }
+                        //2. bind buffers 
+                        gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuffer);
+                        gl.vertexAttribPointer(prg[0].aVertexPosition, 3, gl.FLOAT, false, 0, 0);
 
-                    if (this.texture_coords){
-                        //gl.enableVertexAttribArray(prg[0].aVertexTexCoord);
-                        gl.uniform1f(prg[0].hasTexture, 1.0);
-                        //gl.enableVertexAttribArray(prg[0].aVertexTextureCoords);
-                        gl.bindBuffer(gl.ARRAY_BUFFER, this.tbuffer);
-                        gl.vertexAttribPointer(prg[0].aVertexTextureCoords, 2, gl.FLOAT, false, 0, 0);
+                        if (this.texture_coords){
+                            //gl.enableVertexAttribArray(prg[0].aVertexTexCoord);
+                            gl.uniform1f(prg[0].hasTexture, 1.0);
+                            //gl.enableVertexAttribArray(prg[0].aVertexTextureCoords);
+                            gl.bindBuffer(gl.ARRAY_BUFFER, this.tbuffer);
+                            gl.vertexAttribPointer(prg[0].aVertexTextureCoords, 2, gl.FLOAT, false, 0, 0);
 
-                        gl.activeTexture(gl.TEXTURE0); //gl.TEXTURE0+this.id con muchos objetos?
-                        gl.bindTexture(gl.TEXTURE_2D, gestorRecursos.GetTextura(this.id));
-                        gl.uniform1i(prg[0].uSampler, 0);
+                            gl.activeTexture(gl.TEXTURE0); //gl.TEXTURE0+this.id con muchos objetos?
+                            gl.bindTexture(gl.TEXTURE_2D, gestorRecursos.GetTextura(this.id));
+                            gl.uniform1i(prg[0].uSampler, 0);
 
-                    }else{
-                        gl.uniform1f(prg[0].hasTexture, 0.0);
-                        gl.bindBuffer(gl.ARRAY_BUFFER, this.tbuffer);
-                        gl.vertexAttribPointer(prg[0].aVertexTextureCoords, 2, gl.FLOAT, false, 0, 0);
-                       //gl.disableVertexAttribArray(prg[0].aVertexTexCoord);
+                             /* FERNANDO */
+                        
+                        gl.uniform1i (prg[0].TipoSala, this.sala);   
+                        gl.uniform1f(prg[0].uTime, (Date.now() - startTime)/1000.0);
+                        gl.uniform2f(prg[0].resolution, c_width, c_height);
+
+                        }else{
+                            gl.uniform1f(prg[0].hasTexture, 0.0);
+                            gl.bindBuffer(gl.ARRAY_BUFFER, this.tbuffer);
+                            gl.vertexAttribPointer(prg[0].aVertexTextureCoords, 2, gl.FLOAT, false, 0, 0);
+                        //gl.disableVertexAttribArray(prg[0].aVertexTexCoord);
+                        }
+
+                        gl.bindBuffer(gl.ARRAY_BUFFER, this.nbuffer);
+                        gl.vertexAttribPointer(prg[0].aVertexNormal,3,gl.FLOAT, false, 0,0);
+
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.ibuffer);
+                        gl.drawElements(gl.TRIANGLES, this.indices.length, gl.UNSIGNED_SHORT,0);
+
+                        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
                     }
-
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this.nbuffer);
-                    gl.vertexAttribPointer(prg[0].aVertexNormal,3,gl.FLOAT, false, 0,0);
-
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.ibuffer);
-                    gl.drawElements(gl.TRIANGLES, this.indices.length, gl.UNSIGNED_SHORT,0);
-
-                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-
+                    catch(err){
+                        alert(err);
+                        message(err.description);
+                    }
                 }
-                catch(err){
-                    alert(err);
-                    message(err.description);
+                else if(this.shadertype==1){    //render agua
+                    gl.useProgram(prg[1]);
+                    mat4.perspective(45, c_width / c_height, 0.1, 10000.0, pMatrix);
+                    gl.uniformMatrix4fv(prg[1].pMatrixUniform, false, pMatrix);
+                    gl.uniform4fv(prg[1].uColorLocation,[0.27,0.43,0.86,1.0])
+                    try{
+                
+                        gl.uniformMatrix4fv(prg[1].mvMatrixUniform, false, mvMatrix);
+
+
+                        //2. bind buffers 
+                        gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuffer);
+                        gl.vertexAttribPointer(prg[1].aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+
+                    
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.ibuffer);
+                        gl.drawElements(gl.TRIANGLES, this.indices.length, gl.UNSIGNED_SHORT,0);
+
+                        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
+                    }
+                    catch(err){
+                        alert(err);
+                        message(err.description);
+                    }
+                    gl.useProgram(prg[0]);
                 }
-            }
-            else if(this.shadertype==1){    //render agua
-                gl.useProgram(prg[1]);
-                 mat4.perspective(45, c_width / c_height, 0.1, 10000.0, pMatrix);
-                gl.uniformMatrix4fv(prg[1].pMatrixUniform, false, pMatrix);
-                gl.uniform4fv(prg[1].uColorLocation,[0.27,0.43,0.86,1.0])
-                 try{
-             
-                    gl.uniformMatrix4fv(prg[1].mvMatrixUniform, false, mvMatrix);
-
-
-                    //2. bind buffers 
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbuffer);
-                    gl.vertexAttribPointer(prg[1].aVertexPosition, 3, gl.FLOAT, false, 0, 0);
-
-                  
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.ibuffer);
-                    gl.drawElements(gl.TRIANGLES, this.indices.length, gl.UNSIGNED_SHORT,0);
-
-                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-
-                }
-                catch(err){
-                    alert(err);
-                    message(err.description);
-                }
-                gl.useProgram(prg[0]);
             }
             
         },

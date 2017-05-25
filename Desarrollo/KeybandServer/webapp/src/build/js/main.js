@@ -9,6 +9,7 @@ var MatView;
 var interactor;
 var transformRot;
 var transformTra;
+var startTime = Date.now();
 define(function (require) {
    "use strict";
     //************************************REQUIRES************************************//
@@ -33,7 +34,7 @@ define(function (require) {
     
     /*Translación Luz*/
     let mat3 = mat4.identity();
-    mat4.translate(mat3,[5.0,0.0,4.0])
+    mat4.translate(mat3,[5.0,0.0,-4.0])
     var transformLuz = motor.crearTransform(mat3);
 
     /*Rotación malla*/ 
@@ -123,35 +124,38 @@ define(function (require) {
     //MALLA 1
     /**
      * indice salas
-     * 0: exterior
+     * 0: exterior / no se pinta
      * 1: piscina
      * 2: gym
      * 3: comedor
      * 4: SPA
      * 5: masaje
+     * 6: bordepiscina
      */
                         //nombre, sala, shadertype, hasTexture, textura, rot, tra
     motor.crearMalla2("cesped.3ds",0,0, true,'cesped.png',0,[0.0,0.0,0.0] );    
-     motor.crearMalla2("bordepiscina.3ds",2,0, true,'bordepiscina.png',0,[0.0,0.0,0.0] );
-     motor.crearMalla2("fondopiscina.3ds",2,0, true,'fondopiscina.png',0,[0.0,0.0,0.0] );
+     motor.crearMalla2("bordepiscina.3ds",6,0, true,'bordepiscina.png',0,[0.0,0.0,0.0] );
+     motor.crearMalla2("fondopiscina.3ds",6,0, true,'fondopiscina.png',0,[0.0,0.0,0.0] );
+     motor.crearMalla2("aguadefinitiva.3ds",1,0, true,'agua.png',0,[0.0,0.0,0.0] );
     //MALLA 2 
     motor.crearMalla2("gym.3ds",2,0, true, 'gym.png', 0, [0.0,0.0,0.0] );
-    motor.crearMalla2("bancos.3ds",2,0, true, 'bancos.png', 0, [0.0,0.0,0.0] );
-    motor.crearMalla2("pesas.3ds",2,0, true, 'pesas.png', 0, [0.0,0.0,0.0] );
-
+    motor.crearMalla2("bancos.3ds",0,0, true, 'bancos.png', 0, [0.0,0.0,0.0] );
+    motor.crearMalla2("pesas.3ds",0,0, true, 'pesas.png', 0, [0.0,0.0,0.0] );
+    motor.crearMalla2("comedor.3ds",3,0, true, 'comedor.png',0, [0.0,0.0,0.0]);
+     motor.crearMalla2("mesas.3ds",0,0, true, 'mesas.png', 0, [0.0,0.0,0.0] );
+     motor.crearMalla2("spa.3ds",4,0, true,'spa.png',0,[0.0,0.0,0.0] );
      motor.crearMalla2("masaje.3ds",5,0, true, 'masaje.png', 0, [0.9,0.0,0.0] );
-     motor.crearMalla2("camillasmasaje.3ds",5,0, true, 'camillasmasaje.png', 0, [0.0,0.0,0.0] );
-     motor.crearMalla2("patasmasaje.3ds",5,0, true, 'patasmasaje.png', 0, [0.0,0.0,0.0] );
-     motor.crearMalla2("letras.3ds",0,0, true, 'letras.png', 0, [0.0,0.0,0.0] );
-     //MALLA 3 
-     motor.crearMalla2("comedor.3ds",3,0, true, 'comedor.png',0, [0.0,0.0,0.0]);
-     motor.crearMalla2("mesas.3ds",3,0, true, 'mesas.png', 0, [0.0,0.0,0.0] );
-   motor.crearMalla2("spa.3ds",4,0, true,'spa.png',0,[0.0,0.0,0.0] );
+     motor.crearMalla2("camillasmasaje.3ds",0,0, true, 'camillasmasaje.png', 0, [0.0,0.0,0.0] );
+     motor.crearMalla2("patasmasaje.3ds",0,0, true, 'patasmasaje.png', 0, [0.0,0.0,0.0] );
+     motor.crearMalla2("letrerospa.3ds",0,0, true, 'letras.png', 0, [0.0,0.0,0.0] );
+     motor.crearMalla2("letreros.3ds",0,0, true, 'letras.png', 0, [0.0,0.0,0.0] );
  /*  motor.crearMalla2("gym2.3ds",2,0, true,'gym.png',0,[0.0,0.0,0.0] );
    motor.crearMalla2("masaje2.3ds",5,0, true,'masaje.png',0,[0.0,0.0,0.0] );
    motor.crearMalla2("comedor2.3ds",3,0, true,'comedor.png',0,[0.0,0.0,0.0] );*/
 
-   motor.crearMalla2("centro.3ds",3,0, false,'comedor.png',0,[3,3,3] );  
+motor.crearMalla2("pesas2.3ds",0,0, true, 'pesas.png', 0, [-0.2,0.0,-0.5] );
+motor.crearMalla2("bancos2.3ds",0,0, true, 'bancos.png', 0, [-0.2,0.0,-0.5] );
+   //motor.crearMalla2("centro.3ds",3,0, false,'comedor.png',0,[3,3,-3] );  
     motor.setEscena(nEscena);
     console.log("nodo raíz:");
     console.log(nEscena);
@@ -182,6 +186,10 @@ function runWebGLApp() {
     motor.initBuffers();
     //Initializes lights
     motor.initLights();
+    motor.initMap();
     //Renders the scene!
     motor.renderLoop();
+}
+function mapacalor(){
+    motor.mapacalor();
 }
