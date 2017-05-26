@@ -156,6 +156,10 @@ getProductos() { //Se llama para recargar los productos cuando se crea uno nuevo
             response => {
                 if(this.init_row == undefined)
                   this.init_row = 0;
+                while(this.init_page>1) {
+                  this.init_page--;
+                  this.init_row = this.init_row-5;
+                }
                 this.setRows(response.length);
                 this.setPages(this.productos);
                 this.filterProductos(this.selectedId, this.selectedNombre, this.selectedCategoria, this.selectedReservable, 0);

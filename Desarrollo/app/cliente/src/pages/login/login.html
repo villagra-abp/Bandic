@@ -1,0 +1,33 @@
+<ion-content padding style="text-align: center; margin-top: 30%">
+  <ion-thumbnail item-center>
+    <img src="img/icono.png" style="margin-left: 35%; margin-bottom: 1em; width: 30%; height: 30%;">
+  </ion-thumbnail>
+  <form [formGroup]="formLogin" (ngSubmit)="doLogin()">
+      <ion-item>
+        <ion-label>DNI</ion-label>
+        <ion-input type="text" formControlName="DNI"></ion-input>
+        
+      </ion-item>
+      <ion-item>
+        <ion-label>Password</ion-label>
+        <ion-textarea formControlName="password"></ion-textarea>
+      </ion-item>
+      <ion-item >
+        <p *ngIf="formLogin.controls.password.errors.required">
+          Este campo es requerido.
+        </p>
+        <p *ngIf="formLogin.controls.password.errors.minlength">
+          Debe ser mayor a 4 c
+        </p>
+        <p *ngIf="formLogin.controls.password.errors.maxlength">
+          Debe ser menor a 8 c
+        </p>
+        <p *ngIf="formLogin.controls.password.errors.pattern">
+          No acepto numeros
+        </p>
+      </ion-item>
+      <!--button block  style="margin-top: 2em; width: 80%; margin-left: 10%" ion-button type="submit" [disabled]="!formLogin.valid">Submit</button-->
+            <button block  style="margin-top: 2em; width: 80%; margin-left: 10%" ion-button type="submit">Submit</button>
+    </form>
+    <button ion-button clear (click)="forgetPass()">¿Olvidaste tu contraseña?</button>
+  <ion-content>

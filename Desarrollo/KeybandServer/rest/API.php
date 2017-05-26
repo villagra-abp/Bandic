@@ -11,6 +11,7 @@ require_once "Resources/LineaTicketResource.php";
 require_once "Resources/PermisoResource.php";
 require_once "Resources/PromocionResource.php";
 require_once "Resources/TpvResource.php";
+require_once "Resources/UploadResource.php";
 require_once "ShareOnFb.php";
 //require_once "Resources/UploadResource.php";
 
@@ -94,6 +95,9 @@ class API {
             	header('Content-Type: text/html; charset=utf-8');
             	Share::methodShare($method,$type);
             	break;
+            case 'upload':
+            		UploadResource::methodUpload($method, $type);
+            		break;
             default:
             	header('HTTP/1.1 404 Not Found');
                 break;

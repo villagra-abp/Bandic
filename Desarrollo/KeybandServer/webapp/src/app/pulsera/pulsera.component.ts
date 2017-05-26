@@ -239,9 +239,13 @@ getPulseras() { //Se llama para recargar los productos cuando se crea uno nuevo
             response => {
                 if(this.init_row == undefined)
                   this.init_row = 0;
+                while(this.init_page>1) {
+                    this.init_page--;
+                    this.init_row = this.init_row-5;
+                } 
                 this.rows = response.length;
                 this.setPages(response);
-                this.pulseraService.filterPulseras(undefined, undefined, undefined, undefined, 0, true);
+                this.filterPulseras(undefined, undefined, undefined, 0);
             },
             error => {
 
@@ -249,6 +253,40 @@ getPulseras() { //Se llama para recargar los productos cuando se crea uno nuevo
         );
 }
 
+comprobarUsuario(usuario) {
+  document.getElementById("errorusu2").style.visibility = "hidden";
+            this.pulseraService.getUsuario(usuario)
+                .subscribe(
+                        response =>{
+                          console.log(response);
+                                if(response[0].dni == usuario && response.length == 1){
+                                        document.getElementById("usuario").style.borderColor = 'blue';
+                                        document.getElementById("errorusu2").style.visibility = "hidden";
+                                        document.getElementById("crearpulsera").removeAttribute("disabled");
+                                 }
+                                else{
+                                      
+                                        document.getElementById("usuario").style.borderColor= 'red';
+                                        document.getElementById("errorusu2").style.visibility = "visible";
+                                        document.getElementById("crearpulsera").setAttribute("disabled","disabled");
+                                }
+                        }
+                );
+}
+
+filterPulseras(id, usuario, estado, initrow) { //Solo se llama desde el constructor, resultado por defecto de todos los productos
+  this.pulseraService.filterPulseras(id, usuario, estado, this.campo, initrow, true)
+         .subscribe(
+            response => {
+                this.pulseras = response;
+                console.log(this.pulseras);
+            },
+            error => {
+              console.log(error)
+                alert("Error en la petición");
+            }
+         );
+}
 
   ngOnInit() {
   }

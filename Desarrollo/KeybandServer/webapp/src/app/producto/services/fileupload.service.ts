@@ -39,7 +39,6 @@ public getObserver (): Observable<number> {
  */
 
 public upload (id: string, type: string, files: File[], method: string): Promise<any> {
-    id = "nuevo";
     return new Promise((resolve, reject) => {
         let formData: FormData = new FormData(),
             xhr: XMLHttpRequest = new XMLHttpRequest();

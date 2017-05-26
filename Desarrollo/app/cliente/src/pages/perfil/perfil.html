@@ -1,0 +1,75 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Perfil</ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click) = "settings()">
+        <ion-icon name="information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+<ion-toolbar no-border-top style = "background-color: rgba(110,175,220,0.1);">
+    <ion-segment [(ngModel)]="pag">
+      <ion-segment-button value="cuenta" (click) = "LoadData()">
+        Mi cuenta
+      </ion-segment-button>
+      <ion-segment-button value="gastos">
+        Mis gastos
+      </ion-segment-button>
+      <!--ion-segment-button value="estancias" (click) = "estancias()">
+        Mis estancias
+      </ion-segment-button-->
+    </ion-segment>
+  </ion-toolbar>
+<div [ngSwitch]="pag">
+  <ion-list *ngSwitchCase="'cuenta'" ngSelected="selected">
+      <ion-list style="text-align: center;" *ngFor = "let usuario of usuarios">
+        <ion-avatar >
+          <img src="{{imagen}}" style="margin-left: 35%; margin-top: 2em; margin-bottom: 2em; width: 35%; height: 35%; border-radius: 40% 10% 40% 10%;">
+        </ion-avatar>
+        <h1>{{usuario.nombre}} {{usuario.apellidos}}</h1>
+        <!--ion-item >
+            <ion-label>Email:</ion-label>
+            <ion-input value={{usuario.email}}></ion-input>
+        </ion-item-->
+        <button ion-button secondary (click)="cambioPassword()" style="width: 60%; margin-bottom: 1em;">Cambiar contraseña</button>
+        <button ion-button secondary (click)="cerrarSesion()">Cerrar sesión</button>
+        <!--button ion-item (click)="cambioPassword()">
+            <h2>Cambiar contraseña</h2>
+        </button>
+        <button ion-item (click)="cerrarSesion()">
+            <h2>Cerrar sesión</h2>
+        </button>
+
+        <!--button ion-button (click)="storage()">Ver Storage</button>
+        <button ion-button (click)="storageDelete()">borrar Storage</button-->
+        
+        
+        <!--h2>Tus redes sociales</h2>
+        <h3 *ngIf="!facebook">Asocia tu cuenta de facebook para una mejor experiencia</h3>
+        <button *ngIf="!facebook" ion-button (click)="doFbLogin()">Vincular Facebook</button>
+        <h3 *ngIf="!twitter">Asocia tu cuenta de twitter para una mejor experiencia</h3>
+        <button *ngIf="!twitter" ion-button (click)="prueba()">Vincular Twitter</button-->
+      </ion-list>
+
+    </ion-list>
+    <ion-grid *ngSwitchCase="'gastos'" style="margin-top: 1em">
+      <ion-row style="background-color: #6eafdc; color:azure">
+        <ion-col width-45>Fecha</ion-col>
+        <ion-col width-45 style=" overflow: visible;">Concepto</ion-col>
+        <ion-col width-20 style="overflow: visible;">€</ion-col>
+        <ion-col width-10></ion-col>
+      </ion-row>
+      <ion-row style="margin-top: .5em" *ngFor="let item of tickets" (click)="detalleTicket(item.id)">
+        <ion-col width-45>{{item.fecha | date:"dd/MM/yyyy HH:mm"}}</ion-col>
+        <ion-col width-45 style=" overflow: visible;">{{item.tpvNombre}}</ion-col>
+        <ion-col width-20 style="overflow: visible;">{{item.total}} €    </ion-col>
+        <ion-icon style = "margin-top: .3em; margin-right: 1.5em;"name="ios-open-outline"></ion-icon>
+      </ion-row>
+    </ion-grid>
+</div>
+</ion-content>

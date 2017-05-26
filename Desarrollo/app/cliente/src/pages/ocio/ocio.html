@@ -1,0 +1,47 @@
+<ion-header >
+  <ion-navbar color="primary">
+    <ion-title>Productos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+<ion-toolbar no-border-top>
+  <ion-segment [(ngModel)]="pag">
+  <ion-segment-button value="promociones" (click) = "LoadPromociones()">
+      Promociones
+    </ion-segment-button>
+    <ion-segment-button value="productos" (click) = "LoadData()">
+      Productos
+    </ion-segment-button>
+    
+    <!--ion-segment-button value="estancias" (click) = "estancias()">
+      Mis estancias
+    </ion-segment-button-->
+  </ion-segment>
+</ion-toolbar>
+<div [ngSwitch]="pag">
+  <div *ngSwitchCase="'productos'" ngSelected="selected">
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-list>
+      <button ion-item (click)="detalleActividad(item)" *ngFor = "let item of items">
+        <ion-thumbnail item-left>
+          <img src="img/{{item.imagen}}">
+        </ion-thumbnail>
+        <h1>{{item.nombre}}</h1>
+        <h6>{{item.descripcion}}</h6>
+        <h6>Precio: {{item.precio}} €</h6>
+      </button>
+    </ion-list>
+  </div>
+    <div *ngSwitchCase="'promociones'" >
+      <ion-list no-lines>
+        <button style="border-radius: 5%" ion-item (click)="GetProducto(promocion.producto)" *ngFor = "let promocion of promociones" >
+          <img  src="img/promo/{{promocion.imagen}}">
+        <h1 style="position: absolute; margin-top: -30%; text-align: center; width: 88%;  font-weight: bold; font-size: 2.0em; color: white">{{promocion.titulo}}</h1>
+        <div style="position: absolute; margin-top: -15%; text-align: center; width: 88%; font-weight: bold; color: white; white-space: normal" [innerHTML]="promocion.descripcion"></div>
+      </button>
+    </ion-list>
+  </div>
+</div>
+  
+</ion-content>

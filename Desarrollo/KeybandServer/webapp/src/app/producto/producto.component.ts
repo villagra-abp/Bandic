@@ -56,6 +56,8 @@ export class ProductoComponent implements OnInit {
   public filter_categoria;
   public filter_reservable;
   public filter_init_row;
+  public id1;
+  public id2;
 
   constructor(private productoService: ProductoService, private fileuploadService: FileUploadService) {
       this.productoService.getEmpleados()

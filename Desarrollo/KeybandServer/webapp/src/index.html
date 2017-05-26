@@ -93,6 +93,8 @@ struct PointLight {
     vec3 specular;
 };
 uniform float hasTexture;//para saber si tiene textura
+uniform float mapa_activado;
+uniform float colorMapa;
 uniform sampler2D uSampler; //necesario ambos
 varying vec2 vTextureCoord;//necesario ambos
 
@@ -100,6 +102,12 @@ uniform vec3 SunPosition;  //necesario PointLight
 
 uniform float uShininess;        //necesario pointLight
 
+uniform float pintable;
+uniform int TipoSala;
+const float speed = 15.0;
+const float magnitude = 0.015;
+
+uniform float uTime;
 
 varying vec3 vPosition; //necesario phong
 varying vec3 vNormal;   //necesario pointLight y phong
@@ -109,6 +117,7 @@ varying vec3 vEyeVec;   //necesario pointLight
 
 vec4 Phong();
 vec4 CalcPointLight();
+vec4 CalcularColorMap();
 void main () // CALCULAR EL COLOR DEL FRAGMENTO
 {
     vec4 resul2 = CalcPointLight();
@@ -119,10 +128,17 @@ void main () // CALCULAR EL COLOR DEL FRAGMENTO
 }
 
 vec4 Phong () {
+    vec4 colormap = vec4(1.0,0.0,0.0,1.0);//a este le tengo que dar valor!!!!!!!!!!!!!!!!!!!!!!!!!
     vec4 LightIntensity = vec4(0.3,0.3,0.3, 1.0); //INTENSIDAD DE LA LUZ
      vec4 Kd = vec4(1.0,1.0,1.0,1.0); //COMPONENTE DIFUSA DEL MATERIAL
      vec4 Ka = vec4(0.3,0.3,0.3,1.0); //COMPONENTE AMBIENTAL DEL MATERIAL
      vec4 Ks = vec4(1.0,1.0,1.0,1.0); //COMPONENTE ESPECULAR DEL MATERIAL
+
+     if(mapa_activado== 1.0 && pintable==1.0){
+        Kd = CalcularColorMap();
+        Ka = CalcularColorMap();
+        Ks = CalcularColorMap();
+     }
      float Shininess = 100.0; //FACTOR DE BRILLO DEL MATERIAL
     vec3 n = normalize (vNormal);
     vec3 s = normalize (SunPosition - vPosition);
@@ -132,9 +148,24 @@ vec4 Phong () {
     vec4 Id;
     vec4 Is;
     if(hasTexture==1.0){
-         Ia = vec4(Ka * texture2D(uSampler,vTextureCoord));
-        Id = vec4(Kd * max (dot (s, n), 0.0) * texture2D(uSampler,vTextureCoord) );
-        Is = vec4(Ks *pow (max (dot (r,v), 0.0), Shininess) * texture2D(uSampler,vTextureCoord) );
+         if(TipoSala == 1){
+                    //AQUI SOLO IBAN LAS IA,ID,IS
+                    vec2 wavyCoord;
+                    wavyCoord.s = vTextureCoord.s + (sin(uTime+vTextureCoord.t*speed) * magnitude);
+                    wavyCoord.t = vTextureCoord.t + (cos(uTime+vTextureCoord.s*speed) * magnitude);
+
+                    //Ia = vec4(Ka * texture2D(uSampler,vTextureCoord));
+                    Ia = vec4(Ka * texture2D(uSampler,wavyCoord));
+                    //Id = vec4(Kd * max (dot (s, n), 0.0) * texture2D(uSampler,vTextureCoord) );
+                    Id = vec4(Kd * max (dot (s, n), 0.0) * texture2D(uSampler,wavyCoord));
+                    //Is = vec4(Ks *pow (max (dot (r,v), 0.0), Shininess) * texture2D(uSampler,vTextureCoord) );
+                    Is = vec4(Ks *pow (max (dot (r,v), 0.0), Shininess) * texture2D(uSampler,wavyCoord));
+        }
+        else{
+            Ia = vec4(Ka * texture2D(uSampler,vTextureCoord));
+            Id = vec4(Kd * max (dot (s, n), 0.0) * texture2D(uSampler,vTextureCoord) );
+            Is = vec4(Ks *pow (max (dot (r,v), 0.0), Shininess) * texture2D(uSampler,vTextureCoord) );
+        }
     }
     else{
         Ia = Ka;
@@ -150,13 +181,24 @@ vec4 Phong () {
 
 vec4 CalcPointLight()
 {
+    vec2 vTexturaFinal;
+     
+        if(TipoSala == 1){
+            vTexturaFinal.s = vTextureCoord.s + (sin(uTime+vTextureCoord.t*speed) * magnitude);
+            vTexturaFinal.t = vTextureCoord.t + (cos(uTime+vTextureCoord.s*speed) * magnitude);
+        }
+        else{
+
+            vTexturaFinal = vTextureCoord;
+            
+        }
     vec3 L = normalize(vLightDir);
  vec3 N = normalize(vNormal);
  
  //coseno
  float lambertTerm = dot(N,-L);
  
- vec4 uLightAmbient = vec4(0.03,0.03,0.03,1.0) * texture2D(uSampler,vTextureCoord);
+ vec4 uLightAmbient = vec4(0.03,0.03,0.03,1.0) * texture2D(uSampler,vTexturaFinal);
  vec4 Ia = uLightAmbient;
  vec4 Id = vec4(0.0,0.0,0.0,1.0);
  
@@ -165,21 +207,39 @@ vec4 CalcPointLight()
  if(lambertTerm > 0.0) //si incide la luz
  {
      vec4 uMaterialDiffuse = vec4(1.0,1.0,1.0,1.0); //lo que le da color al objeto
-  Id = uMaterialDiffuse * lambertTerm * texture2D(uSampler,vTextureCoord); 
+     if(mapa_activado==1.0 && pintable==1.0){
+        uMaterialDiffuse = CalcularColorMap();
+     }
+  Id = uMaterialDiffuse * lambertTerm * texture2D(uSampler,vTexturaFinal); 
   
   vec3 E = normalize(vEyeVec);
   vec3 R = reflect(L, N);
   float specular = pow( max(dot(R, E), 0.0), uShininess);
   vec4 uMaterialSpecular = vec4(1.0,1.0,1.0,1.0);
+  if(mapa_activado==1.0 && pintable==1.0){
+        uMaterialSpecular = CalcularColorMap();
+     }
   if(hasTexture==1.0){
-        Id = uMaterialDiffuse * lambertTerm * texture2D(uSampler,vTextureCoord); 
-        Is = uMaterialSpecular * specular * texture2D(uSampler,vTextureCoord); 
+        Id = uMaterialDiffuse * lambertTerm * texture2D(uSampler,vTexturaFinal); 
+        Is = uMaterialSpecular * specular * texture2D(uSampler,vTexturaFinal); 
   }else{
        Id = uMaterialDiffuse * lambertTerm; 
         Is = uMaterialSpecular * specular; 
   }
  }
     return (Ia + Id + Is);
+}
+vec4 CalcularColorMap(){
+     float coloraux = 0.0;
+     vec4 response = vec4(1.0,1.0,1.0,1.0);
+      if(colorMapa<=50.0){
+            coloraux = (colorMapa *2.0)/100.0;
+            response = vec4(coloraux,1.0,0.0,1.0);
+         }else{
+             coloraux = ((colorMapa-50.0) *2.0)/100.0;
+             response = vec4(1.0,(1.0-coloraux),0.0,1.0);
+         }
+         return response;
 }
 </script>
 

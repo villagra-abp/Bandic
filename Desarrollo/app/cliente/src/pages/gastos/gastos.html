@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Mis gastos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="text-align: center">
+<ion-grid style="margin-top: 1em">
+  <ion-row style="background-color: #6eafdc; color:azure">
+    <ion-col width-50>Fecha</ion-col>
+    <ion-col width-35 style=" overflow: visible;">Concepto</ion-col>
+    <ion-col width-15 style="overflow: visible;">€</ion-col>
+  </ion-row>
+  <ion-row style="margin-top: .5em" *ngFor="let item of tickets" (click)="detalleTicket(item.id)">
+    <ion-col width-50>{{item.fecha}}</ion-col>
+    <ion-col width-35 style=" overflow: visible;">{{item.tpvNombre}}</ion-col>
+    <ion-col width-15 style="overflow: visible;">48.00€</ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>

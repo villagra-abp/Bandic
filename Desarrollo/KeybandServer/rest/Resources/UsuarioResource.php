@@ -194,7 +194,7 @@ class UsuarioResource{
 		}
 		//AQUI VALIDA LA KEY
 		$arrayNotNull=array("dni","password", "nombre", "apellidos", "sexo", "pais","empleado","email","fecha_nacimiento");
-		$arraycol = array("dni","password", "nombre", "apellidos", "sexo", "pais","localidad","provincia","empleado","email","fecha_nacimiento","fecha_entrada", "fecha_salida", "token");
+		$arraycol = array("dni","password", "nombre", "apellidos", "sexo", "pais","localidad","provincia","empleado","email","fecha_nacimiento","fecha_entrada", "fecha_salida","saldo", "token");
 		if($objArr!=null){
 			foreach($objArr as $key => $key_value) {
 				if(!in_array($key, $arraycol)){
@@ -299,18 +299,18 @@ class UsuarioResource{
 						return false;
 					}
 					break;
-				case 'fecha_entrada':
+				/*case 'fecha_entrada':
 					if(!SupportResource::isDate($key_value)){
 						SupportResource::echoError("Fecha entrada Incorrecto");
 						return false;
 					}
-					break;
-				case 'fecha_salida':									
+					break;*/
+				/*case 'fecha_salida':									
 					if(!SupportResource::isDate($key_value)){
 						SupportResource::echoError("Fecha salida Incorrecto");
 						return false;
 					}
-					break;
+					break;*/
 			}
 		}
 		//$arrayNotNull=array("dni","password", "nombre", "apellidos", "sexo", "pais","empleado","email","fecha_nacimiento","fecha_entrada", "fecha_salida");

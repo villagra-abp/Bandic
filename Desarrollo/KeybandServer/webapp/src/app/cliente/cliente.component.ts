@@ -121,20 +121,25 @@ edit: boolean = false;
       }
     });
   }
-        rellenarUsu(id) {
+  
+  rellenarUsu(id) {
        event.preventDefault();
        if(id!=''){
-       
+           this.title = "Editar cliente";
            document.getElementById("pulseraid").setAttribute("disabled","disabled");
            document.getElementById("password").setAttribute("disabled","disabled");
            document.getElementById("dni").setAttribute("disabled","disabled");
            document.getElementById("fecha_entrada").setAttribute("disabled","disabled");
+
+           document.getElementById("submitCliente").removeAttribute("disabled");
+           document.getElementById("camposOblig3").style.display = "none";
                this.editarEmpleado(id);
                this.edit = true;
                this.crear = false;
             
        }
-       else{  
+       else{
+           this.title = "Crear cliente";  
            document.getElementById("pulseraid").removeAttribute("disabled");
            document.getElementById("password").removeAttribute("disabled");
            document.getElementById("dni").removeAttribute("disabled");
@@ -283,12 +288,29 @@ onChange(event, dni, nombre, apellidos, localidad, provincia, pais, orden) {
                 this.clienteService.filterClientes(dni, nombre, apellidos, localidad, provincia, pais, this.campo, this.init_row, true)
                 .subscribe(
                     response => {
-                        this.empleados = response;
                         this.setPages(this.empleados);
+                        for(var i = 0; i<response.length; i++){
+                          if(response[i].sexo == 'm'){
+                            response[i].sexo = 'Hombre';
+                          }
+                          else if(response[i].sexo == 'f'){
+                            response[i].sexo = 'Mujer';
+                            }
+                          }
+                        this.empleados = response;
+
                     }
                 );
              }
              else {
+                 for(var i = 0; i<response.length; i++){
+                          if(response[i].sexo == 'm'){
+                            response[i].sexo = 'Hombre';
+                          }
+                          else if(response[i].sexo == 'f'){
+                            response[i].sexo = 'Mujer';
+                            }
+                          }
                  this.empleados = response;
                  this.setPages(this.empleados);
              }
@@ -343,14 +365,39 @@ getUsuarios() { //Se llama para recargar los productos cuando se crea uno nuevo
             response => {
                 if(this.init_row == undefined)
                   this.init_row = 0;
+                while(this.init_page>1) {
+                    this.init_page--;
+                    this.init_row = this.init_row-5;
+                } 
                 this.rows = response.length;
                 this.setPages(response);
-                this.clienteService.filterClientes(undefined, undefined, undefined, undefined, undefined, undefined, undefined, 0, true);
+                this.filterClientes(undefined, undefined, undefined, undefined, undefined, undefined, 0);
             },
             error => {
 
             }
         );
+}
+
+filterClientes(dni, nombre, apellidos, localidad, provincia, pais, initrow) { //Solo se llama desde el constructor, resultado por defecto de todos los productos
+  this.clienteService.filterClientes(dni, nombre, apellidos, localidad, provincia, pais, this.campo, initrow, true)
+         .subscribe(
+            response => {         
+                for(var i = 0; i<response.length; i++){
+                  if(response[i].sexo == 'm'){
+                    response[i].sexo = 'Hombre';
+                  }
+                  else if(response[i].sexo == 'f'){
+                    response[i].sexo = 'Mujer';
+                    }
+                  }
+                  this.empleados = response;
+            },
+            error => {
+              console.log(error)
+                alert("Error en la petición");
+            }
+         );
 }
 
 validarDni(newValue) {
@@ -431,6 +478,7 @@ validarEmail(newValue) {
 }
 
 camposOblig(newValue, campo) {
+  if(this.title != "Editar cliente") {
     if(newValue != "" && campo == "n")
         this.nombree = true;
     else if (newValue == "" && campo == "n")
@@ -470,6 +518,7 @@ camposOblig(newValue, campo) {
         document.getElementById("camposOblig3").style.display = "block";
         document.getElementById("camposOblig3").style.marginLeft = "23em";
     }
+  }
 }
 
   ngOnInit() {

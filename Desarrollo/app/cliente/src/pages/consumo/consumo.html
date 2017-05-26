@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Detalle <img src="img/pdf.png" style="float: right; width: 7%; height: 7%;" (click)="descargarFactura()"></ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="text-align: center">
+<ion-grid style="margin-top: 1em">
+  <ion-row style="background-color: #6eafdc; color:azure">
+    <ion-col width-50>Nombre</ion-col>
+    <ion-col width-15 style=" overflow: visible;">UD</ion-col>
+    <ion-col width-15 style="overflow: visible;">€</ion-col>
+    <ion-col width-20 style="overflow: visible;">Total</ion-col>
+    <ion-col width-10 style="overflow: visible;"></ion-col>
+  </ion-row>
+  <ion-row style="margin-top: .5em" *ngFor="let item of ticket" (click)="detalleProducto(item)">
+    <ion-col width-50>{{item.nombre}}</ion-col>
+    <ion-col width-15 style=" overflow: visible;">{{item.cantidad}}</ion-col>
+    <ion-col width-15 style="overflow: visible;">{{item.precio}}€</ion-col>
+    <ion-col width-20 style="overflow: visible;">{{item.cantidad*item.precio}}€</ion-col>
+    <ion-icon style = "margin-top: .3em; margin-right: 1.5em;"name="ios-open-outline"></ion-icon>
+  </ion-row>
+</ion-grid>
+<hr>
+<ion-grid>
+  <ion-row style="margin-top: .5em">
+  <ion-col width-70 style="overflow: visible;"></ion-col>
+    <ion-col width-70 style="overflow: visible;">Total</ion-col>
+    <ion-col width-40 style="overflow: visible;">{{total}} €</ion-col>
+    
+  </ion-row>
+  <!--button block  style="margin-top: 2em; width: 80%; margin-left: 10%" ion-button (click)="descargarFactura()">Descargar</button-->
+</ion-grid>
+
+</ion-content>

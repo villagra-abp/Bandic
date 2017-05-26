@@ -1,0 +1,50 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-facebook4": {
+            "APP_ID": "1243391482365445",
+            "APP_NAME": "keyband",
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-nativestorage": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-secure-storage": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.ionicframework.keyband211646"
+        }
+    },
+    "dependent_plugins": {}
+}

@@ -5,14 +5,12 @@
    <div class="form-group">
      <input class="form-control" size="25" #identificador class="form-control" type="text" placeholder="Búsqueda por identificador">
      <input class="form-control" size="25" #capacidades class="form-control" type="text" placeholder="Búsqueda por capacidad">
-   <div style="margin-right: 1em; margin-top: 1em;">
-        <select class="input-xs form-control" name="categoria" #ordenHa><!--NUEVO la clase input-xs-->
+     <select class="input-xs form-control" name="categoria" #ordenHa><!--NUEVO la clase input-xs-->
             <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
             <option>Id</option>
             <option>Capacidad</option>
-        </select>
-    </div>
-   </div>
+      </select>
+</div>
    
    <!-- <button type="submit" class="buscar focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">   
              <span class="glyphicon glyphicon-search"></span> Buscar
@@ -49,7 +47,7 @@
                         <div class="form-group">
                           <label class="col-md-4 control-label" for="user">Identificador habitación</label>  
                           <div class="col-md-6">
-                          	<input id="user" name="user" value="{{palabra.id}}" type="text" #id placeholder="Introduzca identificador" [ngModel]="identificador" (ngModelChange)="comprobarId($event, 'identificador')" class="form-control input-md" required="" autofocus>
+                          	<input id="user" name="user" value="{{palabra.id}}" type="text" #id placeholder="Introduzca identificador" [ngModel]="identifi" (ngModelChange)="comprobarId($event, 'identificador')" class="form-control input-md" required="" autofocus>
                             <span class="error" id="errorusu">Nombre no disponible.</span>
                             <!--<span class="error" id="errorusu">Nombre no disponible.</span>-->
                           </div>

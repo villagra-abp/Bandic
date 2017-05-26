@@ -170,6 +170,15 @@ label {
  padding-top: .3em;
 }
 
+.color{
+    color: white;
+    background: #2a3f54 ;
+}
+
+.tabla-principal{
+    text-align: center;
+}
+
 @media only screen and (min-width: 48em) { 
 	.column-half{
 		width: 50%;

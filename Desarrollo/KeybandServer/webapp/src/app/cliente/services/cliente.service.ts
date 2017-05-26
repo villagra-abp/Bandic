@@ -52,7 +52,7 @@ getEmpleado(id){
       return this.http.put("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario",valor)
                             .subscribe(response=>{
                            let enviar=JSON.stringify({dni, roles});
-                                console.log(response.json());
+                                console.log(response);
                                this.putRol(enviar);
                                 if(pulsera!=""){
                                   this.postPulsera(pulsera, dni, estado);
@@ -174,5 +174,10 @@ return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/pul
         return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/usuario"+filter+pagination+order)
                             .map(response => response.json())
      
+   }
+
+   emailExiste(email) {
+     return this.http.get("http://localhost/keyband/Desarrollo/KeybandServer/rest/usuario?email="+email)
+                            .map(response => response.json())
    }
 }

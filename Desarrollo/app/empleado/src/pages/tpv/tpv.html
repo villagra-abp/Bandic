@@ -1,0 +1,146 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+        <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+   <ion-title><img src="img/KeyBand50.png" (click)="home();"></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-row>
+  <ion-col col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8>
+ <!--   <section class="izquierda">-->
+    <ion-toolbar no-border-top>
+
+ <div padding>
+  <ion-segment [(ngModel)]="pet"  >
+       <ion-segment-button value="" (click)="mostrarCategoria(value)">
+      Todas
+    </ion-segment-button>
+    <ion-segment-button *ngFor="let item of categorias" value="{{item.id}}" (click)="mostrarCategoria(item.id)">
+      {{item.id}}
+    </ion-segment-button>
+
+  </ion-segment>
+</div>
+    </ion-toolbar>
+        
+        <br>
+        <br>
+        <div class="row gallery" id="container">
+            <button id="fondo" class="col col-50"  *ngFor="let item of productos" (click)="cogerImporte(item)">
+                  <div class="flex-item"> <img src="img/{{item.imagen}}" ><!--{{item.nombre}}--></div>
+            </button>
+        </div>
+ <!--   </section>-->
+</ion-col>
+<ion-col col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4>
+   <!-- <section class="derecha">-->
+        <ion-grid >
+          <ion-row style="background-color: #6eafdc ; color:azure">
+           
+            <ion-col col-5 style=" overflow: visible; text-align:center;">Artículo</ion-col>
+            <ion-col col-4 style="overflow: visible;">Cantidad</ion-col>
+            <ion-col col-3 style="overflow: visible;">Precio</ion-col>
+          </ion-row>
+          <div id="container2">
+          <ion-row style="margin-top: .5em" *ngFor="let item of seleccionado" >
+            <!--<ion-col width-15><input type="checkbox" #checkeado (click)="checkLinea(checkeado.checked, item)"></ion-col>-->
+            
+            <ion-col col-5 style=" overflow: visible;">{{item.nombre}}</ion-col>
+            <ion-col  col-4 style="overflow: visible;"><ion-icon name="remove-circle" style="font-size: 30px" (click)='borrarLinea(item)'></ion-icon> {{item.cantidad}}
+            <ion-icon name="add-circle" style="font-size: 30px" (click)='cogerImporte(item)'></ion-icon></ion-col>
+            <ion-col col-3 style="overflow: visible;">{{item.precio}}</ion-col>
+          </ion-row>
+          </div>
+        </ion-grid>
+
+
+        <br>
+        <br>
+        <br>
+        <p class="total animated fadeIn" id="total">
+          Total: <span>{{precioTotal}}</span><span>€</span>
+        </p>
+<p style="text-align:center; font-size: 30px;">
+     <button ion-button block (click)="gestionarPago()" color="secondary" >
+          Finalizar   <ion-icon name="checkmark-circle"></ion-icon>
+        </button>
+        </p>
+        <p style="text-align:center;">
+     <button ion-button block (click)="cancelarPago()" color="danger" outline>
+          Cancelar    <ion-icon  name="close-circle"></ion-icon>
+        </button>
+        </p>
+   <!-- </section>-->
+</ion-col>
+</ion-row>
+		 <!-- <div class="device">
+
+
+			  <section class="products" id="container">
+                <div class="flex-container">
+                  <button ion-item *ngFor="let item of productos" (click)="cogerImporte(item)">
+                     <div class="flex-item">{{item.nombre}}</div>
+                  </button>
+                </div>           
+			    </section>  ESTO SE COMENTO
+
+
+    <section class="products" id="container">
+          <div class="row" id="barra-arriba">
+              <div class="col col-50"  *ngFor="let item of categorias">
+                   <button (click)="mostrarCategoria(item.id)">{{item.id}}</button>
+              </div>
+          </div>
+          <div class="row gallery">
+              <button class="col col-50"  *ngFor="let item of productos" (click)="cogerImporte(item)">
+                   <div class="flex-item">{{item.nombre}}</div>
+              </button>
+          </div>
+    </section>
+	  <section class="checkout animated slideInRight">
+            <ion-list ion-item *ngFor="let item of seleccionado" id='container'>
+                <label><input type="checkbox" #checkeado (click)="checkLinea(checkeado.checked, item)"> {{item.nombre}} {{cantidad}} {{item.precio}}</label>
+            </ion-list> ESTO SE COMENTO
+
+            <ion-grid style="margin-top: 1em" id='container2'>
+            <ion-row style="background-color: #6eafdc ; color:azure">
+              <ion-col width-50> Check </ion-col>
+              <ion-col width-15 style=" overflow: visible;">Artículo</ion-col>
+              <ion-col width-15 style="overflow: visible;">Cantidad</ion-col>
+              <ion-col width-20 style="overflow: visible;">Precio</ion-col>
+            </ion-row>
+            <ion-row style="margin-top: .5em" *ngFor="let item of seleccionado">
+              <ion-col width-50><input type="checkbox" #checkeado (click)="checkLinea(checkeado.checked, item)"></ion-col>
+              <ion-col width-15 style=" overflow: visible;">{{item.nombre}}</ion-col>
+              <ion-col width-15 style="overflow: visible;">{{cantidad}}</ion-col>
+              <ion-col width-20 style="overflow: visible;">{{item.precio}}</ion-col>
+            </ion-row>
+            </ion-grid>
+
+                            
+      <button class="animated slideInUp" (click)="borrarLinea(item)">
+        Borrar línea ticket    <ion-icon name="trash"></ion-icon>
+      </button>
+
+      <p class="total animated fadeIn">
+        Total: <span>{{precioTotal}}</span><span>€</span>
+      </p>
+
+      <button (click)="gestionarPago()">
+        Finalizar   <ion-icon name="checkmark-circle"></ion-icon>
+      </button>
+
+      <button (click)="cancelarPago()">
+        Cancelar    <ion-icon  name="close-circle"></ion-icon>
+      </button>
+    </section>
+		  </div>-->
+
+
+</ion-content>

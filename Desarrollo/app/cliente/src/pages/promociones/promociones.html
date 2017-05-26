@@ -1,0 +1,57 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Inicio</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style = "background-color: rgba(110,175,220,0.1);">
+
+<ion-grid style = "margin-top: -1em;">
+<ion-row>
+  <ion-col width-30 style = "text-align: center; margin-top: 2em; margin-left: .5em; border-right: 1px solid grey" (click)="goGasto();">
+  <ion-row style = "color : grey; font-weight: bold; width: auto; padding-left: 10%">TOTAL GASTADO <ion-icon style = "margin-left: .5em;"name="ios-open-outline"></ion-icon></ion-row>
+    <ion-row style = "color : #6eafdc; font-weight: bold; font-size: 4em; width: auto; padding-left: 15%">48 €</ion-row>
+    <ion-row>
+      <ion-col style = "color : grey; font-weight: bold; width: auto; font-size: .8em; padding:0;">Media diaria <span style = "color : #6eafdc; font-size: 1em;">23,05€</span></ion-col>
+    </ion-row>
+  </ion-col>
+  <ion-col width-30 style = "text-align: center; margin-top: 2em; margin-left: .2em; " (click)="goReservas();">
+  <ion-row style = "color : grey; font-weight: bold; width: auto; padding-left: 20%; font-size: 1.3em; padding-bottom: .3em;">RESERVAS <ion-icon style = "margin-left: .5em;"name="ios-open-outline"></ion-icon></ion-row>
+        <ion-row style = "color : #6eafdc; font-weight: bold; font-size: 1.7em; width: auto; padding-left: 5%; padding-bottom: .3em;">5 pendientes</ion-row>
+    <ion-row style = "color : grey; font-weight: bold; width: auto; font-size: 1.7em; padding-left: 20%">25 total </ion-row>
+
+
+  </ion-col>
+</ion-row>
+</ion-grid>
+  <ion-slides style=" height : 45%" autoplay="3000" loop="true" speed="3000">
+    <ion-slide *ngFor="let promocion of promociones" (click)="GetProducto(promocion.producto)" >
+      <img src="img/promo/{{promocion.imagen}}" />
+      <h4 style="position: absolute; margin-top: -35%; text-align: center; width: 100%;  font-weight: bold; font-size: 2.0em; color: white">{{promocion.titulo}} </h4>
+      <div style="position: absolute; margin-top: -20%; text-align: center; width: 100%; font-weight: bold; color: white" [innerHTML]="promocion.descripcion"></div>
+    </ion-slide>
+  </ion-slides>
+  <!--ion-list no-lines >
+    <button ion-item (click)="GetProducto(promocion.producto)" *ngFor = "let promocion of promociones" 
+    style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);">
+        <img src="img/{{promocion.imagen}}">
+      <h1 style="text-align: center;">{{promocion.titulo}}</h1>
+      <div style="text-align: center;" [innerHTML]="promocion.descripcion"></div>
+    </button>
+  </ion-list-->
+  <ion-row>
+  <ion-col width-30 style = "text-align: center; margin-top: 2em; margin-left: .2em; background-image: url('img/productos.png');" (click)="goProductos();">
+        <ion-row style = "color : #6eafdc; font-weight: bold; font-size: 4em; width: auto; padding-left: 75%">5</ion-row>
+    <ion-row style = "color : white; font-weight: bold; font-size: .9em; auto; padding-left: 1%">PRODUCTOS DISPONIBLES</ion-row>
+
+  </ion-col>
+  <ion-col width-30 style = "text-align: center; margin-top: 2em; margin-left: .2em; background-image: url('img/promo/paris1.jpg');" (click)="goParis(5);">
+        <ion-row style = "color : white; font-weight: bold; font-size: 1.5em; auto; padding-left: 1%">MAÑANA</ion-row>
+    <ion-row style = "color : white; font-weight: bold; font-size: 1em; auto; padding-left: 1%">EXCURSIÓN A PARÍS</ion-row>
+
+  </ion-col>
+  
+</ion-row>
+
+</ion-content>

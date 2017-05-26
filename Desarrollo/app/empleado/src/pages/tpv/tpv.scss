@@ -1,0 +1,272 @@
+
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+body, html {
+  height: 100%;
+}
+
+body {
+	background: #90b8f8;
+	font-family: 'Roboto', sans-serif;
+}
+
+.container {
+	align-items: center;
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	margin: 0 auto;
+	max-width: 1400px;
+	width: 100%;
+}
+
+.device {
+	background: #fff;
+	border: 30px solid #26282b;
+	border-radius: 10px;
+	box-shadow: 0 15px 20px rgba(0, 0, 0, .4);
+	display: flex;
+	height: 700px;
+	overflow: hidden;
+	width: 1000px;
+}
+
+.products {
+	width: 70%;
+}
+
+.product-list {
+	display: flex;
+	height: 100%;
+	flex-wrap: wrap;
+    border: 2px solid #CCC;
+    overflow-y: scroll;
+}
+
+.product-list li {
+	border: 1px solid #ddd;
+	height: calc(640px/3);
+	transition: background .1s ease;
+	width: 33.33333333%;
+}
+
+.product-list li:hover {
+	background: #eee;
+	cursor: pointer;
+}
+
+.product-list li:active {
+	background: #ddd;
+}
+
+.checkout {
+	background: #353941;
+	box-shadow: -6px 0 10px rgba(0, 0, 0, .3);
+	display: flex;
+	flex-wrap: wrap;
+	overflow: hidden;
+	width: 30%;
+}
+
+.checkout-list {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	width: 100%;
+}
+
+.checkout-list li {
+	background: #353941;
+	border-bottom: 1px solid rgba(255, 255, 255, .2);
+	color: #fff;
+	display: flex;
+	justify-content: space-between;
+	padding: 30px;
+	transition: background .1s ease;
+	width: 100%;
+}
+
+.checkout-list li:hover {
+	background: #40444e;
+	cursor: pointer;
+}
+
+.total {
+	align-self: flex-end;
+	color: #fff;
+	font-size: 1.8em;
+	font-weight: 300;
+	padding: 0 30px;
+	text-align: right;
+	transform: translateY(-24px);
+	width: 100%;
+}
+
+.total span {
+	font-weight: 400;
+	font-size: 1.4em;
+	margin-left: 10px;
+}
+
+.checkout a {
+	align-self: flex-end;
+	background: #5f85db;
+	color: #fff;
+	display: block;
+	font-weight: 600;
+	letter-spacing: 3px;
+	padding: 20px;
+	text-align: center;
+	text-transform: uppercase;
+	transition: background .1s ease;
+	width: 100%;
+}
+
+.checkout a i {
+	color: #fff;
+}
+
+.checkout a:hover {
+	background: #6d99fc;
+}
+
+.checkout a:active {
+	background: #77a6ff;
+}
+
+
+/* HASTA AQUI LA MIERDA PLANTILLA */
+
+/* CSS PARA LA PLATAFORMA DE LOS PRODUCTOS */
+
+
+
+
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    width: 660px;
+    background-color:white;
+}
+
+.flex-item {
+    width: 165px;
+    height: 165px;
+}
+
+.gallery {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.botonCategoria{
+	background-color: #6eafdc;
+	color: white;
+	width: 7em;
+	height: 2em;
+	font-size: 11px;
+}
+
+#barra-arriba{
+		float: left;
+		background-color: #6eafdc;
+}
+
+
+//CONTAINER DONDE PONGO LOS PRODUCTOS 1, Y LAS LINEAS 2
+
+#container {
+	background-color: white;
+	height: 37.5em;
+    overflow-y: scroll;
+}
+
+#container2 {
+    border: 2px solid #CCC;
+    //width: 26.8em;
+	height: 20em;
+    overflow-y: scroll;
+}
+
+//SECTIONS EN LOS QUE DIVIDO EL TPV
+
+.izquierda{
+	float: left;
+	width: 70%;
+	//background-color: #6eafdc;
+}
+
+.derecha{
+	float: left;
+	width: 30%;
+}
+
+//DEBAJO DE LA LISTA DE PRODUCTOS SELECCIONADOS
+
+#total{
+	text-align: center;
+	font-size: 3em;
+	color: #6eafdc;
+}
+
+#botones{
+	height: 5em;
+	width: 100%;
+	color: white;
+	background-color: #6eafdc;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 14px;
+}
+
+.borrarLinea{
+	height: 5em;
+  	width: 26em;
+	text-align: center;
+	display: inline-block;
+	color: white;
+	background-color: #6eafdc;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+
+#fondo{
+	background-color: white;
+
+}
+
+.incremento {
+  margin: 0 0 0 5px;
+  text-indent: -9999px;
+  cursor: pointer;
+  width: 29px;
+  height: 29px;
+  float: left;
+  text-align: center;
+  background: url(mas.png) no-repeat;
+}
+
+.decremento {
+  margin: 0 0 0 5px;
+  text-indent: -9999px;
+  cursor: pointer;
+  width: 29px;
+  height: 29px;
+  float: left;
+  text-align: center;
+  background: url(menos.png) no-repeat;
+}

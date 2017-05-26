@@ -1,0 +1,21 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>{{item.nombre}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="text-align: center">
+  <ion-avatar item-left>
+    <img src="img/{{item.imagen}}">
+  </ion-avatar>
+  <h2>{{item.nombre}}</h2>
+  <p>{{item.descripcion}}</p>
+  <p>Precio: {{item.precio}}€</p>
+  <button *ngIf = "reservado" ion-button secondary (click)="reservar(item)">Reservar</button>
+  <button ion-button secondary (click)="facebookShare(item)">Facebook</button>
+  <button ion-button secondary (click)="twitterShare(item)">Twitter</button>
+  <button *ngIf = "!reservado" ion-button secondary (click)="cancelaReserva(item)">Cancelar reserva</button>
+  <!--button ion-button secondary (click)="instagramShare(item)">Instagram</button>
+   <button ion-button secondary (click)="otherShare(item)">otros</button-->
+</ion-content>

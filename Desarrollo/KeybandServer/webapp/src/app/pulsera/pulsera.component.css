@@ -4,6 +4,13 @@
     margin-top: -0.4em;
 }
 
+#buscar{
+    background: #2A3F54;
+    margin-top: -0.4em;
+    margin-left: 34em;
+}
+
+
 tr{
     text-align: center;
 }
@@ -67,11 +74,6 @@ tr{
     margin-right: .5em;
 }
 
-.input-xs {
-    height: 22px;
-  padding: 2px 5px;
-  font-size: 12px;
-}
 @font-face {
     font-family: 'icomoon';
     src: url('fonts/icomoon.eot');
@@ -110,4 +112,32 @@ tr{
 }
 .form-control:focus {
     border-color: #5A738E;
+}
+
+.pagination {
+    display: inline-block;
+    float: right;
+}
+
+.pagination button.arrows {
+    background-color: #2a3f54 ;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.pagination button.arrows.active {
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination button.arrows:hover:not(.active) {
+    background-color: #73879C ;
+    border-radius: 5px;
+}
+
+#crearpulsera{
+    background: #2A3F54;
 }

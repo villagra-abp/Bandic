@@ -1,20 +1,15 @@
+<div class="dashboard_graph">
+<div class="clearfix">
 <div class="container buscadorProducto">
   <form (ngSubmit)="onChange($event, dniU.value, nombreU.value, apellidosU.value, localidadU.value, provinciaU.value, paisU.value, orderU.value)" class="form-inline formulario">
     <div class="form-group">
-      <input placeholder="Dni" class="form-control id" name="id" #dniU type="text" maxlength="12">
-      <input placeholder="Nombre" name="nombre" #nombreU class="short form-control" type="text">
-      <input placeholder="Apellidos" name="nombre" #apellidosU class="form-control" type="text">
-      <input placeholder="Localidad" name="nombre" #localidadU class="short form-control" type="text">
-      <input placeholder="Provincia" name="nombre" #provinciaU class="short form-control" type="text">
-      <input placeholder="País" name="nombre" class="short form-control" type="text" #paisU>
-        <button style="margin-left: 11em; margin-bottom: .1em" type="submit" class="form-control" class="buscar btn btn-default confirmation-modal" title="Detalle">   
-                <span class="icon icon-search"></span>Buscar
-        </button>
-        <div style="margin-bottom: .6em" class="btn-group" role="group" aria-label="...">
-          <a href="#" data-toggle="modal" data-target="#registroUsu"> <button type="button" (click)="rellenarUsu('');" class="btn btn-default">Nuevo cliente</button></a>
-        </div>
-<div style="float: right; margin-right: 1em; margin-top: 1em;">
-    <select class="input-xs form-control" name="categoria" #orderU>
+      <input placeholder="DNI" size="13" class="form-control id" name="id" #dniU type="text" maxlength="12">
+      <input placeholder="Nombre" size="13" name="nombre" #nombreU class="short form-control" type="text">
+      <input placeholder="Apellidos" size="13" name="nombre" #apellidosU class="form-control" type="text">
+      <input placeholder="Localidad"  size="13" name="nombre" #localidadU class="short form-control" type="text">
+      <input placeholder="Provincia"  size="13" name="nombre" #provinciaU class="short form-control" type="text">
+      <input placeholder="País"  size="13" name="nombre" class="short form-control" type="text" #paisU>
+      <select class="input-xs form-control" name="categoria" #orderU>
         <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
         <option>Dni</option>
         <option>Nombre</option>
@@ -23,10 +18,19 @@
         <option>Provincia</option>
         <option>País</option>
       </select>
-</div>
+      <button type="submit" class="btn btn-primary" title="Detalle" id="editarcliente">   
+                <span class="icon icon-search"></span>Buscar
+      </button>
+      <div class="btn-group" role="group" aria-label="...">
+          <a href="#" data-toggle="modal" data-target="#registroUsu"> <button type="button" (click)="rellenarUsu('');" class="btn btn-primary" id="nuevocliente">Nuevo cliente</button></a>
+      </div>
     </div>
   </form>
 </div>
+</div>
+</div>
+
+<br>
       
 
   
@@ -169,8 +173,8 @@
                 </div>
               </div>
                        <div style="padding-top: 2em;" class="form-group">
-                           <button data-dismiss="modal" class="col-md-2 btn btn-primary">Cancelar</button>
-                           <input type="submit" data-dismiss="modal" value="Continuar" (click)="crearUsuario($event, dni.value, password.value, nombre.value, apellidos.value, email.value, fechanacimiento.value, sexo.value, localidad.value, provincia.value, pais.value, pulseraid.value, fechaentrada.value, fechasalida.value)" id="submitCliente" style="float:right;" class="col-md-2 btn btn-primary" disabled>
+                           <button data-dismiss="modal" class="col-md-2 btn btn-default">Cancelar</button>
+                           <input id="crearcliente" type="submit" data-dismiss="modal" value="Continuar" (click)="crearUsuario($event, dni.value, password.value, nombre.value, apellidos.value, email.value, fechanacimiento.value, sexo.value, localidad.value, provincia.value, pais.value, pulseraid.value, fechaentrada.value, fechasalida.value)" id="submitCliente" style="background: #2A3F54; float:right;" class="col-md-2 btn btn-primary" disabled>
                            <span id="camposOblig3" style="color: red; margin-left: 12em;">Por favor, rellena los campos obligatorios</span>
                        </div>
 
@@ -278,10 +282,10 @@
                         
                           <div class="form-group">
                          <label class="col-md-8 control-label"></label>
-                         <div style="margin-left: 30em;" class="col-md-5">
+                         <div style="margin-left: 25em;" class="col-md-5">
                            <br>
                             
-                           <button type="submit" class="btn btn-primary">Cambiar pulsera</button>
+                           <button id="cambiarpulsera" type="submit" class="btn btn-primary">Cambiar pulsera</button>
    <button data-dismiss="modal"class="btn btn-default">Cerrar</button>
                          
                          </div>
@@ -317,10 +321,14 @@
                 </div>
                </div>
 
-<div class="panel-body">
-		<div class="x_title">
-      <h3 style="margin-left: 1em">Resultados <small>Clientes</small></h3>
+<div class="dashboard_graph">
+<div class="clearfix">
+    <div class="x_title">
+       <h3>Resultados <small>Clientes</small></h3>
     </div>
+
+<div class="panel-body">
+	
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-hover">
 			<thead style="color: white;background: #2a3f54 ;">
@@ -338,7 +346,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let usuario of empleados | keys">
+					<tr *ngFor="let usuario of empleados | keys" class="tabla-principal">
 						<td>
 				<a href="#" data-toggle="modal" data-target="#registroUsu">
 								<button (click)="rellenarUsu(usuario.value.dni);" style="background-color:#F88A3D" class="btn btn-default btn-xs confirmation-modal" title="editar">
@@ -366,6 +374,8 @@
 			</table> 
 		</div>
 	</div>
+    </div>
+  </div>
 
   <div class="pagination">
       <button class="arrows" (click)="lastPage();" href="#">&laquo;</button>

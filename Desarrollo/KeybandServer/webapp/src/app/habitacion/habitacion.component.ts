@@ -150,7 +150,7 @@ public rows;
             this.habitacionService.completeHabitacion(id).subscribe(response=>{
                 this.borrar = {id: response[0].id };
                 this.estancia = response[0].id ;
-                this.getEstancias();
+                //this.getEstancias();
             });
     }
 
@@ -162,12 +162,12 @@ public rows;
                                 if(response[0] == null){
                                         document.getElementById("user").style.borderColor = 'blue';
                                         document.getElementById("errorusu").style.visibility = "hidden";
-                                         document.getElementById("bcrear").removeAttribute("disabled");
+                                         document.getElementById("btncrear").removeAttribute("disabled");
                                 }
                                 else{
                                         document.getElementById("user").style.borderColor= 'red';
                                         document.getElementById("errorusu").style.visibility = "visible";
-                                        document.getElementById("bcrear").setAttribute("disabled","disabled");
+                                        document.getElementById("btncrear").setAttribute("disabled","disabled");
                                 }
                         }
                 );
@@ -263,14 +263,32 @@ getEstancias() { //Se llama para recargar los productos cuando se crea uno nuevo
             response => {
                 if(this.init_row == undefined)
                   this.init_row = 0;
+              while(this.init_page>1) {
+                    this.init_page--;
+                    this.init_row = this.init_row-5;
+                } 
                 this.rows = response.length;
                 this.setPages();
-                this.habitacionService.filterEstancias(undefined, undefined, undefined, 0, true);
+                this.filterEstancias(undefined, undefined, 0);
             },
             error => {
 
             }
         );
+}
+
+filterEstancias(id, capacidad, initrow) { //Solo se llama desde el constructor, resultado por defecto de todos los productos
+  this.habitacionService.filterEstancias(id, capacidad, this.campo, initrow, true)
+         .subscribe(
+            response => {
+                this.habitaciones = response;
+                console.log(this.habitaciones);
+            },
+            error => {
+              console.log(error)
+                alert("Error en la petición");
+            }
+         );
 }
 
 }

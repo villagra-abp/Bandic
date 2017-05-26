@@ -131,7 +131,7 @@ class PulseraResource{
 			SupportResource::echoError("campos de mas o falta algun not null");
 			return false;
 		}
-		$arrayNotNull=array("id","usuario", "estado_pulsera");
+		$arrayNotNull=array("id", "estado_pulsera");
 		$arraycol =array("id","usuario", "estado_pulsera");
 		if($objArr!=null){
 			foreach($objArr as $key => $key_value) {
@@ -164,13 +164,13 @@ class PulseraResource{
 						break 2;
 					}
 					break;
-				case 'usuario':
+				/*case 'usuario':
 					if($key_value==null){
 						SupportResource::echoError("usuario no puede ser null");
 						$return=false;
 						break 2;
 					}
-					break;
+					break;*/
 					case 'estado_pulsera':
 						if($key_value==null){
 							SupportResource::echoError("el estado de la pulsera tiene que ser activada sin asignar o perdida");

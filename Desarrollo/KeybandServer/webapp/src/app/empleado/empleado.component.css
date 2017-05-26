@@ -70,14 +70,10 @@ tr{
     width: 8em;
 }
 .form-inline input {
-    margin-right: .5em;
+   /* margin-right: .5em;*/
 }
 
-.input-xs {
-    height: 22px;
-  padding: 2px 5px;
-  font-size: 12px;
-}
+
 @font-face {
     font-family: 'icomoon';
     src: url('fonts/icomoon.eot');
@@ -116,4 +112,63 @@ tr{
 }
 .form-control:focus {
     border-color: #5A738E;
+}
+
+
+select {
+    width: 8.5em;
+    height: 2.5em;
+    margin-left: 0.25em;
+}
+
+
+.pagination {
+    display: inline-block;
+    float: right;
+}
+
+.pagination button.arrows {
+    background-color: #2a3f54 ;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.pagination button.arrows.active {
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination button.arrows:hover:not(.active) {
+    background-color: #73879C ;
+    border-radius: 5px;
+}
+
+.tabla-principal{
+    text-align: center;
+}
+
+#editaremp{
+    background: #2A3F54 ;
+    margin-left: 6.5em;
+}
+
+#nuevoemp{
+    background: #2A3F54 ;
+    color: white;
+}
+
+#crearempleado {
+    background: #2A3F54 ;
+}
+
+#cancelarcliente {
+     background: #2A3F54 ;
+   
+}
+ 
+#cambiarpulsera {
+    background: #2A3F54 ;
 }

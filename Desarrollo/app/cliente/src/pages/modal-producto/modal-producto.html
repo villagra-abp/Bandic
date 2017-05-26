@@ -1,0 +1,12 @@
+
+<ion-content style="text-align: center; height: 80%; width: 80%; margin-top: 10%; margin-left: 10%;">
+  <button icon-right ion-button icon-only clear (click) = "close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+  <ion-avatar item-left>
+    <img src="img/{{item.imagen}}">
+  </ion-avatar>
+  <h2>{{item.nombre}}</h2>
+  <p>{{item.descripcion}}</p>
+  <p>Precio: {{item.precio}}€</p>
+</ion-content>

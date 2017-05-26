@@ -159,11 +159,11 @@
               </div>
               <div class="column column-4">
                 <label for="nomProd">Nombre(*)</label>
-                <input class="form-control" id="nomProd" name="nombre" [ngModel]="nombree" (ngModelChange)="camposOblig2($event)" value="" type="text" #nombre2 placeholder="Introduzca nombre" required autofocus>
+                <input class="form-control" id="nomProd" name="nombre" [ngModel]="nombree" (ngModelChange)="camposOblig2($event)" value="" type="text" #nombreUs placeholder="Introduzca nombre" required autofocus>
               </div>
               <div class="column column-4">
                 <label for="idProd">ID del producto(*)</label>
-                <input class="form-control" id="idProd" name="id3" [ngModel]="idd" (ngModelChange)="camposOblig1($event)" value="" type="text" #id2 placeholder="Introduzca ID" required autofocus>
+                <input class="form-control" id="idProd" name="id3" [ngModel]="idd" (ngModelChange)="camposOblig1($event)" value="" type="text" #idUs placeholder="Introduzca ID" required autofocus>
               </div>
             </div>
             <div class="form-row">
@@ -215,7 +215,7 @@
               </div>
             <div class="form-row">
               <div class="column-full">
-                  <input type="submit" value="Confirmar" class="btn btn-primary" id="confirmar" data-dismiss="modal" (click)="crearProducto($event, id2.value, nombre2.value, descripcion.value, categoria2.value, precio.value, iva.value, tweet.value, cantidad.value, estancia.value, imagen.value, imagenRRSS.value, empleado.value)" disabled>
+                  <input type="submit" value="Confirmar" class="btn btn-primary" id="confirmar" data-dismiss="modal" (click)="crearProducto($event, idUs.value, nombreUs.value, descripcion.value, categoria2.value, precio.value, iva.value, tweet.value, cantidad.value, estancia.value, imagen.value, imagenRRSS.value, empleado.value)" disabled>
                   <span id="camposOblig" style="color: red">Por favor, rellena los campos obligatorios</span>
               </div>
             </div>

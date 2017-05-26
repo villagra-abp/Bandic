@@ -55,6 +55,11 @@ getEstados(){
         
    }
 
+      getUsuario(id){
+        return this.http.get("http://localhost/Keyband/Desarrollo/KeybandServer/rest/usuario/" + id)
+                        .map(response => response.json())          
+      }
+
 filterPulseras(id, usuario, estado, orderBy, init_row, paginar) {
      var filter = "";
      var pagination = "";

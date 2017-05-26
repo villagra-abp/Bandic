@@ -19,6 +19,7 @@ class UploadResource {
 		switch ($type) {
 			case '4':
 				if($_GET['resource2'] == "factura") {
+					echo "eeeeeeehh";
 					UploadResource::uploadFactura($objArr);
 				}
 				else if($_GET['resource2'] == "imagen") {

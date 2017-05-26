@@ -1,3 +1,5 @@
+  <div class="dashboard_graph">
+<div class="clearfix">
   <div class="container buscadorProducto">
   <form (ngSubmit)="onChange($event, idP.value, usuarioP.value, estadoP.value, orderP.value)" class="form-inline formulario">
     <div class="form-group">
@@ -10,22 +12,25 @@
             <option>perdida</option>
             <option>sin asignar</option>
           </select>
-          <select style="margin-left: 24em; margin-top: 1em;" class="input-xs form-control" name="categoria" #orderP>
+          <select class="input-xs form-control" name="categoria" #orderP>
               <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
               <option>Id</option>
               <option>Usuario</option>
               <option>Estado</option>
-            </select>
-        <button style="margin-left: 1.5em; margin-bottom: .1em" type="submit" class="form-control" class="buscar btn btn-default confirmation-modal" title="Detalle">   
+          </select>
+        <button  type="submit" class="form-control" class="btn btn-primary" title="Detalle" id="buscar">   
                 <span class="icon icon-search"></span>Buscar
         </button>
-        <div style="margin-bottom: .6em" class="btn-group" role="group" aria-label="...">
-          <a href="#" data-toggle="modal" data-target="#registroPul"> <button type="button" (click)="rellenarPromo('');" class="btn btn-default">Nueva pulsera</button></a>
-        </div>
-      
+        <div  class="btn-group" role="group" aria-label="...">
+          <a href="#" data-toggle="modal" data-target="#registro"> <button type="button" (click)="rellenarPromo('');" class="btn btn-primary" id="nuevapulsera">Nueva pulsera</button></a>
+        </div>   
     </div>
   </form>
 </div>
+</div>
+</div>
+
+<br>
   <!-- Modal REGISTRO-->
              <div class="modal fade" id="registro" role="dialog">
                <div class="modal-dialog">
@@ -36,7 +41,7 @@
                      <h4 class="modal-title">Promocion</h4>
                    </div>
                    <div class="modal-body">
-                       <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm" (ngSubmit)="crearPulsera($event, id.value, usuario.value,estado.value)">
+                       <form name="contact_form" role="form" class="form-horizontal" #loginForm="ngForm">
                        <fieldset>
 						   
                        <!-- Identificador input-->
@@ -52,8 +57,8 @@
                        <div class="form-group">
                          <label class="col-md-4 control-label" for="usuario">Usuario</label>  
                          <div class="col-md-6">
-                         <input id="usuario" name="usuario" value="{{pulsera_actual.usuario}}" type="text" #usuario  class="form-control input-md" >
-                           
+                         <input id="usuario" name="usuario" [ngModel]="identi" (ngModelChange)="comprobarUsuario($event)" value="{{pulsera_actual.usuario}}" type="text" #usuario  class="form-control input-md" >
+                           <span style="visibility:hidden" class="error" id="errorusu2">Nombre no disponible.</span>
                          </div>
                        </div>
 
@@ -61,8 +66,8 @@
                          <label class="col-md-4 control-label" for="estado">Estado</label>
                          <div class="col-md-6">
                            <select id="estado" name="estado" value="" type="text" #estado class="form-control input-md" >
-							   <option value="{{pulsera_actual.id}}">{{pulsera_actual.id}}</option>
-              <option *ngFor= "let estado of estados | keys" value="{{estado.value.id}}">{{estado.value.id}}</option>
+							       <option value=""></option>
+                      <option *ngFor= "let estado of estados | keys" value="{{estado.value.id}}">{{estado.value.id}}</option>
 							
                            </select>
                          </div>
@@ -74,10 +79,10 @@
                          <label class="col-md-8 control-label"></label>
                          <div class="col-md-4">
                            <br>
-                           <button type="submit" class="btn btn-primary">Confirmar</button>
+                           <button data-dismiss="modal" id="crearpulsera" (click)="crearPulsera($event, id.value, usuario.value,estado.value)" class="btn btn-primary">Confirmar</button>
                          </div>
                        </div>
-
+ 
                        </fieldset>
                        </form>        
                    </div>
@@ -88,9 +93,7 @@
 <div class="dashboard_graph">
 <div class="clearfix">
     <div class="x_title">
-      <h3>Resultados <small>Pulseras</small>
-        <a href="#" data-toggle="modal" data-target="#registro"> <button id="nuevapulsera" type="button"(click)="rellenarPromo('');"class="btn btn-primary">Nueva pulsera</button></a>
-      </h3>
+      <h3>Resultados <small>Pulseras</small></h3>
     </div>
 <div class="panel-body">
 			<div class="table-responsive">
@@ -126,8 +129,13 @@
 				</table> 
 			</div>
 </div>
+ 
 <div class="pagination">
       <button class="arrows" (click)="lastPage();" href="#">&laquo;</button>
         <span>{{init_page}} de {{pages}}</span>
       <button class="arrows" (click)="nextPage();" href="#">&raquo;</button>
   </div> 
+     </div>
+</div>
+
+<br>

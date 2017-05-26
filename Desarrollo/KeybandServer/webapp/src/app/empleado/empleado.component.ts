@@ -65,6 +65,15 @@ edit: boolean = false;
                                                 this.empleadoService.filterEmpleados(undefined, undefined, undefined, undefined, undefined, undefined, undefined, this.init_row, true)
                                                 .subscribe(
                                                     response=> {
+
+                                                        for(var i = 0; i<response.length; i++){
+                                                          if(response[i].sexo == 'm'){
+                                                            response[i].sexo = 'Hombre';
+                                                          }
+                                                          else if(response[i].sexo == 'f'){
+                                                            response[i].sexo = 'Mujer';
+                                                            }
+                                                          }
                                                         this.empleados = response;
                                                         console.log(this.empleados);
                                                     }
@@ -319,14 +328,39 @@ getUsuarios() { //Se llama para recargar los productos cuando se crea uno nuevo
             response => {
                 if(this.init_row == undefined)
                   this.init_row = 0;
+                while(this.init_page>1) {
+                    this.init_page--;
+                    this.init_row = this.init_row-5;
+                } 
                 this.rows = response.length;
                 this.setPages(response);
-                this.empleadoService.filterEmpleados(undefined, undefined, undefined, undefined, undefined, undefined, undefined, 0, true);
+                this.filterEmpleados(undefined, undefined, undefined, undefined, undefined, undefined, 0);
             },
             error => {
 
             }
         );
+}
+
+filterEmpleados(dni, nombre, apellidos, localidad, provincia, pais, initrow) { //Solo se llama desde el constructor, resultado por defecto de todos los productos
+  this.empleadoService.filterEmpleados(dni, nombre, apellidos, localidad, provincia, pais, this.campo, initrow, true)
+         .subscribe(
+            response => {         
+                for(var i = 0; i<response.length; i++){
+                  if(response[i].sexo == 'm'){
+                    response[i].sexo = 'Hombre';
+                  }
+                  else if(response[i].sexo == 'f'){
+                    response[i].sexo = 'Mujer';
+                    }
+                  }
+                  this.empleados = response;
+            },
+            error => {
+              console.log(error)
+                alert("Error en la petición");
+            }
+         );
 }
 
 validarDni(newValue) {

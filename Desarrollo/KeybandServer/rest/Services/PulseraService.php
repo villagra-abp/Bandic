@@ -27,12 +27,23 @@ class PulseraService {
 		$primaries3 = [
 				"id" => $obj['estado_pulsera']
 		];
-		if(SupportService::FkValido('usuario',$primaries,"No existe un usuario con este DNI") &&
-				SupportService::FkValido('estado_pulsera',$primaries3,"El estado tiene que coincidir con un estado de pulsera v�lido (activa, sin asignar, inactiva") &&
-				SupportService::IdValido('pulsera',$primaries2,"Ya hay una pulsera con ese ID")){
-			$dataArray = MasterDAO::insert('pulsera',$obj);
-			echo json_encode($dataArray);
+		if($primaries!=null){
+			if(
+					SupportService::FkValido('estado_pulsera',$primaries3,"El estado tiene que coincidir con un estado de pulsera v�lido (activa, sin asignar, inactiva") &&
+					SupportService::IdValido('pulsera',$primaries2,"Ya hay una pulsera con ese ID")){
+						$dataArray = MasterDAO::insert('pulsera',$obj);
+						echo json_encode($dataArray);
+			}
 		}
+		else{
+			if(SupportService::FkValido('usuario',$primaries,"No existe un usuario con este DNI") &&
+					SupportService::FkValido('estado_pulsera',$primaries3,"El estado tiene que coincidir con un estado de pulsera v�lido (activa, sin asignar, inactiva") &&
+					SupportService::IdValido('pulsera',$primaries2,"Ya hay una pulsera con ese ID")){
+						$dataArray = MasterDAO::insert('pulsera',$obj);
+						echo json_encode($dataArray);
+			}
+		}
+		
 	}
 	
 	public static function updatePulsera($obj,$id) {

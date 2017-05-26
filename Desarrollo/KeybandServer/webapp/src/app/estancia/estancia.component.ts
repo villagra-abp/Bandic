@@ -78,7 +78,7 @@ public rows;
             event.preventDefault();
             this.estanciaService.completeEstancia(id).subscribe(response=>{
                 this.borrar = {id: response[0].id };
-                this.getEstancias();
+                //this.getEstancias();
             });
     }
 /*
@@ -161,13 +161,13 @@ public rows;
                                 if(response[0] == null){
                                         document.getElementById("user").style.borderColor = 'blue';
                                         document.getElementById("errorusu").style.visibility = "hidden";
-                                        document.getElementById("bcrear").removeAttribute("disabled");
+                                        document.getElementById("crearmodal").removeAttribute("disabled");
                                  }
                                 else{
                                       
                                         document.getElementById("user").style.borderColor= 'red';
                                         document.getElementById("errorusu").style.visibility = "visible";
-                                        document.getElementById("bcrear").setAttribute("disabled","disabled");
+                                        document.getElementById("crearmodal").setAttribute("disabled","disabled");
                                 }
                         }
                 );
@@ -213,6 +213,7 @@ public rows;
     }
 
     setPages() {
+        console.log("eeehhhhh");
         this.init_page = 1;
         this.pages = Math.ceil((parseInt(this.rows)/5));
         console.log(this.pages);
@@ -242,7 +243,8 @@ lastPage() {
       this.init_row = this.init_row-5;
     }
 
-this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, true)    .subscribe(
+this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad, this.campo, this.init_row, true)    
+    .subscribe(
         response => {
             console.log(response);
             this.estancias = response;
@@ -250,20 +252,39 @@ this.estanciaService.filterEstancias(this.selectedId, this.selectedCapacidad, th
     )
 }
 
-getEstancias() { //Se llama para recargar los productos cuando se crea uno nuevo
+getEstancias() {
+console.log("recargas o que") //Se llama para recargar los productos cuando se crea uno nuevo
   this.estanciaService.getEstancias() //inicialmente hacer getProductos para ver cuantos hay y guardarme el numero de filas
         .subscribe(
             response => {
                 if(this.init_row == undefined)
                   this.init_row = 0;
+                while(this.init_page>1) {
+                    this.init_page--;
+                    this.init_row = this.init_row-5;
+                } 
                 this.rows = response.length;
                 this.setPages();
-                this.estanciaService.filterEstancias(undefined, undefined, undefined, 0, true);
+                this.filterEstancias(undefined, undefined, 0);
             },
             error => {
 
             }
         );
+}
+
+filterEstancias(id, capacidad, initrow) { //Solo se llama desde el constructor, resultado por defecto de todos los productos
+  this.estanciaService.filterEstancias(id, capacidad, this.campo, initrow, true)
+         .subscribe(
+            response => {
+                this.estancias = response;
+                console.log(this.estancias);
+            },
+            error => {
+              console.log(error)
+                alert("Error en la petición");
+            }
+         );
 }
 
   ngOnInit() {

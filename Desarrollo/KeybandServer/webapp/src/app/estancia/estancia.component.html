@@ -5,13 +5,11 @@
    <div class="form-group">
      <input class="form-control" size="25" #identificador type="text" placeholder="Búsqueda por identificador">
      <input class="form-control" size="25" #capacidades  type="text" placeholder="Búsqueda por capacidad">
-   <div style="margin-right: 1em; margin-top: 1em;">
-        <select class="input-xs form-control" name="categoria" #ordenEs><!--NUEVO la clase input-xs-->
-            <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
-            <option>Id</option>
-            <option>Capacidad</option>
-          </select>
-    </div>
+     <select class="input-xs form-control" name="categoria" #ordenEs><!--NUEVO la clase input-xs-->
+        <option selected="selected" [disabled]="item === Ordenar" [ngValue]="item">Ordenar por:</option>
+        <option>Id</option>
+        <option>Capacidad</option>
+      </select>
    </div>
    
    <!-- <button type="submit" class="buscar focusedButton focusedInputMenu btn btn-default btn-xs confirmation-modal" title="Detalle">   
@@ -78,7 +76,7 @@
                           <label class="col-md-8 control-label"></label>
                           <div class="col-md-4">
                             <br>        
-                                <button id="bcrear" *ngIf="crear" id="crearmodal" class="btn btn-primary" (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Crear Estancia</button>       
+                                <button  *ngIf="crear" id="crearmodal" class="btn btn-primary" (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Crear Estancia</button>       
                                 <button id="beditar" *ngIf="edit" id="editarmodal" class="btn btn-primary"  (click)="chooseOption(id.value, capacidad.value, descripcion.value)" data-dismiss="modal">Editar Estancia</button>
                           </div>
                         </div>

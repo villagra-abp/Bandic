@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Reservas</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding >
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+   <ion-list>
+    <button ion-item (click)="detalleActividad(item)" *ngFor = "let item of aux">
+      <ion-thumbnail item-left>
+        <img src="img/{{item.nombre}}.jpg">
+      </ion-thumbnail>
+      <h1>{{item.nombre}}</h1>
+      <h6>{{item.descripcion}}</h6>
+    </button>
+  </ion-list>
+</ion-content>

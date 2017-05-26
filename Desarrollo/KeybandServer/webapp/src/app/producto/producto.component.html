@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let producto of productos | keys">
+                    <tr *ngFor="let producto of productos | keys" class="tabla-principal">
                         <td>      
                             <a href="#" data-toggle="modal" data-target="#editar">
                                 <button (click)="getProducto(producto.value.id)" style="background-color:#F88A3D"  class="btn btn-default btn-xs confirmation-modal" title="Detalle">
@@ -81,14 +81,14 @@
                               <span class="imageLabel" for="imgInpEd"><small>Imagen de producto</small></span>
                               <div class="column-half">
                                   <label for="imgInpEd">
-                                    <img id="blahEd" #imagenn width="180" height="170" src="http://localhost/keyband/Desarrollo/KeybandServer/fotos/normal/{{productoEdit[0].id}}/{{productoEdit[0].imagen}}" (error)="errorHandler($event)" alt="your image">
+                                    <img id="blahEd" width="180" height="170" src="http://localhost/keyband/Desarrollo/KeybandServer/fotos/normal/{{productoEdit[0].id}}/{{productoEdit[0].imagen}}" (error)="errorHandler($event)" alt="your image">
                                   </label>
                                   <input type='file' id="imgInpEd" #imagen (change)="fileChange($event, 'n')" accept="image/x-png,image/gif,image/jpeg" />
                               </div>
                               <span class="imageLabel" for="imgInpEd"><small>Imagen de redes sociales</small></span>
                               <div class="column-half">
                                   <label for="imgInp2Ed">
-                                    <img id="blah2Ed" #imagennRRSS width="180" height="170" src="http://localhost/keyband/Desarrollo/KeybandServer/fotos/RRSS/{{productoEdit[0].id}}/{{this.productoEdit[0].imagen_redes}}"  (error)="errorHandler($event)" alt="your image">
+                                    <img id="blah2Ed" width="180" height="170" src="http://localhost/keyband/Desarrollo/KeybandServer/fotos/RRSS/{{productoEdit[0].id}}/{{this.productoEdit[0].imagen_redes}}"  (error)="errorHandler($event)" alt="your image">
                                   </label>
                                   <input type='file' id="imgInp2Ed"  #imagenRRSS (change)="fileChange($event, 's')" accept="image/x-png,image/gif,image/jpeg"/>             
                               </div>
@@ -104,11 +104,11 @@
                         </div>
                         <div class="column column-4">
                           <label for="nomProd">Nombre(*)</label>
-                          <input class="form-control" id="nomProd" name="nombre" [(ngModel)]="productoEdit[0].nombre" (ngModelChange)="camposOblig2($event)" value="" type="text" #nombre2 placeholder="Introduzca nombre" required autofocus>
+                          <input class="form-control" id="nomProd" name="nombre" [(ngModel)]="productoEdit[0].nombre" value="" type="text" #nombre2 placeholder="Introduzca nombre" required autofocus>
                         </div>
                         <div class="column column-4">
                           <label for="idProd">ID del producto(*)</label>
-                          <input class="form-control" id="idProd" name="id3" [(ngModel)]="productoEdit[0].id" (ngModelChange)="camposOblig1($event)" value="" type="text" #id2 placeholder="Introduzca ID" required autofocus>
+                          <input class="form-control" id="idProd" name="id3" [(ngModel)]="productoEdit[0].id" value="" type="text" #id2 placeholder="Introduzca ID" required autofocus>
                         </div>
                       </div>
 
@@ -156,8 +156,8 @@
                        <!-- Button -->
                         <div class="form-row">
                           <div class="column-full">
-                              <input type="submit" value="Confirmar" class="btn btn-primary" id="confirmar" data-dismiss="modal" (click)="editarProducto($event, id.value, nombre.value, descripcion.value, categoria.value, precio.value, iva.value, cantidad.value, tweet.value, estancia.value, imagen.value, imagenRRSS.value)">
-                              <span id="camposOblig" style="color: red">Por favor, rellena los campos obligatorios</span>
+                              <input type="submit" value="Confirmar" class="btn btn-primary" id="confirmar2" data-dismiss="modal" (click)="editarProducto($event, id2.value, nombre2.value, descripcion.value, categoria2.value, precio.value, iva.value, cantidad.value, tweet.value, estancia.value, imagen.value, imagenRRSS.value)">
+                              <span id="camposOblig2" style="color: red">Por favor, rellena los campos obligatorios</span>
                           </div>
                         </div>
                        </fieldset>
@@ -228,7 +228,7 @@
                         </table>
                         <h5 *ngIf="empleados_asignados == undefined || empleados_asignados.length == 0">Este producto no tiene ningun empleado asignado</h5>          
                     </div>
-                    <form *ngIf="empleados_asignados != undefined && empleados_asignados.length > 0" name="contact_form" role="form" class="form-inline formulario" #loginForm="ngForm" (ngSubmit)="asignarProducto(empleado.value)">
+                    <form name="contact_form" role="form" class="form-inline formulario" #loginForm="ngForm" (ngSubmit)="asignarProducto(empleado.value)">
                         <div class="form-group">
                           <label class="col-md-5 control-label labelAsig" for="nombre">Asignar empleado</label>  
                           <div class="col-md-6">
